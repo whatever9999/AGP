@@ -1,0 +1,4 @@
+﻿  BackgroundColourFunctions.cpp
+D:\GitHub\AGP\Lab02\Lab02Extra01\BackgroundColourFunctions.cpp(49,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Lab02\Lab02Extra01\BackgroundColourFunctions.cpp(50,15): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  DominiqueRussellLab02Extra01.vcxproj -> D:\GitHub\AGP\Lab02\Lab02Extra01\Debug\DominiqueRussellLab02Extra01.exe
