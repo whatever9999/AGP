@@ -62,7 +62,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		else
 		{
 			RenderFrame();
-			//bcf->ShiftOverTime(g_clear_colour);
+			//g_bcf->ShiftOverTime(g_clear_colour);
 		}
 	}
 

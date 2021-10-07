@@ -16,7 +16,7 @@ IDXGISwapChain*			g_pSwapChain			= NULL;
 ID3D11RenderTargetView* g_pBackBufferRTView		= NULL;
 
 // Window Title
-wchar_t		g_TutorialName[100] = L"Lab 01 Exercise 02\0";
+char		g_TutorialName[100] = "Lab 01 Exercise 02\0";
 
 // Forward Declarations
 HRESULT InitialiseWindow(HINSTANCE hInstance, int nCmdShow);
@@ -32,7 +32,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	if (FAILED(InitialiseWindow(hInstance, nCmdShow)))
 	{
-		DXTRACE_MSG(L"Failed to create Window");
+		DXTRACE_MSG("Failed to create Window");
 		return 0;
 	}
 
@@ -40,7 +40,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	if (FAILED(InitialiseD3D()))
 	{
-		DXTRACE_MSG(L"Failed to create Device");
+		DXTRACE_MSG("Failed to create Device");
 		return 0;
 	}
 
@@ -64,7 +64,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 HRESULT InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 {
-	wchar_t Name[100] = L"Dominique Russell\0";
+	char Name[100] = "Dominique Russell\0";
 
 	WNDCLASSEX wcex = { 0 };
 	wcex.cbSize = sizeof(WNDCLASSEX);
