@@ -1,2 +1,4 @@
-﻿  main.cpp
-  DominiqueRussellLab03Extra01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab03\Lab03Extra01\Debug\DominiqueRussellLab03Extra01.exe
+﻿  compilation succeeded; see D:\GitHub\AGP\Lab03\Lab03Extra01\Debug\shaders.cso
+  main.cpp
+  LINK : D:\GitHub\AGP\Lab03\Lab03Extra01\Debug\DominiqueRussellLab03Extra01.exe not found or not built by the last incremental link; performing full link
+  DominiqueRussellLab03Extra01.vcxproj -> D:\GitHub\AGP\Lab03\Lab03Extra01\Debug\DominiqueRussellLab03Extra01.exe
