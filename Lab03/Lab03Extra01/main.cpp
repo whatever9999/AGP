@@ -156,6 +156,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 			g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
 		}
+		break;
 		case WM_SIZE:
 			if (g_pSwapChain)
 			{
