@@ -1,0 +1,3 @@
+﻿  main.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\main.cpp(421,91): warning C4305: 'argument': truncation from 'double' to 'float'
+  DominiqueRussellLab04Extra03.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe

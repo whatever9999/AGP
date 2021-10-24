@@ -1,0 +1,4 @@
+﻿  main.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra01\main.cpp(151,31): warning C4305: '-=': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra01\main.cpp(154,31): warning C4305: '+=': truncation from 'double' to 'float'
+  DominiqueRussellLab04Extra01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra01\Debug\DominiqueRussellLab04Extra01.exe
