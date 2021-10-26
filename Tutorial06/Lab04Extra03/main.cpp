@@ -25,6 +25,7 @@ ID3D11VertexShader*		g_pVertexShader;
 ID3D11PixelShader*		g_pPixelShader;
 ID3D11InputLayout*		g_pInputLayout;
 ID3D11Buffer*			g_pConstantBuffer0;
+ID3D11DepthStencilView* g_pZBuffer;
 
 struct POS_COL_VERTEX
 {
@@ -258,7 +259,36 @@ HRESULT InitialiseD3D()
 
 	if (FAILED(hr)) return hr;
 
-	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, NULL);
+	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
+
+	// Z Buffer Texture
+	D3D11_TEXTURE2D_DESC tex2dDesc;
+	ZeroMemory(&tex2dDesc, sizeof(tex2dDesc));
+
+	tex2dDesc.Width = width;
+	tex2dDesc.Height = height;
+	tex2dDesc.ArraySize = 1;
+	tex2dDesc.MipLevels = 1;
+	tex2dDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	tex2dDesc.SampleDesc.Count = sd.SampleDesc.Count;
+	tex2dDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	tex2dDesc.Usage = D3D11_USAGE_DEFAULT;
+
+	ID3D11Texture2D* pZBufferTexture;
+	hr = g_pD3DDevice->CreateTexture2D(&tex2dDesc, NULL, &pZBufferTexture);
+
+	if (FAILED(hr)) return hr;
+
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	ZeroMemory(&dsvDesc, sizeof(dsvDesc));
+
+	dsvDesc.Format = tex2dDesc.Format;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	g_pD3DDevice->CreateDepthStencilView(pZBufferTexture, &dsvDesc, &g_pZBuffer);
+	pZBufferTexture->Release();
+
 
 	D3D11_VIEWPORT viewport;
 
@@ -276,6 +306,7 @@ HRESULT InitialiseD3D()
 
 void ShutdownD3D()
 {
+	if (g_pZBuffer)				g_pZBuffer->Release();
 	if (g_pConstantBuffer0)		g_pConstantBuffer0->Release();
 	if (g_pVertexBuffer)		g_pVertexBuffer->Release();
 	if (g_pInputLayout)			g_pInputLayout->Release();
@@ -451,6 +482,7 @@ void RenderFrame(void)
 {
 	float rgba_clear_colour[4] = { 0.1f, 0.2f, 0.6f, 1.0f };
 	g_pImmediateContext->ClearRenderTargetView(g_pBackBufferRTView, rgba_clear_colour);
+	g_pImmediateContext->ClearDepthStencilView(g_pZBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
 	UINT stride = sizeof(POS_COL_VERTEX);
 	UINT offset = 0;
@@ -479,7 +511,7 @@ void ResizeWindow(UINT new_size[2])
 {
 	HRESULT hr;
 
-	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, NULL);
+	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
 
 	// Release all outstanding references to the swap chain's buffers.
 	g_pBackBufferRTView->Release();
@@ -502,7 +534,7 @@ void ResizeWindow(UINT new_size[2])
 
 	pBackBufferTexture->Release();
 
-	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, NULL);
+	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
 
 	D3D11_VIEWPORT viewport;
 	viewport.TopLeftX = 0;
