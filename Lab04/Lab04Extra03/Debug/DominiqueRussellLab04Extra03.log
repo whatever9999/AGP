@@ -1,3 +1,5 @@
-﻿  main.cpp
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\main.cpp(421,91): warning C4305: 'argument': truncation from 'double' to 'float'
-  DominiqueRussellLab04Extra03.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe
+﻿  compilation succeeded; see D:\GitHub\AGP\Lab04\Lab04Extra03\Debug\shaders.cso
+  main.cpp
+D:\GitHub\AGP\Lab04\Lab04Extra03\main.cpp(456,91): warning C4305: 'argument': truncation from 'double' to 'float'
+  LINK : D:\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe not found or not built by the last incremental link; performing full link
+  DominiqueRussellLab04Extra03.vcxproj -> D:\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe

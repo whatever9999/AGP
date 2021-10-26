@@ -2,12 +2,12 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe</FullPath>
+      <FullPath>D:\GitHub\AGP\Lab04\Lab04Extra03\Debug\DominiqueRussellLab04Extra03.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Lab04\Lab04Extra03\Debug\shaders.cso</FullPath>
+      <FullPath>D:\GitHub\AGP\Lab04\Lab04Extra03\Debug\shaders.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
