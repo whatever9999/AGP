@@ -1,3 +1,5 @@
-﻿  main.cpp
-D:\GitHub\AGP\Tutorial06\Tutorial07Exercise01\main.cpp(513,89): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  camera.cpp
+  main.cpp
+D:\GitHub\AGP\Tutorial06\Tutorial07Exercise01\main.cpp(519,89): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
   DominiqueRussellTutorial07Exercise01.vcxproj -> D:\GitHub\AGP\Tutorial06\Tutorial07Exercise01\Debug\DominiqueRussellTutorial07Exercise01.exe

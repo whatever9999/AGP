@@ -21,8 +21,13 @@ void Camera::Rotate(float degrees)
 
 void Camera::Forward(float distance)
 {
-	m_x = distance * m_dx;
-	m_z = distance * m_dz;
+	m_x += distance * m_dx;
+	m_z += distance * m_dz;
+}
+
+void Camera::Up(float distance)
+{
+	m_y += distance;
 }
 
 XMMATRIX Camera::GetViewMatrix()

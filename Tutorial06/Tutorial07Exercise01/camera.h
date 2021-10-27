@@ -27,5 +27,6 @@ public:
 	Camera(float x, float y, float z, float camera_rotation);
 	void Rotate(float degrees);
 	void Forward(float distance);
+	void Up(float distance);
 	XMMATRIX GetViewMatrix();
 };

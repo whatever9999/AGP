@@ -152,6 +152,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 				case 's':
 					g_camera->Forward(-1);
 					break;
+				case 'z':
+					g_camera->Up(1);
+					break;
+				case 'x':
+					g_camera->Up(-1);
+					break;
 				case 'd':
 					g_camera->Rotate(1);
 					break;

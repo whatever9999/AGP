@@ -1,0 +1,4 @@
+﻿  camera.cpp
+D:\GitHub\AGP\Tutorial06\Tutorial07Exercise02\camera.cpp(18,22): warning C4305: '=': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial06\Tutorial07Exercise02\camera.cpp(19,19): warning C4305: '=': truncation from 'double' to 'float'
+  DominiqueRussellTutorial07Exercise02.vcxproj -> D:\GitHub\AGP\Tutorial06\Tutorial07Exercise02\Debug\DominiqueRussellTutorial07Exercise02.exe
