@@ -9,6 +9,7 @@
 #include <DirectXMath.h>
 
 #include "camera.h"
+#include "text2D.h"
 
 using namespace DirectX;
 
@@ -32,6 +33,7 @@ ID3D11ShaderResourceView*	g_pTexture0;
 ID3D11SamplerState*			g_pSampler0;
 
 Camera*						g_camera;
+Text2D*						g_2DText;
 
 struct POS_COL_TEX_VERTEX
 {
@@ -331,12 +333,16 @@ HRESULT InitialiseD3D()
 
 	g_pImmediateContext->RSSetViewports(1, &viewport);
 
+	// Setup 2D Text
+	g_2DText = new Text2D("assets/font1.bmp", g_pD3DDevice, g_pImmediateContext);
+
 	return S_OK;
 }
 
 void ShutdownD3D()
 {
 	delete g_camera;
+	delete g_2DText;
 
 	if (g_pTexture0)			g_pTexture0->Release();
 	if (g_pSampler0)			g_pSampler0->Release();
@@ -486,9 +492,6 @@ HRESULT InitialiseGraphics()
 		return hr;
 	}
 
-	g_pImmediateContext->VSSetShader(g_pVertexShader, 0, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader, 0, 0);
-
 	D3D11_INPUT_ELEMENT_DESC iedesc[] =
 	{
 		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -502,13 +505,10 @@ HRESULT InitialiseGraphics()
 		return hr;
 	}
 
-	g_pImmediateContext->IASetInputLayout(g_pInputLayout);
-
 	// Connect constant buffer
 	g_cb0_values.RedAmount = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	g_cb0_values.Scale = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
 	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
 
 	// Create camera
 	g_camera = new Camera(0.0, 0.0, -5.0, 0.0, 0.0);
@@ -541,10 +541,21 @@ void RenderFrame(void)
 
 	g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
+
+	g_pImmediateContext->VSSetShader(g_pVertexShader, 0, 0);
+	g_pImmediateContext->PSSetShader(g_pPixelShader, 0, 0);
+
+	g_pImmediateContext->IASetInputLayout(g_pInputLayout);
+
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSampler0);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture0);
 
 	g_pImmediateContext->Draw(numVertices, 0);
+
+	// Show 2D Text
+	g_2DText->RenderText();
+	g_2DText->AddText("Hello world", -1.0, 1.0, 0.08);
 
 	g_pSwapChain->Present(0, 0);
 
