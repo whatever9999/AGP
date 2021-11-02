@@ -514,7 +514,7 @@ HRESULT InitialiseGraphics()
 	g_camera = new Camera(0.0, 0.0, -5.0, 0.0, 0.0);
 
 	// Setup Shader Resource View
-	D3DX11CreateShaderResourceViewFromFile(g_pD3DDevice, "assets/Box Texture.bmp", NULL, NULL, &g_pTexture0, NULL);
+	D3DX11CreateShaderResourceViewFromFile(g_pD3DDevice, "assets/BoxTexture.bmp", NULL, NULL, &g_pTexture0, NULL);
 
 	// Setup Sampler
 	D3D11_SAMPLER_DESC sampler_desc;

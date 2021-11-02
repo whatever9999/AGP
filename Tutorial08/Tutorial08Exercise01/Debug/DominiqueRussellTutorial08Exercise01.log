@@ -1,4 +1,3 @@
-﻿  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Exercise01\Debug\shaders.cso
-  main.cpp
+﻿  main.cpp
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Exercise01\main.cpp(559,89): warning C4305: 'argument': truncation from 'double' to 'float'
   DominiqueRussellTutorial08Exercise01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Exercise01\Debug\DominiqueRussellTutorial08Exercise01.exe

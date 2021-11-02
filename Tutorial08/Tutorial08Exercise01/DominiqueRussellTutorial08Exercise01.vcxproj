@@ -171,6 +171,9 @@
   <ItemGroup>
     <ClInclude Include="camera.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\BoxTexture.bmp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
