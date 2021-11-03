@@ -1,0 +1,48 @@
+#pragma once
+
+#include <d3d11.h>
+#include <math.h>
+
+#define _XM_NO_INTRINSICS_
+#define XM_NO_ALIGNMENT
+#include <DirectXMath.h>
+
+using namespace DirectX;
+
+class Camera
+{
+private:
+	float m_x;
+	float m_y;
+	float m_z;
+	float m_dx;
+	float m_dy;
+	float m_dz;
+	float m_camera_rotation;
+	float m_camera_pitch;
+
+	XMVECTOR m_position;
+	XMVECTOR m_lookat;
+	XMVECTOR m_up;
+
+	// Jump
+	bool m_jumping;
+	float m_jump_height;
+	float m_jump_force;
+	float m_gravity;
+
+public:
+	Camera(float x, float y, float z, float camera_rotation, float camera_pitch);
+	void Update();
+
+	void Rotate(float degrees);
+	void Pitch(float degrees);
+
+	void Forward(float distance);
+	void Up(float distance);
+	void Strafe(float distance);
+
+	void Jump();
+
+	XMMATRIX GetViewMatrix();
+};
