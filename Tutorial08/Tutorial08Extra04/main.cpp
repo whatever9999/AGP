@@ -297,8 +297,6 @@ HRESULT InitialiseD3D()
 
 	if (FAILED(hr)) return hr;
 
-	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
-
 	// Z Buffer Texture
 	D3D11_TEXTURE2D_DESC tex2dDesc;
 	ZeroMemory(&tex2dDesc, sizeof(tex2dDesc));
@@ -327,6 +325,7 @@ HRESULT InitialiseD3D()
 	g_pD3DDevice->CreateDepthStencilView(pZBufferTexture, &dsvDesc, &g_pZBuffer);
 	pZBufferTexture->Release();
 
+	g_pImmediateContext->OMSetRenderTargets(1, &g_pBackBufferRTView, g_pZBuffer);
 
 	D3D11_VIEWPORT viewport;
 
@@ -566,14 +565,7 @@ void RenderFrame(void)
 	g_pImmediateContext->ClearRenderTargetView(g_pBackBufferRTView, rgba_clear_colour);
 	g_pImmediateContext->ClearDepthStencilView(g_pZBuffer, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 
-	UINT stride = sizeof(POS_COL_TEX_VERTEX);
-	UINT offset = 0;
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-
-	g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
-
+	// Set stuff up
 	g_pImmediateContext->VSSetShader(g_pVertexShader, 0, 0);
 	g_pImmediateContext->PSSetShader(g_pPixelShader, 0, 0);
 
@@ -582,6 +574,35 @@ void RenderFrame(void)
 	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSampler0);
 	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture0);
 	g_pImmediateContext->PSSetShaderResources(1, 1, &g_pTexture1);
+	g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	// World View Projection Matrix
+	XMMATRIX projection, world, view;
+
+	// FIRST CUBE
+	world = XMMatrixRotationX(XMConvertToRadians(g_degrees));
+	world *= XMMatrixRotationY(XMConvertToRadians(g_degrees));
+	world *= XMMatrixRotationZ(XMConvertToRadians(g_degrees));
+	world *= XMMatrixTranslation(0, 0, 10 + g_world_z);
+	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
+	view = g_camera->GetViewMatrix();
+	g_cb0_values.WorldViewProjection = world * view * projection;
+
+	UINT stride = sizeof(POS_COL_TEX_VERTEX);
+	UINT offset = 0;
+	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
+
+	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
+
+	g_pImmediateContext->Draw(numVertices, 0);
+
+	// SECOND CUBE
+	world = XMMatrixTranslation(1, 0, 15);
+	g_cb0_values.WorldViewProjection = world * view * projection;
+	
+	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
+	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
 
 	g_pImmediateContext->Draw(numVertices, 0);
 
@@ -600,16 +621,7 @@ void RenderFrame(void)
 	g_pSwapChain->Present(0, 0);
 
 
-	// World View Projection Matrix
-	XMMATRIX projection, world, view;
-
-	world = XMMatrixRotationX(XMConvertToRadians(g_degrees));
-	world *= XMMatrixRotationY(XMConvertToRadians(g_degrees));
-	world *= XMMatrixRotationZ(XMConvertToRadians(g_degrees));
-	world *= XMMatrixTranslation(0, 0, 10 + g_world_z);
-	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
-	view = g_camera->GetViewMatrix();
-	g_cb0_values.WorldViewProjection = world * view * projection;
+	
 }
 
 void ResizeWindow(UINT new_size[2])
