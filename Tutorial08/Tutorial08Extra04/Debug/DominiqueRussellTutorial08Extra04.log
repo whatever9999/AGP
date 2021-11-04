@@ -1,7 +1,4 @@
-﻿  main.cpp
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\main.cpp(587,89): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\main.cpp(611,36): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\main.cpp(612,37): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\main.cpp(616,51): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\main.cpp(618,51): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  camera.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\camera.cpp(18,22): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\camera.cpp(19,19): warning C4305: '=': truncation from 'double' to 'float'
   DominiqueRussellTutorial08Extra04.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial08\Tutorial08Extra04\Debug\DominiqueRussellTutorial08Extra04.exe
