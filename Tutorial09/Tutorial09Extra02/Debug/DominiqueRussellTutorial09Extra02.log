@@ -1,0 +1,7 @@
+﻿D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(35,25): warning X3206: 'dot': implicit truncation of vector type
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(41,23): warning X3206: 'dot': implicit truncation of vector type
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(46,44): warning X3206: implicit truncation of vector type
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(47,47): warning X3206: 'dot': implicit truncation of vector type
+  
+  compilation succeeded; see D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\shaders.cso
+  DominiqueRussellTutorial09Extra02.vcxproj -> D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe
