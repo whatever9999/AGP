@@ -1,0 +1,10 @@
+﻿D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\shaders.hlsl(29,25): warning X3206: 'dot': implicit truncation of vector type
+  
+  compilation succeeded; see D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\Debug\shaders.cso
+  main.cpp
+D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\main.cpp(598,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\main.cpp(636,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\main.cpp(637,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\main.cpp(641,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\main.cpp(643,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  DominiqueRussellTutorial09Exercise01.vcxproj -> D:\GitHub\AGP\Tutorial09\Tutorial09Exercise01\Debug\DominiqueRussellTutorial09Exercise01.exe
