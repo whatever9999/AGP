@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Exercise02\Debug\DominiqueRussellTutorial09Exercise02.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Exercise02\Debug\shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Exercise02\Debug\sprite_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Exercise02\Debug\text2D_shaders.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
