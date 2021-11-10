@@ -1,0 +1,7 @@
+﻿  main.cpp
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\main.cpp(638,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\main.cpp(686,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\main.cpp(687,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\main.cpp(691,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\main.cpp(693,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  DominiqueRussellTutorial09Extra01.vcxproj -> D:\GitHub\AGP\Tutorial09\Tutorial09Extra01\Debug\DominiqueRussellTutorial09Extra01.exe
