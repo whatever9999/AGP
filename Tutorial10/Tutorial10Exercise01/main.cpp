@@ -386,6 +386,11 @@ HRESULT InitialiseD3D()
 
 void ShutdownD3D()
 {
+	if (g_Model)
+	{
+		delete g_Model;
+		g_Model = nullptr;
+	}
 	if (g_camera)
 	{
 		delete g_camera;
