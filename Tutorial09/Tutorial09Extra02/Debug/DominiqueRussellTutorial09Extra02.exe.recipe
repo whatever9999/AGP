@@ -2,18 +2,18 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\sprite_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\sprite_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\text2D_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\text2D_shaders.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

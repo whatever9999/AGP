@@ -1,0 +1,3 @@
+﻿  model.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\model.cpp(77): warning C4715: 'Model::Setup': not all control paths return a value
+  DominiqueRussellTutorial10Exercise01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\Debug\DominiqueRussellTutorial10Exercise01.exe

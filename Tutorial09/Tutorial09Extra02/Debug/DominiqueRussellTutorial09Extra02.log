@@ -1,7 +1,20 @@
-﻿D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(35,25): warning X3206: 'dot': implicit truncation of vector type
-D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(41,23): warning X3206: 'dot': implicit truncation of vector type
-D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(46,44): warning X3206: implicit truncation of vector type
-D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(47,47): warning X3206: 'dot': implicit truncation of vector type
+﻿C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(34,25): warning X3206: 'dot': implicit truncation of vector type
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\shaders.hlsl(40,23): warning X3206: 'dot': implicit truncation of vector type
   
-  compilation succeeded; see D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\shaders.cso
-  DominiqueRussellTutorial09Extra02.vcxproj -> D:\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe
+  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\shaders.cso
+  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\sprite_shaders.cso
+  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\text2D_shaders.cso
+  camera.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\camera.cpp(18,22): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\camera.cpp(19,19): warning C4305: '=': truncation from 'double' to 'float'
+  main.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\main.cpp(651,89): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\main.cpp(699,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\main.cpp(700,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\main.cpp(704,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\main.cpp(706,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  sprite.cpp
+  text2D.cpp
+  Generating Code...
+  LINK : C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe not found or not built by the last incremental link; performing full link
+  DominiqueRussellTutorial09Extra02.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial09\Tutorial09Extra02\Debug\DominiqueRussellTutorial09Extra02.exe
