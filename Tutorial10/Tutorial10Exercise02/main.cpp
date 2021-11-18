@@ -51,8 +51,6 @@ XMMATRIX g_rotate_directional_light;
 XMVECTOR g_point_light_position;
 XMVECTOR g_point_light_colour;
 XMFLOAT3 g_point_light_attenuation;
-float g_point_light_specular_power;
-XMVECTOR g_point_light_specular_colour;
 
 struct POS_COL_TEX_NORM_VERTEX
 {
@@ -73,8 +71,6 @@ struct CONSTANT_BUFFER0 // 192 bytes
 	XMVECTOR point_light_position;
 	XMVECTOR point_light_colour;
 	XMFLOAT3 point_light_attenuation;
-	float point_light_specular_power;
-	XMVECTOR point_light_specular_colour;
 };
 
 CONSTANT_BUFFER0 g_cb0_values;
@@ -595,13 +591,11 @@ HRESULT InitialiseGraphics()
 	// Set ambient light strength
 	g_ambient_light_colour = XMVectorSet(0.2f, 0.2f, 0.2f, 1.0f);
 
-	// Set point light colour_pos, attenuation and specular values
+	// Set point light colour_pos and attenuation values
 	g_point_light_position = XMVectorSet(5.0f, 5.0f, 15.0f, 0.0f);
 	g_point_light_colour = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	// Don't set values to zero as we use them to divide
 	g_point_light_attenuation = XMFLOAT3(0.1f, 0.2f, 0.1f);
-	g_point_light_specular_power = 32.0f;
-	g_point_light_specular_colour = XMVectorSet(0.0f, 0.0f, 1.0f, 1.0f);
 
 	// Set directional light rotation vector
 	g_rotate_directional_light = XMMatrixIdentity();
@@ -626,17 +620,15 @@ HRESULT InitialiseGraphics()
 void RenderFrame(void)
 {
 	// Change directional light rotation
-	// g_rotate_directional_light *= XMMatrixRotationX(XMConvertToRadians(0.01f));
-	// g_rotate_directional_light *= XMMatrixRotationY(XMConvertToRadians(0.01f));
-	// g_rotate_directional_light *= XMMatrixRotationZ(XMConvertToRadians(0.01f));
+	g_rotate_directional_light *= XMMatrixRotationX(XMConvertToRadians(0.01f));
+	g_rotate_directional_light *= XMMatrixRotationY(XMConvertToRadians(0.01f));
+	g_rotate_directional_light *= XMMatrixRotationZ(XMConvertToRadians(0.01f));
 
 	// Update lighting colours
 	g_cb0_values.point_light_colour = g_point_light_colour;
 	g_cb0_values.directional_light_colour = g_directional_light_colour;
 	g_cb0_values.ambient_light_colour = g_ambient_light_colour;
 	g_cb0_values.point_light_attenuation = g_point_light_attenuation;
-	g_cb0_values.point_light_specular_power = g_point_light_specular_power;
-	g_cb0_values.point_light_specular_colour = g_point_light_specular_colour;
 
 	float rgba_clear_colour[4] = { 0.1f, 0.2f, 0.6f, 1.0f };
 	g_pImmediateContext->ClearRenderTargetView(g_pBackBufferRTView, rgba_clear_colour);
@@ -719,6 +711,10 @@ void RenderFrame(void)
 	g_2DText1->AddText("Bye world!", -1.0, -0.9, 0.08);
 	g_pImmediateContext->OMSetBlendState(g_pAlphaBlendDisable, 0, 0xffffffff);
 
+	g_Model->SetZ(5);
+	g_Model->AddAmbientLight(g_ambient_light_colour);
+	g_Model->AddDirectionalLight(g_directional_light_shines_from, g_directional_light_colour, g_rotate_directional_light);
+	g_Model->AddPointLight(g_point_light_position, g_point_light_colour, g_point_light_attenuation);
 	g_Model->Draw(&view, &projection);
 
 	g_pSwapChain->Present(0, 0);

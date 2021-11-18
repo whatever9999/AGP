@@ -26,6 +26,14 @@ private:
 	ID3D11ShaderResourceView*	m_pTexture1;
 	ID3D11SamplerState*			m_pSampler0;
 
+	XMVECTOR	m_directional_light_shines_from;
+	XMVECTOR	m_directional_light_colour;
+	XMVECTOR	m_ambient_light_colour;
+	XMMATRIX	m_rotate_directional_light;
+	XMVECTOR	m_point_light_position;
+	XMVECTOR	m_point_light_colour;
+	XMFLOAT3	m_point_light_attenuation;
+
 	float m_x, m_y, m_z;
 	float m_xAngle, m_yAngle, m_zAngle;
 	float m_scale;
@@ -95,6 +103,12 @@ public:
 	float IncScale(float amount) { m_scale += amount; }
 
 	HRESULT LoadObjModel(char* filename);
+
 	void AddTextures(char* texture0_filename, char* texture1_filename);
+
+	void AddDirectionalLight(XMVECTOR directional_light_shines_from, XMVECTOR directional_light_colour, XMMATRIX rotate_directional_light);
+	void AddAmbientLight(XMVECTOR ambient_light_colour);
+	void AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_colour, XMFLOAT3 point_light_attenuation);
+
 	void Draw(XMMATRIX* view, XMMATRIX* projection);
 };
