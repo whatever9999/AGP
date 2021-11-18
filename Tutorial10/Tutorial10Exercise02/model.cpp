@@ -74,6 +74,16 @@ HRESULT Model::Setup()
 	{
 		return hr;
 	}
+
+	// Setup Sampler
+	D3D11_SAMPLER_DESC sampler_desc;
+	ZeroMemory(&sampler_desc, sizeof(sampler_desc));
+	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
+	m_D3DDevice->CreateSamplerState(&sampler_desc, &m_pSampler0);
 }
 
 HRESULT Model::LoadObjModel(char* filename)
@@ -91,10 +101,11 @@ HRESULT Model::LoadObjModel(char* filename)
 	return hr;
 }
 
-void Model::AddTextures(char* filename, char* filename)
+void Model::AddTextures(char* texture0_filename, char* texture1_filename)
 {
 	m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTexture0);
-	D3DX11CreateShaderResourceViewFromFile(m_D3DDevice, "assets/BoxTexture.bmp", NULL, NULL, &m_pTexture0, NULL);
+	D3DX11CreateShaderResourceViewFromFile(m_D3DDevice, texture0_filename, NULL, NULL, &m_pTexture0, NULL);
+	D3DX11CreateShaderResourceViewFromFile(m_D3DDevice, texture1_filename, NULL, NULL, &m_pTexture1, NULL);
 }
 
 void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
@@ -114,6 +125,14 @@ void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
 	m_pImmediateContext->VSSetShader(m_pVShader, 0, 0);
 	m_pImmediateContext->PSSetShader(m_pPShader, 0, 0);
 	m_pImmediateContext->IASetInputLayout(m_pInputLayout);
+
+	if (m_pTexture0 && m_pTexture1)
+	{
+		m_pImmediateContext->PSSetSamplers(0, 1, &m_pSampler0);
+		m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTexture0);
+		m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_pImmediateContext->PSSetShaderResources(1, 1, &m_pTexture1);
+	}
 
 	m_pObject->Draw();
 }

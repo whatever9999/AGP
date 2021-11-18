@@ -1,0 +1,23 @@
+﻿  compilation succeeded; see D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\Debug\model_shaders.cso
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\shaders.hlsl(34,25): warning X3206: 'dot': implicit truncation of vector type
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\shaders.hlsl(40,23): warning X3206: 'dot': implicit truncation of vector type
+  
+  compilation succeeded; see D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\Debug\shaders.cso
+  compilation succeeded; see D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\Debug\sprite_shaders.cso
+  compilation succeeded; see D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\Debug\text2D_shaders.cso
+  camera.cpp
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\camera.cpp(18,22): warning C4305: '=': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\camera.cpp(19,19): warning C4305: '=': truncation from 'double' to 'float'
+  main.cpp
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\main.cpp(664,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\main.cpp(712,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\main.cpp(713,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\main.cpp(717,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\main.cpp(719,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  model.cpp
+  objfilemodel.cpp
+  sprite.cpp
+  text2D.cpp
+  Generating Code...
+D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\model.cpp(87): warning C4715: 'Model::Setup': not all control paths return a value
+  DominiqueRussellTutorial10Exercise02.vcxproj -> D:\GitHub\AGP\Tutorial10\Tutorial10Exercise02\Debug\DominiqueRussellTutorial10Exercise02.exe

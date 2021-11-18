@@ -435,6 +435,7 @@ HRESULT InitialiseGraphics()
 
 	g_Model = new Model(g_pD3DDevice, g_pImmediateContext);
 	g_Model->LoadObjModel((char*)"assets/Sphere.obj");
+	g_Model->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 
 
 	POS_COL_TEX_NORM_VERTEX vertices[] =

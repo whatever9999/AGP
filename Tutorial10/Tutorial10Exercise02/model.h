@@ -24,6 +24,7 @@ private:
 	ID3D11Buffer*				m_pConstantBuffer;
 	ID3D11ShaderResourceView*	m_pTexture0;
 	ID3D11ShaderResourceView*	m_pTexture1;
+	ID3D11SamplerState*			m_pSampler0;
 
 	float m_x, m_y, m_z;
 	float m_xAngle, m_yAngle, m_zAngle;
@@ -59,6 +60,9 @@ public:
 			m_pObject = nullptr;
 		}
 
+		if (m_pTexture0)		m_pTexture0->Release();
+		if (m_pTexture1)		m_pTexture1->Release();
+		if (m_pSampler0)		m_pSampler0->Release();
 		if (m_pConstantBuffer)	m_pConstantBuffer->Release();
 		if (m_pVShader)			m_pVShader->Release();
 		if (m_pInputLayout)		m_pInputLayout->Release();
@@ -91,6 +95,6 @@ public:
 	float IncScale(float amount) { m_scale += amount; }
 
 	HRESULT LoadObjModel(char* filename);
-	void AddTextures(char* filename, char* filename);
+	void AddTextures(char* texture0_filename, char* texture1_filename);
 	void Draw(XMMATRIX* view, XMMATRIX* projection);
 };
