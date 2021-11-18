@@ -31,7 +31,7 @@ HRESULT Model::Setup()
 		}
 	}
 
-	hr = D3DX11CompileFromFile("model_shaders.hlsl", 0, 0, "ModelPS", "ps_4_0", 0, 0, 0, &PS, &error, 0);
+	hr = D3DX11CompileFromFile("model_shaders.hlsl", 0, 0, m_pixel_shader, "ps_4_0", 0, 0, 0, &PS, &error, 0);
 
 	if (error != 0)
 	{
@@ -93,8 +93,11 @@ HRESULT Model::Setup()
 	m_D3DDevice->CreateSamplerState(&sampler_desc, &m_pSampler0);
 }
 
-HRESULT Model::LoadObjModel(char* filename)
+HRESULT Model::LoadObjModel(char* filename, char* pixel_shader, char* vertex_shader)
 {
+	m_pixel_shader = pixel_shader;
+	m_vertex_shader = vertex_shader;
+
 	HRESULT hr = S_OK;
 
 	m_pObject = new ObjFileModel(filename, m_D3DDevice, m_pImmediateContext);

@@ -34,6 +34,9 @@ private:
 	XMVECTOR	m_point_light_colour;
 	XMFLOAT3	m_point_light_attenuation;
 
+	char* m_vertex_shader;
+	char* m_pixel_shader;
+
 	float m_x, m_y, m_z;
 	float m_xAngle, m_yAngle, m_zAngle;
 	float m_scale;
@@ -102,7 +105,7 @@ public:
 	float IncZAngle(float amount) { m_zAngle += amount; }
 	float IncScale(float amount) { m_scale += amount; }
 
-	HRESULT LoadObjModel(char* filename);
+	HRESULT LoadObjModel(char* filename, char* pixel_shader, char* vertex_shader);
 
 	void AddTextures(char* texture0_filename, char* texture1_filename);
 

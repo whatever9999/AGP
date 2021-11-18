@@ -430,7 +430,7 @@ HRESULT InitialiseGraphics()
 	HRESULT hr = S_OK;
 
 	g_Model = new Model(g_pD3DDevice, g_pImmediateContext);
-	g_Model->LoadObjModel((char*)"assets/Sphere.obj");
+	g_Model->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	g_Model->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 
 
