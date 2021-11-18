@@ -279,7 +279,7 @@ HRESULT InitialiseD3D()
 	UINT numFeatureLevels = ARRAYSIZE(featureLevels);
 
 	DXGI_SWAP_CHAIN_DESC sd;
-	ZeroMemory(&sd, sizeof(sd));
+	std::ZeroMemory(&sd, sizeof(sd));
 	sd.BufferCount = 1;
 	sd.BufferDesc.Width = width;
 	sd.BufferDesc.Height = height;
@@ -320,7 +320,7 @@ HRESULT InitialiseD3D()
 
 	// Z Buffer Texture
 	D3D11_TEXTURE2D_DESC tex2dDesc;
-	ZeroMemory(&tex2dDesc, sizeof(tex2dDesc));
+	std::ZeroMemory(&tex2dDesc, sizeof(tex2dDesc));
 
 	tex2dDesc.Width = width;
 	tex2dDesc.Height = height;
@@ -338,7 +338,7 @@ HRESULT InitialiseD3D()
 
 
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
-	ZeroMemory(&dsvDesc, sizeof(dsvDesc));
+	std::ZeroMemory(&dsvDesc, sizeof(dsvDesc));
 
 	dsvDesc.Format = tex2dDesc.Format;
 	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
@@ -432,6 +432,10 @@ void ShutdownD3D()
 HRESULT InitialiseGraphics()
 {
 	HRESULT hr = S_OK;
+
+	g_Model = new Model(g_pD3DDevice, g_pImmediateContext);
+	g_Model->LoadObjModel((char*)"assets/Sphere.obj");
+
 
 	POS_COL_TEX_NORM_VERTEX vertices[] =
 	{

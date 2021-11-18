@@ -60,7 +60,6 @@ public:
 		if (m_pConstantBuffer)	m_pConstantBuffer->Release();
 		if (m_pVShader)			m_pVShader->Release();
 		if (m_pInputLayout)		m_pInputLayout->Release();
-		if (m_pVShader)			m_pVShader->Release();
 		if (m_pPShader)			m_pPShader->Release();
 	}
 

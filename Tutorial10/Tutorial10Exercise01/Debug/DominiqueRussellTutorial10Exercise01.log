@@ -1,3 +1,7 @@
-﻿  model.cpp
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\model.cpp(77): warning C4715: 'Model::Setup': not all control paths return a value
+﻿  main.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\main.cpp(663,89): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\main.cpp(711,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\main.cpp(712,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\main.cpp(716,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\main.cpp(718,51): warning C4305: 'argument': truncation from 'double' to 'float'
   DominiqueRussellTutorial10Exercise01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial10\Tutorial10Exercise01\Debug\DominiqueRussellTutorial10Exercise01.exe
