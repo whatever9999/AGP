@@ -1,0 +1,22 @@
+﻿  main.cpp
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(670,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(718,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(719,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(723,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(725,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(730,30): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(733,32): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(742,30): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\main.cpp(745,32): warning C4305: 'argument': truncation from 'double' to 'float'
+  model.cpp
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(102,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(126,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(133,26): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(141,33): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(150,27): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(154,51): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(155,51): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(183,32): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
+D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\model.cpp(94): warning C4715: 'Model::Setup': not all control paths return a value
+  DominiqueRussellTutorial12Exercise02.vcxproj -> D:\GitHub\AGP\Tutorial12\Tutorial12Exercise02\Debug\DominiqueRussellTutorial12Exercise02.exe
