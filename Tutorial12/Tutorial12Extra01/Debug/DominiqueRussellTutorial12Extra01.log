@@ -1,0 +1,12 @@
+﻿  main.cpp
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(385,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(441,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(447,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(638,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(640,21): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(686,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(734,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(735,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(739,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\main.cpp(741,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  DominiqueRussellTutorial12Extra01.vcxproj -> D:\GitHub\AGP\Tutorial12\Tutorial12Extra01\Debug\DominiqueRussellTutorial12Extra01.exe
