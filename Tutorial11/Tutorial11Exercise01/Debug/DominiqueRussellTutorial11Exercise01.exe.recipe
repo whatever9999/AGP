@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\GitHub\AGP\Tutorial11\Tutorial11Exercise01\Debug\DominiqueRussellTutorial11Exercise01.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial11\Tutorial11Exercise01\Debug\model_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial11\Tutorial11Exercise01\Debug\shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial11\Tutorial11Exercise01\Debug\sprite_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\GitHub\AGP\Tutorial11\Tutorial11Exercise01\Debug\text2D_shaders.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
