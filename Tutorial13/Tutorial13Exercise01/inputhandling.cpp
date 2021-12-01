@@ -63,16 +63,16 @@ void InputHandling::HandleInput(HWND hWnd, Camera* camera)
 
 	// Camera
 	if (IsKeyPressed(DIK_SPACE)) camera->Jump();
-	if (IsKeyPressed(DIK_UP)) camera->Pitch(1);
-	if (IsKeyPressed(DIK_DOWN)) camera->Pitch(-1);
-	if (IsKeyPressed(DIK_W)) camera->Forward(1);
-	if (IsKeyPressed(DIK_S)) camera->Forward(-1);
-	if (IsKeyPressed(DIK_Z)) camera->Up(1);
-	if (IsKeyPressed(DIK_X)) camera->Up(-1);
-	if (IsKeyPressed(DIK_Q)) camera->Rotate(-5);
-	if (IsKeyPressed(DIK_E)) camera->Rotate(5);
-	if (IsKeyPressed(DIK_D)) camera->Strafe(-1);
-	if (IsKeyPressed(DIK_A)) camera->Strafe(1);
+	if (IsKeyPressed(DIK_UP)) camera->Pitch(0.01);
+	if (IsKeyPressed(DIK_DOWN)) camera->Pitch(-0.01);
+	if (IsKeyPressed(DIK_W)) camera->Forward(0.01);
+	if (IsKeyPressed(DIK_S)) camera->Forward(-0.01);
+	if (IsKeyPressed(DIK_Z)) camera->Up(0.01);
+	if (IsKeyPressed(DIK_X)) camera->Up(-0.01);
+	if (IsKeyPressed(DIK_Q)) camera->Rotate(-0.05);
+	if (IsKeyPressed(DIK_E)) camera->Rotate(0.05);
+	if (IsKeyPressed(DIK_D)) camera->Strafe(-0.01);
+	if (IsKeyPressed(DIK_A)) camera->Strafe(0.01);
 }
 
 bool InputHandling::IsKeyPressed(unsigned char DI_keycode)
