@@ -91,6 +91,8 @@ HRESULT Model::Setup()
 	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
 	sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
 	m_D3DDevice->CreateSamplerState(&sampler_desc, &m_pSampler0);
+
+	return S_OK;
 }
 
 void Model::CalculateModelCentrePoint()

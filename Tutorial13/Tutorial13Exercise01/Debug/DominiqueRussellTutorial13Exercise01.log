@@ -1,0 +1,37 @@
+﻿  main.cpp
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(378,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(434,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(440,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(631,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(633,21): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(679,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(727,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(728,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(732,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\main.cpp(734,51): warning C4305: 'argument': truncation from 'double' to 'float'
+main.obj : error LNK2019: unresolved external symbol __imp__TranslateMessage@4 referenced in function _WinMain@16
+main.obj : error LNK2019: unresolved external symbol __imp__DispatchMessageA@4 referenced in function _WinMain@16
+main.obj : error LNK2019: unresolved external symbol __imp__PeekMessageA@20 referenced in function _WinMain@16
+main.obj : error LNK2019: unresolved external symbol __imp__DefWindowProcA@16 referenced in function "long __stdcall WndProc(struct HWND__ *,unsigned int,unsigned int,long)" (?WndProc@@YGJPAUHWND__@@IIJ@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__PostQuitMessage@4 referenced in function "long __stdcall WndProc(struct HWND__ *,unsigned int,unsigned int,long)" (?WndProc@@YGJPAUHWND__@@IIJ@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__RegisterClassExA@4 referenced in function "long __cdecl InitialiseWindow(struct HINSTANCE__ *,int)" (?InitialiseWindow@@YAJPAUHINSTANCE__@@H@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__CreateWindowExA@48 referenced in function "long __cdecl InitialiseWindow(struct HINSTANCE__ *,int)" (?InitialiseWindow@@YAJPAUHINSTANCE__@@H@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__DestroyWindow@4 referenced in function "void __cdecl HandleInput(struct HWND__ *,class Camera *)" (?HandleInput@@YAXPAUHWND__@@PAVCamera@@@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__ShowWindow@8 referenced in function "long __cdecl InitialiseWindow(struct HINSTANCE__ *,int)" (?InitialiseWindow@@YAJPAUHINSTANCE__@@H@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__BeginPaint@8 referenced in function "long __stdcall WndProc(struct HWND__ *,unsigned int,unsigned int,long)" (?WndProc@@YGJPAUHWND__@@IIJ@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__EndPaint@8 referenced in function "long __stdcall WndProc(struct HWND__ *,unsigned int,unsigned int,long)" (?WndProc@@YGJPAUHWND__@@IIJ@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__GetClientRect@8 referenced in function "long __cdecl InitialiseD3D(void)" (?InitialiseD3D@@YAJXZ)
+main.obj : error LNK2019: unresolved external symbol __imp__AdjustWindowRect@12 referenced in function "long __cdecl InitialiseWindow(struct HINSTANCE__ *,int)" (?InitialiseWindow@@YAJPAUHINSTANCE__@@H@Z)
+main.obj : error LNK2019: unresolved external symbol __imp__LoadCursorA@8 referenced in function "long __cdecl InitialiseWindow(struct HINSTANCE__ *,int)" (?InitialiseWindow@@YAJPAUHINSTANCE__@@H@Z)
+main.obj : error LNK2019: unresolved external symbol _D3DX11CreateShaderResourceViewFromFileA@24 referenced in function "long __cdecl InitialiseGraphics(void)" (?InitialiseGraphics@@YAJXZ)
+model.obj : error LNK2001: unresolved external symbol _D3DX11CreateShaderResourceViewFromFileA@24
+sprite.obj : error LNK2001: unresolved external symbol _D3DX11CreateShaderResourceViewFromFileA@24
+text2D.obj : error LNK2001: unresolved external symbol _D3DX11CreateShaderResourceViewFromFileA@24
+main.obj : error LNK2019: unresolved external symbol _D3DX11CompileFromFileA@44 referenced in function "long __cdecl InitialiseGraphics(void)" (?InitialiseGraphics@@YAJXZ)
+model.obj : error LNK2001: unresolved external symbol _D3DX11CompileFromFileA@44
+sprite.obj : error LNK2001: unresolved external symbol _D3DX11CompileFromFileA@44
+text2D.obj : error LNK2001: unresolved external symbol _D3DX11CompileFromFileA@44
+main.obj : error LNK2019: unresolved external symbol _DXTraceA@20 referenced in function _WinMain@16
+objfilemodel.obj : error LNK2001: unresolved external symbol _DXTraceA@20
+D:\GitHub\AGP\Tutorial13\Tutorial13Exercise01\Debug\DominiqueRussellTutorial13Exercise01.exe : fatal error LNK1120: 17 unresolved externals

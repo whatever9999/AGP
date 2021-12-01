@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "objfilemodel.h"
 #include "model.h"
+#include "inputhandling.h"
 
 using namespace DirectX;
 
@@ -43,6 +44,7 @@ Text2D*						g_2DText0;
 Text2D*						g_2DText1;
 Sprite*						g_Sprite;
 vector<Model*>				g_Models;
+InputHandling*				g_InputHandling;
 
 XMVECTOR g_directional_light_shines_from;
 XMVECTOR g_directional_light_colour;
@@ -102,6 +104,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		return 0;
 	}
 
+	g_InputHandling = new InputHandling();
+	if (FAILED(g_InputHandling->InitialiseInput(g_hInst, g_hWnd)))
+	{
+		DXTRACE_MSG("Failed to initialise input");
+		return 0;
+	}
+
 	MSG msg = { 0 };
 
 	if (FAILED(InitialiseD3D()))
@@ -127,6 +136,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		{
 			g_camera->Update();
 			g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
+			g_InputHandling->ReadInputStates();
+			g_InputHandling->HandleInput(g_hWnd, g_camera);
 			RenderFrame();
 		}
 	}
@@ -173,52 +184,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	switch (message)
 	{
-		case WM_KEYDOWN:
-			switch (wParam)
-			{
-				case VK_SPACE:
-					g_camera->Jump();
-					break;
-				case VK_ESCAPE:
-					DestroyWindow(g_hWnd);
-					return 0;
-				case VK_UP:
-					g_camera->Pitch(1);
-					break;
-				case VK_DOWN:
-					g_camera->Pitch(-1);
-					break;
-			}
-			break;
-		case WM_CHAR:
-			switch (wParam)
-			{
-				case 'w':
-					g_camera->Forward(1);
-					break;
-				case 's':
-					g_camera->Forward(-1);
-					break;
-				case 'z':
-					g_camera->Up(1);
-					break;
-				case 'x':
-					g_camera->Up(-1);
-					break;
-				case 'q':
-					g_camera->Rotate(-5);
-					break;
-				case 'e':
-					g_camera->Rotate(5);
-					break;
-				case 'd':
-					g_camera->Strafe(-1);
-					break;
-				case 'a':
-					g_camera->Strafe(1);
-					break;
-			}
-			break;
 		case WM_SIZE:
 			if (g_pSwapChain)
 			{
@@ -382,6 +347,13 @@ HRESULT InitialiseD3D()
 
 void ShutdownD3D()
 {
+	if (g_InputHandling)
+	{
+		g_InputHandling->ShutdownInput();
+
+		delete g_InputHandling;
+		g_InputHandling = nullptr;
+	}
 	for (int i = 0; i < g_Models.size(); i++)
 	{
 		if (g_Models[i])
