@@ -1,0 +1,13 @@
+﻿  inputhandling.cpp
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(102,47): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(103,48): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(104,47): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(105,46): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(107,42): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(108,43): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(110,46): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(111,49): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(112,47): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\inputhandling.cpp(113,46): warning C4305: 'argument': truncation from 'double' to 'float'
+  DominiqueRussellTutorial13Extra01.vcxproj -> D:\GitHub\AGP\Tutorial13\Tutorial13Extra01\Debug\DominiqueRussellTutorial13Extra01.exe
