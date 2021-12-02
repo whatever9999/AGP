@@ -28,15 +28,7 @@ ID3D11Device*				g_pD3DDevice			= NULL;
 ID3D11DeviceContext*		g_pImmediateContext		= NULL;
 IDXGISwapChain*				g_pSwapChain			= NULL;
 ID3D11RenderTargetView*		g_pBackBufferRTView		= NULL;
-ID3D11Buffer*				g_pVertexBuffer;
-ID3D11VertexShader*			g_pVertexShader;
-ID3D11PixelShader*			g_pPixelShader;
-ID3D11InputLayout*			g_pInputLayout;
-ID3D11Buffer*				g_pConstantBuffer0;
 ID3D11DepthStencilView*		g_pZBuffer;
-ID3D11ShaderResourceView*	g_pTexture0;
-ID3D11ShaderResourceView*	g_pTexture1;
-ID3D11SamplerState*			g_pSampler0;
 ID3D11BlendState*			g_pAlphaBlendEnable;
 ID3D11BlendState*			g_pAlphaBlendDisable;
 
@@ -56,33 +48,8 @@ XMVECTOR g_point_light_position;
 XMVECTOR g_point_light_colour;
 XMFLOAT3 g_point_light_attenuation;
 
-struct POS_COL_TEX_NORM_VERTEX
-{
-	XMFLOAT3 pos;
-	XMFLOAT4 Col;
-	XMFLOAT2 Texture0;
-	XMFLOAT3 Normal;
-};
-
-struct CONSTANT_BUFFER0 // 192 bytes
-{
-	XMMATRIX WorldViewProjection;
-	float Scale;
-	XMFLOAT3 packing_0;
-	XMVECTOR directional_light_vector;
-	XMVECTOR directional_light_colour;
-	XMVECTOR ambient_light_colour;
-	XMVECTOR point_light_position;
-	XMVECTOR point_light_colour;
-	XMFLOAT3 point_light_attenuation;
-};
-
-CONSTANT_BUFFER0 g_cb0_values;
-
-const int numVertices = 36;
-
 // Window Title
-char		g_TutorialName[100] = "Lab 03 Exercise 01\0";
+char		g_TutorialName[100] = "AGP\0";
 
 // Forward Declarations
 HRESULT InitialiseWindow(HINSTANCE hInstance, int nCmdShow);
@@ -98,6 +65,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
+#pragma region Initialisation
 	if (FAILED(InitialiseWindow(hInstance, nCmdShow)))
 	{
 		DXTRACE_MSG("Failed to create Window");
@@ -124,7 +92,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DXTRACE_MSG("Failed to initialise graphics");
 		return 0;
 	}
+#pragma endregion // Initialisation
 
+	// Main Loop
 	while (msg.message != WM_QUIT)
 	{
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
@@ -161,7 +131,6 @@ HRESULT InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 	wcex.lpfnWndProc = WndProc;
 	wcex.hInstance = hInstance;
 	wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
-	// wcex.hbrBackground = (HBRUSH)(COLOUR_WINDOW + 1);
 	wcex.lpszClassName = Name;
 
 	if (!RegisterClassEx(&wcex)) return E_FAIL;
@@ -301,7 +270,6 @@ HRESULT InitialiseD3D()
 
 	if (FAILED(hr)) return hr;
 
-
 	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
 	std::ZeroMemory(&dsvDesc, sizeof(dsvDesc));
 
@@ -338,13 +306,6 @@ HRESULT InitialiseD3D()
 	b.AlphaToCoverageEnable = FALSE;
 	g_pD3DDevice->CreateBlendState(&b, &g_pAlphaBlendEnable);
 	g_pD3DDevice->CreateBlendState(&b, &g_pAlphaBlendDisable);
-
-	// Setup 2D Text
-	g_2DText0 = new Text2D("assets/font1.png", g_pD3DDevice, g_pImmediateContext);
-	g_2DText1 = new Text2D("assets/font2.png", g_pD3DDevice, g_pImmediateContext);
-
-	// Setup UI Sprites
-	g_Sprite = new Sprite("assets/UI.png", g_pD3DDevice, g_pImmediateContext);
 
 	return S_OK;
 }
@@ -394,15 +355,7 @@ void ShutdownD3D()
 
 	if (g_pAlphaBlendEnable)	g_pAlphaBlendEnable->Release();
 	if (g_pAlphaBlendDisable)	g_pAlphaBlendDisable->Release();
-	if (g_pTexture1)			g_pTexture1->Release();
-	if (g_pTexture0)			g_pTexture0->Release();
-	if (g_pSampler0)			g_pSampler0->Release();
 	if (g_pZBuffer)				g_pZBuffer->Release();
-	if (g_pConstantBuffer0)		g_pConstantBuffer0->Release();
-	if (g_pVertexBuffer)		g_pVertexBuffer->Release();
-	if (g_pInputLayout)			g_pInputLayout->Release();
-	if (g_pVertexShader)		g_pVertexShader->Release();
-	if (g_pPixelShader)			g_pPixelShader->Release();
 	if (g_pBackBufferRTView)	g_pBackBufferRTView->Release();
 	if (g_pSwapChain)			g_pSwapChain->Release();
 	if (g_pImmediateContext)	g_pImmediateContext->Release();
@@ -412,6 +365,13 @@ void ShutdownD3D()
 HRESULT InitialiseGraphics()
 {
 	HRESULT hr = S_OK;
+
+	// Setup 2D Text
+	g_2DText0 = new Text2D("assets/font1.png", g_pD3DDevice, g_pImmediateContext);
+	g_2DText1 = new Text2D("assets/font2.png", g_pD3DDevice, g_pImmediateContext);
+
+	// Setup UI Sprites
+	g_Sprite = new Sprite("assets/UI.png", g_pD3DDevice, g_pImmediateContext);
 
 	// Setup skybox
 	g_skybox = new Skybox(g_pD3DDevice, g_pImmediateContext);
@@ -434,155 +394,6 @@ HRESULT InitialiseGraphics()
 	g_Models.push_back(model0);
 	g_Models.push_back(model1);
 
-#pragma region Cube Vertices
-	POS_COL_TEX_NORM_VERTEX vertices[] =
-	{
-		// back face
-		{XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-		{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-
-		{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-		{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(1.0f, 0.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f)},
-
-		// front face
-		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-
-		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(1.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-		{XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 1.0f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(0.0f, 0.0f, -1.0f)},
-
-		// left face
-		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-
-		{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(-1.0f, 0.0f, 0.0f)},
-
-		// right face
-		{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-
-		{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.0f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f)},
-
-		// bottom face
-		{XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f)},
-		{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, -1.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 1.0f)},
-
-		{XMFLOAT3(1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, -1.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, 1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(0.0f, -1.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4(0.0f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, -1.0f, 0.0f)},
-
-		// top face
-		{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{XMFLOAT3(1.0f, 1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-
-		{XMFLOAT3(-1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{XMFLOAT3(1.0f, 1.0f, 1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(1.0f, 0.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{XMFLOAT3(-1.0f, 1.0f, -1.0f), XMFLOAT4(0.5f, 0.5f, 0.5f, 1.0f), XMFLOAT2(0.0f, 1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f)},
-	};
-#pragma endregion // Cube Vertices
-
-	// Create Vertex Buffer
-	D3D11_BUFFER_DESC bufferDesc;
-	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
-	bufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-	bufferDesc.ByteWidth = sizeof(vertices);
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	hr = g_pD3DDevice->CreateBuffer(&bufferDesc, NULL, &g_pVertexBuffer);
-
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	// Create Constant Buffer
-	D3D11_BUFFER_DESC constant_buffer_desc;
-	ZeroMemory(&constant_buffer_desc, sizeof(constant_buffer_desc));
-	constant_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	constant_buffer_desc.ByteWidth = 192;
-	constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hr = g_pD3DDevice->CreateBuffer(&constant_buffer_desc, NULL, &g_pConstantBuffer0);
-
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	D3D11_MAPPED_SUBRESOURCE ms;
-
-	g_pImmediateContext->Map(g_pVertexBuffer, NULL, D3D11_MAP_WRITE_DISCARD, NULL, &ms);
-
-	memcpy(ms.pData, vertices, sizeof(vertices));
-
-	g_pImmediateContext->Unmap(g_pVertexBuffer, NULL);
-
-	ID3DBlob* VS, * PS, * error;
-
-	hr = D3DX11CompileFromFile("shaders.hlsl", 0, 0, "VShader", "vs_4_0", 0, 0, 0, &VS, &error, 0);
-
-	if (error != 0)
-	{
-		OutputDebugStringA((char*)error->GetBufferPointer());
-		error->Release();
-		if (FAILED(hr))
-		{
-			return hr;
-		}
-	}
-
-	hr = D3DX11CompileFromFile("shaders.hlsl", 0, 0, "PShader", "ps_4_0", 0, 0, 0, &PS, &error, 0);
-
-	if (error != 0)
-	{
-		OutputDebugStringA((char*)error->GetBufferPointer());
-		error->Release();
-		if (FAILED(hr))
-		{
-			return hr;
-		}
-	}
-
-	hr = g_pD3DDevice->CreateVertexShader(VS->GetBufferPointer(), VS->GetBufferSize(), NULL, &g_pVertexShader);
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	hr = g_pD3DDevice->CreatePixelShader(PS->GetBufferPointer(), PS->GetBufferSize(), NULL, &g_pPixelShader);
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	D3D11_INPUT_ELEMENT_DESC iedesc[] =
-	{
-		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
-	};
-
-	hr = g_pD3DDevice->CreateInputLayout(iedesc, ARRAYSIZE(iedesc), VS->GetBufferPointer(), VS->GetBufferSize(), &g_pInputLayout);
-	if (FAILED(hr))
-	{
-		return hr;
-	}
-
-	// Connect constant buffer
-	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
-
 	// Create camera
 	g_camera = new Camera(0.0, 0.0, -5.0, 0.0, 0.0);
 
@@ -601,20 +412,6 @@ HRESULT InitialiseGraphics()
 
 	// Set directional light rotation vector
 	g_rotate_directional_light = XMMatrixIdentity();
-
-	// Setup Shader Resource View
-	D3DX11CreateShaderResourceViewFromFile(g_pD3DDevice, "assets/BoxTexture.bmp", NULL, NULL, &g_pTexture0, NULL);
-	D3DX11CreateShaderResourceViewFromFile(g_pD3DDevice, "assets/BoxTextureSmiley.bmp", NULL, NULL, &g_pTexture1, NULL);
-
-	// Setup Sampler
-	D3D11_SAMPLER_DESC sampler_desc;
-	ZeroMemory(&sampler_desc, sizeof(sampler_desc));
-	sampler_desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-	sampler_desc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	sampler_desc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	sampler_desc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	sampler_desc.MaxLOD = D3D11_FLOAT32_MAX;
-	g_pD3DDevice->CreateSamplerState(&sampler_desc, &g_pSampler0);
 
 	return S_OK;
 }
@@ -646,73 +443,11 @@ void RenderFrame(void)
 	g_rotate_directional_light *= XMMatrixRotationY(XMConvertToRadians(0.01f));
 	g_rotate_directional_light *= XMMatrixRotationZ(XMConvertToRadians(0.01f));
 
-	// Update lighting colours
-	g_cb0_values.point_light_colour = g_point_light_colour;
-	g_cb0_values.directional_light_colour = g_directional_light_colour;
-	g_cb0_values.ambient_light_colour = g_ambient_light_colour;
-	g_cb0_values.point_light_attenuation = g_point_light_attenuation;
-
-	// Set up
-	g_pImmediateContext->VSSetShader(g_pVertexShader, 0, 0);
-	g_pImmediateContext->PSSetShader(g_pPixelShader, 0, 0);
-	g_pImmediateContext->IASetInputLayout(g_pInputLayout);
-	g_pImmediateContext->PSSetSamplers(0, 1, &g_pSampler0);
-	g_pImmediateContext->PSSetShaderResources(0, 1, &g_pTexture0);
-	g_pImmediateContext->PSSetShaderResources(1, 1, &g_pTexture1);
-	g_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 	// World View Projection Matrix
 	XMMATRIX projection, world, view;
 	world = XMMatrixTranslation(0, 0, 0);
 	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
 	view = g_camera->GetViewMatrix();
-
-#pragma region Original Cubes
-	// FIRST CUBE
-	g_cb0_values.WorldViewProjection = world * view * projection;
-
-	// Update lighting positions
-	XMMATRIX transpose = XMMatrixTranspose(world);
-	XMVECTOR determinant;
-	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
-	g_cb0_values.directional_light_vector = XMVector3Transform(XMVector3Transform(g_directional_light_shines_from, g_rotate_directional_light), transpose);
-	g_cb0_values.directional_light_vector = XMVector3Normalize(g_cb0_values.directional_light_vector);
-	g_cb0_values.point_light_position = XMVector3Transform(g_point_light_position, inverse);
-
-	UINT stride = sizeof(POS_COL_TEX_NORM_VERTEX);
-	UINT offset = 0;
-	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
-
-	g_pImmediateContext->IASetVertexBuffers(0, 1, &g_pVertexBuffer, &stride, &offset);
-
-	g_pImmediateContext->Draw(numVertices, 0);
-
-	// SECOND CUBE
-	world = XMMatrixTranslation(10, 0, 15);
-	g_cb0_values.WorldViewProjection = world * view * projection;
-
-	// Update lighting positions
-	transpose = XMMatrixTranspose(world);
-	inverse = XMMatrixInverse(&determinant, world);
-	g_cb0_values.directional_light_vector = XMVector3Transform(XMVector3Transform(g_directional_light_shines_from, g_rotate_directional_light), transpose);
-	g_cb0_values.directional_light_vector = XMVector3Normalize(g_cb0_values.directional_light_vector);
-	g_cb0_values.point_light_position = XMVector3Transform(g_point_light_position, inverse);
-	
-	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
-
-	g_pImmediateContext->Draw(numVertices, 0);
-
-	// Point Light Cube
-	world = XMMatrixTranslation(XMVectorGetX(g_point_light_position), XMVectorGetY(g_point_light_position), XMVectorGetZ(g_point_light_position));
-	g_cb0_values.WorldViewProjection = world * view * projection;
-
-	g_pImmediateContext->UpdateSubresource(g_pConstantBuffer0, 0, 0, &g_cb0_values, 0, 0);
-	g_pImmediateContext->VSSetConstantBuffers(0, 1, &g_pConstantBuffer0);
-
-	g_pImmediateContext->Draw(numVertices, 0);
-#pragma endregion // Original Cubes
 
 	// Show Skybox
 	g_skybox->RenderSkybox(&view, &projection);
