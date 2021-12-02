@@ -14,7 +14,7 @@
 #include "objfilemodel.h"
 #include "model.h"
 #include "inputhandling.h"
-#include "cube.h"
+#include "skybox.h"
 
 using namespace DirectX;
 
@@ -38,7 +38,7 @@ Text2D*						g_2DText1;
 Sprite*						g_Sprite;
 vector<Model*>				g_Models;
 InputHandling*				g_InputHandling;
-Cube*						g_cube;
+Skybox*						g_skybox;
 
 XMVECTOR g_directional_light_shines_from;
 XMVECTOR g_directional_light_colour;
@@ -312,10 +312,10 @@ HRESULT InitialiseD3D()
 
 void ShutdownD3D()
 {
-	if (g_cube)
+	if (g_skybox)
 	{
-		delete g_cube;
-		g_cube = nullptr;
+		delete g_skybox;
+		g_skybox = nullptr;
 	}
 	if (g_InputHandling)
 	{
@@ -373,9 +373,9 @@ HRESULT InitialiseGraphics()
 	// Setup UI Sprites
 	g_Sprite = new Sprite("assets/UI.png", g_pD3DDevice, g_pImmediateContext);
 
-	// Setup cube
-	g_cube = new Cube(g_pD3DDevice, g_pImmediateContext);
-	g_cube->LoadCube((char*)"assets/BoxTextureSmiley.bmp");
+	// Setup skybox
+	g_skybox = new Skybox(g_pD3DDevice, g_pImmediateContext);
+	g_skybox->LoadSkybox((char*)"assets/BoxTextureSmiley.bmp");
 
 	// Add models to scene
 	Model* model0 = new Model(g_pD3DDevice, g_pImmediateContext);
@@ -449,8 +449,8 @@ void RenderFrame(void)
 	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
 	view = g_camera->GetViewMatrix();
 
-	// Show Cube
-	g_cube->RenderCube(&view, &projection);
+	// Show Skybox
+	g_skybox->RenderSkybox(&view, &projection, g_camera->GetX(), g_camera->GetY(), g_camera->GetZ());
 
 	// Show UI Sprites
 	g_Sprite->RenderSprites();

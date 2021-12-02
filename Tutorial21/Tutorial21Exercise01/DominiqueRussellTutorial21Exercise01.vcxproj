@@ -167,6 +167,7 @@
     <ClCompile Include="model.cpp" />
     <ClCompile Include="objfilemodel.cpp" />
     <ClCompile Include="cube.cpp" />
+    <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sprite.cpp" />
     <ClCompile Include="text2D.cpp" />
   </ItemGroup>
@@ -201,6 +202,16 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="skybox_shaders.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Effect</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="sprite_shaders.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Effect</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">4.0</ShaderModel>
@@ -224,6 +235,7 @@
     <ClInclude Include="model.h" />
     <ClInclude Include="objfilemodel.h" />
     <ClInclude Include="cube.h" />
+    <ClInclude Include="skybox.h" />
     <ClInclude Include="sprite.h" />
     <ClInclude Include="text2D.h" />
   </ItemGroup>
