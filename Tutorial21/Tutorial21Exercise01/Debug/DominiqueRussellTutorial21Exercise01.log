@@ -1,4 +1,5 @@
-﻿  main.cpp
+﻿  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\Debug\cube_shaders.cso
+  main.cpp
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(327,20): warning C4018: '<': signed/unsigned mismatch
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(386,25): warning C4305: 'argument': truncation from 'double' to 'float'
@@ -10,4 +11,6 @@ C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\mai
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(458,37): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(462,51): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(464,51): warning C4305: 'argument': truncation from 'double' to 'float'
+  cube.cpp
+  Generating Code...
   DominiqueRussellTutorial21Exercise01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\Debug\DominiqueRussellTutorial21Exercise01.exe

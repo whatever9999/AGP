@@ -36,7 +36,7 @@
     <ClCompile Include="inputhandling.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="skybox.cpp">
+    <ClCompile Include="cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,6 +45,7 @@
     <FxCompile Include="text2D_shaders.hlsl" />
     <FxCompile Include="sprite_shaders.hlsl" />
     <FxCompile Include="model_shaders.hlsl" />
+    <FxCompile Include="cube_shaders.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -65,7 +66,7 @@
     <ClInclude Include="inputhandling.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="skybox.h">
+    <ClInclude Include="cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
