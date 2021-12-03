@@ -42,6 +42,9 @@
     <ClCompile Include="skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="reflectivemodel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shaders.hlsl" />
@@ -50,6 +53,7 @@
     <FxCompile Include="model_shaders.hlsl" />
     <FxCompile Include="cube_shaders.hlsl" />
     <FxCompile Include="skybox_shaders.hlsl" />
+    <FxCompile Include="reflectivemodel_shaders.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h">
@@ -74,6 +78,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="reflectivemodel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

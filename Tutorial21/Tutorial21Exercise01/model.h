@@ -11,9 +11,21 @@
 
 using namespace DirectX;
 
+struct MODEL_CONSTANT_BUFFER // 160 bytes
+{
+	XMMATRIX WorldViewProjection;
+	XMVECTOR directional_light_vector;
+	XMVECTOR directional_light_colour;
+	XMVECTOR ambient_light_colour;
+	XMVECTOR point_light_position;
+	XMVECTOR point_light_colour;
+	XMFLOAT3 point_light_attenuation;
+	float packing_1;
+};
+
 class Model
 {
-private:
+protected:
 	ID3D11Device*			m_D3DDevice;
 	ID3D11DeviceContext*	m_pImmediateContext;
 
@@ -56,6 +68,7 @@ private:
 	void CalculateModelBoundingSphereRadius();
 
 public:
+	Model() = default;
 	Model(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 	{
 		m_D3DDevice = device;

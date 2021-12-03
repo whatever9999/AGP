@@ -1,18 +1,5 @@
 #include "model.h"
 
-struct MODEL_CONSTANT_BUFFER // 160 bytes
-{
-	XMMATRIX WorldViewProjection;
-	XMVECTOR directional_light_vector;
-	XMVECTOR directional_light_colour;
-	XMVECTOR ambient_light_colour;
-	XMVECTOR point_light_position;
-	XMVECTOR point_light_colour;
-	XMFLOAT3 point_light_attenuation;
-	float packing_1;
-};
-
-
 HRESULT Model::Setup()
 {
 	// Shaders

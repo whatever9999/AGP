@@ -79,7 +79,7 @@ HRESULT Skybox::Setup()
 	HRESULT hr = S_OK;
 	ID3DBlob* VS, * PS, * error;
 
-	hr = D3DX11CompileFromFile("cube_shaders.hlsl", 0, 0, "CubeVS", "vs_4_0", 0, 0, 0, &VS, &error, 0);
+	hr = D3DX11CompileFromFile("skybox_shaders.hlsl", 0, 0, "SkyboxVS", "vs_4_0", 0, 0, 0, &VS, &error, 0);
 
 	if (error != 0)
 	{
@@ -91,7 +91,7 @@ HRESULT Skybox::Setup()
 		}
 	}
 
-	hr = D3DX11CompileFromFile("cube_shaders.hlsl", 0, 0, "CubePS", "ps_4_0", 0, 0, 0, &PS, &error, 0);
+	hr = D3DX11CompileFromFile("skybox_shaders.hlsl", 0, 0, "SkyboxPS", "ps_4_0", 0, 0, 0, &PS, &error, 0);
 
 	if (error != 0)
 	{
@@ -182,6 +182,16 @@ HRESULT Skybox::Setup()
 	rasterizer_desc.CullMode = D3D11_CULL_FRONT;
 	hr = m_D3DDevice->CreateRasterizerState(&rasterizer_desc, &m_pRasterSkyBox);
 
+	// Disable depth writing
+	D3D11_DEPTH_STENCIL_DESC depth_desc;
+	ZeroMemory(&depth_desc, sizeof(depth_desc));
+	depth_desc.DepthEnable = true;
+	depth_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	depth_desc.DepthFunc = D3D11_COMPARISON_LESS;
+	hr = m_D3DDevice->CreateDepthStencilState(&depth_desc, &m_pDepthWriteSolid);
+	depth_desc.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	hr = m_D3DDevice->CreateDepthStencilState(&depth_desc, &m_pDepthWriteSkybox);
+
 	return S_OK;
 }
 
@@ -222,6 +232,8 @@ void Skybox::RenderSkybox(XMMATRIX* view, XMMATRIX* projection, float camera_x, 
 
 	// Frontface cull so we can see the skybox
 	m_pImmediateContext->RSSetState(m_pRasterSkyBox);
+	// Depth writing
+	m_pImmediateContext->OMSetDepthStencilState(m_pDepthWriteSkybox, NULL);
 
 	UINT stride = sizeof(POS_COL_TEX_NORM_VERTEX);
 	UINT offset = 0;
@@ -230,4 +242,6 @@ void Skybox::RenderSkybox(XMMATRIX* view, XMMATRIX* projection, float camera_x, 
 
 	// Set culling back to backface
 	m_pImmediateContext->RSSetState(m_pRasterSolid);
+	// Reset Depth writing
+	m_pImmediateContext->OMSetDepthStencilState(m_pDepthWriteSolid, NULL);
 }

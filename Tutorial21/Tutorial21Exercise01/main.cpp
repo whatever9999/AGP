@@ -13,6 +13,7 @@
 #include "sprite.h"
 #include "objfilemodel.h"
 #include "model.h"
+#include "reflectivemodel.h"
 #include "inputhandling.h"
 #include "skybox.h"
 
@@ -375,7 +376,7 @@ HRESULT InitialiseGraphics()
 
 	// Setup skybox
 	g_skybox = new Skybox(g_pD3DDevice, g_pImmediateContext);
-	g_skybox->LoadSkybox((char*)"assets/BoxTextureSmiley.bmp");
+	g_skybox->LoadSkybox((char*)"assets/skybox02.dds");
 
 	// Add models to scene
 	Model* model0 = new Model(g_pD3DDevice, g_pImmediateContext);
@@ -385,9 +386,9 @@ HRESULT InitialiseGraphics()
 	model0->SetScale(0.5);
 	model0->SetSpeed(0.0002);
 
-	Model* model1 = new Model(g_pD3DDevice, g_pImmediateContext);
-	model1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	model1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	ReflectiveModel* model1 = new ReflectiveModel(g_pD3DDevice, g_pImmediateContext);
+	model1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
+	model1->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
 	model1->SetX(-10);
 	model1->SetSpeed(0.0001);
 

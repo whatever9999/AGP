@@ -1,15 +1,13 @@
 ﻿  main.cpp
   C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(327,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(386,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(392,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(422,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(424,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(449,89): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(457,36): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(458,37): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(462,51): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(464,51): warning C4305: 'argument': truncation from 'double' to 'float'
-  skybox.cpp
-  Generating Code...
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(328,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(387,25): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(393,25): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(423,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(425,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(450,89): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(458,36): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(459,37): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(463,51): warning C4305: 'argument': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\main.cpp(465,51): warning C4305: 'argument': truncation from 'double' to 'float'
   DominiqueRussellTutorial21Exercise01.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\Tutorial21\Tutorial21Exercise01\Debug\DominiqueRussellTutorial21Exercise01.exe
