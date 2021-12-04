@@ -23,8 +23,9 @@ protected:
 	ID3D11RasterizerState* m_pRasterParticle = 0;
 
 	float m_timePrevious;
-	float m_untilParticle;
+	float m_untilParticleTimer;
 	float m_age;
+	float m_untilParticle;
 
 	std::list<Particle*> m_free;
 	std::list<Particle*> m_active;
@@ -41,9 +42,12 @@ public:
 	{
 		m_isActive = true;
 
+		// Set important values
+		m_scale = 0.3f;
 		m_timePrevious = float(timeGetTime()/1000.0f);
-		m_untilParticle = 1.0f;
-		m_age = 3.0f;
+		m_untilParticle = 0.2f;
+		m_untilParticleTimer = m_untilParticle;
+		m_age = 5.0f;
 
 		m_D3DDevice = device;
 		m_pImmediateContext = deviceContext;
@@ -61,7 +65,6 @@ public:
 		m_xAngle = 0.0f;
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
-		m_scale = 1.0f;
 	}
 	~ParticleGenerator()
 	{

@@ -8,27 +8,27 @@ struct PARTICLEGENERATOR_CONSTANT_BUFFER // 80 bytes
 
 float ParticleGenerator::RandomZeroToOne()
 {
-	float value = ((float)rand() / (RAND_MAX)) + 1;
+	float value = (float)rand() / RAND_MAX;
 	return value;
 }
 float ParticleGenerator::RandomNegOneToPosOne()
 {
-	float value = ((float(rand()) / float(RAND_MAX)) * (1 - (-1))) + (-1);
+	float value = (-1) + ((float)rand() / RAND_MAX) * (1 - (-1));
 	return value;
 }
 
 void ParticleGenerator::Update()
 {
-	if (m_untilParticle <= 0.0f)
+	if (m_untilParticleTimer <= 0.0f)
 	{
 		if (m_isActive)
 		{
 			std::list<Particle*>::iterator it = m_free.begin();
 			if (m_free.size() != NULL)
 			{
-				m_untilParticle = 3.0f;
+				m_untilParticleTimer = m_untilParticle;
 				(*it)->color = XMFLOAT4(RandomZeroToOne(), RandomZeroToOne(), RandomZeroToOne(), 1.0f);
-				(*it)->gravity = 4.5f;
+				(*it)->gravity = 2.5f;
 				(*it)->position = XMFLOAT3(0.0f, -6.0f, 12.0f);
 				(*it)->velocity = XMFLOAT3(RandomNegOneToPosOne(), 4.50f, RandomNegOneToPosOne());
 				(*it)->age = 0.0f;
@@ -39,7 +39,7 @@ void ParticleGenerator::Update()
 		}
 		else
 		{
-			m_untilParticle = 0.001f;
+			m_untilParticleTimer = 0.001f;
 		}
 	}
 }
@@ -179,7 +179,7 @@ void ParticleGenerator::Draw(XMMATRIX* view, XMMATRIX* projection, float camera_
 	float timeNow = float(timeGetTime() / 1000.0f);
 	float deltaTime = timeNow - m_timePrevious;
 	m_timePrevious = timeNow;
-	m_untilParticle -= deltaTime;
+	m_untilParticleTimer -= deltaTime;
 
 	// Update Particles
 	Update();
