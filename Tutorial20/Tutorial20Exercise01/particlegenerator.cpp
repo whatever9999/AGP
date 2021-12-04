@@ -6,12 +6,50 @@ struct PARTICLEGENERATOR_CONSTANT_BUFFER // 80 bytes
 	XMFLOAT4 Colour;
 };
 
+float ParticleGenerator::RandomZeroToOne()
+{
+	float value = ((float)rand() / (RAND_MAX)) + 1;
+	return value;
+}
+float ParticleGenerator::RandomNegOneToPosOne()
+{
+	float value = ((float(rand()) / float(RAND_MAX)) * (1 - (-1))) + (-1);
+	return value;
+}
+
+void ParticleGenerator::Update()
+{
+	if (m_untilParticle <= 0.0f)
+	{
+		if (m_isActive)
+		{
+			std::list<Particle*>::iterator it = m_free.begin();
+			if (m_free.size() != NULL)
+			{
+				m_untilParticle = 3.0f;
+				(*it)->color = XMFLOAT4(RandomZeroToOne(), RandomZeroToOne(), RandomZeroToOne(), 1.0f);
+				(*it)->gravity = 4.5f;
+				(*it)->position = XMFLOAT3(0.0f, -6.0f, 12.0f);
+				(*it)->velocity = XMFLOAT3(RandomNegOneToPosOne(), 4.50f, RandomNegOneToPosOne());
+				(*it)->age = 0.0f;
+
+				m_active.push_back(*it);
+				m_free.pop_front();
+			}
+		}
+		else
+		{
+			m_untilParticle = 0.001f;
+		}
+	}
+}
+
 HRESULT ParticleGenerator::Setup()
 {
 #pragma region Vertices
 	XMFLOAT3 vertices[6] =
 	{
-		XMFLOAT3(-1.0f, -1.0f, 1.0f),
+		XMFLOAT3(-1.0f, -1.0f, 0.0f),
 		XMFLOAT3(1.0f, 1.0f, 0.0f),
 		XMFLOAT3(-1.0f, 1.0f, 0.0f),
 		XMFLOAT3(-1.0f, -1.0f, 0.0f), 
@@ -125,20 +163,53 @@ HRESULT ParticleGenerator::Setup()
 	rasterizer_desc.CullMode = D3D11_CULL_BACK;
 	hr = m_D3DDevice->CreateRasterizerState(&rasterizer_desc, &m_pRasterParticle);
 
+	// Initialise particles
+	for (int i = 0; i < 100; i++)
+	{
+		Particle* particle = new Particle();
+		m_free.push_back(particle);
+	}
+
 	return S_OK;
 }
 
 void ParticleGenerator::Draw(XMMATRIX* view, XMMATRIX* projection, float camera_x, float camera_y, float camera_z)
 {
-	m_scale = 0.3f;
+	// Update Time
+	float timeNow = float(timeGetTime() / 1000.0f);
+	float deltaTime = timeNow - m_timePrevious;
+	m_timePrevious = timeNow;
+	m_untilParticle -= deltaTime;
 
-	Particle test;
-	test.color = XMFLOAT4(1.0f, 0.0f, 0.3f, 1.0f);
-	test.gravity = 1;
-	test.position = XMFLOAT3(0.0f, 3.0f, 14.0f);
-	test.velocity = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	// Update Particles
+	Update();
 
-	DrawOne(&test, view, projection, camera_x, camera_y, camera_z);
+	// Draw Active Particles
+	if (m_active.size() != NULL)
+	{
+		std::list<Particle*>::iterator it = m_active.begin();
+		while (it != m_active.end())
+		{
+			// Update Particle Age
+			(*it)->age += deltaTime;
+			(*it)->velocity.y -= (*it)->gravity * (deltaTime);
+			(*it)->position.x += (*it)->velocity.x * (deltaTime);
+			(*it)->position.y += (*it)->velocity.y * (deltaTime);
+			(*it)->position.z += (*it)->velocity.z * (deltaTime);
+
+			DrawOne((*it), view, projection, camera_x, camera_y, camera_z);
+
+			// Remove old particles
+			if ((*it)->age >= m_age)
+			{
+				it++;
+				m_active.front()->age = m_age;
+				m_free.push_back(m_active.front());		
+				m_active.pop_front();		
+			}
+			else it++;
+		}
+	}
 }
 void ParticleGenerator::DrawOne(Particle* one, XMMATRIX* view, XMMATRIX* projection, float camera_x, float camera_y, float camera_z)
 {

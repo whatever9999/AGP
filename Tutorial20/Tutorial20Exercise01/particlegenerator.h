@@ -2,12 +2,15 @@
 
 #include "model.h"
 
+#include <list>
+
 struct Particle
 {
 	float gravity;
 	XMFLOAT3 position;
 	XMFLOAT3 velocity;
 	XMFLOAT4 color;
+	float age;
 };
 const int numverts = 6;
 
@@ -18,9 +21,30 @@ protected:
 
 	ID3D11RasterizerState* m_pRasterSolid = 0;
 	ID3D11RasterizerState* m_pRasterParticle = 0;
+
+	float m_timePrevious;
+	float m_untilParticle;
+	float m_age;
+
+	std::list<Particle*> m_free;
+	std::list<Particle*> m_active;
+
+	// If the particle system is running or not
+	bool m_isActive;
+	
+	float RandomZeroToOne();
+	float RandomNegOneToPosOne();
+
+	void Update();
 public:
 	ParticleGenerator(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 	{
+		m_isActive = true;
+
+		m_timePrevious = float(timeGetTime()/1000.0f);
+		m_untilParticle = 1.0f;
+		m_age = 3.0f;
+
 		m_D3DDevice = device;
 		m_pImmediateContext = deviceContext;
 
@@ -41,6 +65,19 @@ public:
 	}
 	~ParticleGenerator()
 	{
+		while(m_free.size())
+		{
+			Particle* particle = m_free.front();
+			m_free.pop_front();
+			delete particle;
+		}
+		while (m_active.size())
+		{
+			Particle* particle = m_active.front();
+			m_active.pop_front();
+			delete particle;
+		}
+
 		if (m_pObject)
 		{
 			delete m_pObject;
