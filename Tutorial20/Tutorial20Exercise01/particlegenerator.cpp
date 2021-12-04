@@ -214,7 +214,9 @@ void ParticleGenerator::Draw(XMMATRIX* view, XMMATRIX* projection, float camera_
 void ParticleGenerator::DrawOne(Particle* one, XMMATRIX* view, XMMATRIX* projection, float camera_x, float camera_y, float camera_z)
 {
 	XMMATRIX world = XMMatrixScaling(m_scale, m_scale, m_scale);
-	world *= XMMatrixRotationY(XM_PI);
+	// Ensure the particles face the camera
+	LookAt_XZ(camera_x, camera_z);
+	world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
 	world *= XMMatrixTranslation(one->position.x, one->position.y, one->position.z);
 
 	PARTICLEGENERATOR_CONSTANT_BUFFER particlegenerator_cb_values;
