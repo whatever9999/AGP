@@ -1,5 +1,13 @@
-﻿D:\GitHub\AGP\AE2\AE2\plane_shaders.hlsl(43,25): warning X3206: 'dot': implicit truncation of vector type
-D:\GitHub\AGP\AE2\AE2\plane_shaders.hlsl(48,23): warning X3206: 'dot': implicit truncation of vector type
-  
-  compilation succeeded; see D:\GitHub\AGP\AE2\AE2\Debug\plane_shaders.cso
+﻿  game.cpp
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
+D:\GitHub\AGP\AE2\AE2\game.cpp(156,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(162,25): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(218,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\AE2\AE2\game.cpp(258,20): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\AE2\AE2\game.cpp(260,21): warning C4018: '<': signed/unsigned mismatch
+D:\GitHub\AGP\AE2\AE2\game.cpp(279,89): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(287,36): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(288,37): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(292,51): warning C4305: 'argument': truncation from 'double' to 'float'
+D:\GitHub\AGP\AE2\AE2\game.cpp(294,51): warning C4305: 'argument': truncation from 'double' to 'float'
   DominiqueRussellAE2.vcxproj -> D:\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe

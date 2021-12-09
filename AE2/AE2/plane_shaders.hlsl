@@ -29,7 +29,7 @@ VOut PlaneVS(float4 position : POSITION, float4 color : COLOR, float2 texcoord :
 {
 	VOut output;
 
-	output.position	= mul(WVPMatrix, position);
+	output.position = mul(WVPMatrix, position);
 	output.color = color;
 	output.texcoord = texcoord;
 	output.normal = normal;
@@ -48,9 +48,10 @@ float4 PlanePS(float4 position : SV_POSITION, float4 color : COLOR0, float2 texc
 	float point_amount = dot(normalize(lightvector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
-	float4 attenuated_point_light = point_light_colour / (point_light_attenuation[0] + (point_light_attenuation[1] * lightvector) + (point_light_attenuation[2] * (lightvector * lightvector)));
+	float magnitude = length(lightvector);
+	float4 attenuated_point_light = (point_light_colour) / (magnitude*magnitude);
 
 	// Set colour with lighting taken into account
-	color = float4(ambient_light_colour.xyz, 1) + (float4(directional_light_colour.xyz, 1) * diffuse_amount) + (float4(point_light_colour.xyz, 1) * point_amount);
+	color = float4(ambient_light_colour.xyz, 1) + (float4(directional_light_colour.xyz, 1) * diffuse_amount);// +(float4(attenuated_point_light.xyz, 1) * point_amount);
 	return color * texture0.Sample(sampler0, texcoord);
 }

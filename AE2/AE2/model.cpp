@@ -60,9 +60,17 @@ HRESULT Model::Setup()
 	D3D11_BUFFER_DESC constant_buffer_desc;
 	ZeroMemory(&constant_buffer_desc, sizeof(constant_buffer_desc));
 	constant_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	constant_buffer_desc.ByteWidth = 160;
+	constant_buffer_desc.ByteWidth = 128;
 	constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	hr = m_D3DDevice->CreateBuffer(&constant_buffer_desc, NULL, &m_pConstantBuffer);
+
+	// Pixel Constant Buffer
+	D3D11_BUFFER_DESC pixel_constant_buffer_desc;
+	ZeroMemory(&pixel_constant_buffer_desc, sizeof(pixel_constant_buffer_desc));
+	pixel_constant_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
+	pixel_constant_buffer_desc.ByteWidth = 96;
+	pixel_constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	hr = m_D3DDevice->CreateBuffer(&pixel_constant_buffer_desc, NULL, &m_pPixelConstantBuffer);
 
 	if (FAILED(hr))
 	{
@@ -233,22 +241,26 @@ void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
 	MODEL_CONSTANT_BUFFER model_cb_values;
 	model_cb_values.WorldViewProjection = world * (*view) * (*projection);
 
+	MODEL_PIXEL_CONSTANT_BUFFER model_pcb_values;
 	// Lighting colours
-	model_cb_values.point_light_colour = m_point_light_colour;
-	model_cb_values.directional_light_colour = m_directional_light_colour;
-	model_cb_values.ambient_light_colour = m_ambient_light_colour;
-	model_cb_values.point_light_attenuation = m_point_light_attenuation;
+	model_pcb_values.point_light_colour = m_point_light_colour;
+	model_pcb_values.directional_light_colour = m_directional_light_colour;
+	model_pcb_values.ambient_light_colour = m_ambient_light_colour;
+	model_pcb_values.point_light_attenuation = m_point_light_attenuation;
 
 	// Lighting positions
 	XMMATRIX transpose = XMMatrixTranspose(world);
 	XMVECTOR determinant;
 	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
-	model_cb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
-	model_cb_values.directional_light_vector = XMVector3Normalize(model_cb_values.directional_light_vector);
-	model_cb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
+	model_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
+	model_pcb_values.directional_light_vector = XMVector3Normalize(model_pcb_values.directional_light_vector);
+	model_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
 
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &model_cb_values, 0, 0);
+
+	m_pImmediateContext->PSSetConstantBuffers(0, 1, &m_pPixelConstantBuffer);
+	m_pImmediateContext->UpdateSubresource(m_pPixelConstantBuffer, 0, 0, &model_pcb_values, 0, 0);
 
 	m_pImmediateContext->VSSetShader(m_pVShader, 0, 0);
 	m_pImmediateContext->PSSetShader(m_pPShader, 0, 0);
