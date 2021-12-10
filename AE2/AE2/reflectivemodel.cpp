@@ -64,14 +64,6 @@ HRESULT ReflectiveModel::Setup()
 	constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	hr = m_D3DDevice->CreateBuffer(&constant_buffer_desc, NULL, &m_pConstantBuffer);
 
-	// Constant Buffer
-	D3D11_BUFFER_DESC pixel_constant_buffer_desc;
-	ZeroMemory(&pixel_constant_buffer_desc, sizeof(pixel_constant_buffer_desc));
-	pixel_constant_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	pixel_constant_buffer_desc.ByteWidth = 160;
-	pixel_constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hr = m_D3DDevice->CreateBuffer(&pixel_constant_buffer_desc, NULL, &m_pPixelConstantBuffer);
-
 	if (FAILED(hr))
 	{
 		return hr;
@@ -121,6 +113,20 @@ void ReflectiveModel::Draw(XMMATRIX* view, XMMATRIX* projection)
 
 	MODEL_CONSTANT_BUFFER model_cb_values;
 	model_cb_values.WorldViewProjection = world * (*view) * (*projection);
+
+	// Lighting colours
+	model_cb_values.point_light_colour = m_point_light_colour;
+	model_cb_values.directional_light_colour = m_directional_light_colour;
+	model_cb_values.ambient_light_colour = m_ambient_light_colour;
+	model_cb_values.point_light_attenuation = m_point_light_attenuation;
+
+	// Lighting positions
+	XMMATRIX transpose = XMMatrixTranspose(world);
+	XMVECTOR determinant;
+	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
+	model_cb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
+	model_cb_values.directional_light_vector = XMVector3Normalize(model_cb_values.directional_light_vector);
+	model_cb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
 
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &model_cb_values, 0, 0);

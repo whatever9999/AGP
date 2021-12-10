@@ -179,7 +179,7 @@ HRESULT Game::InitialiseGame()
 	m_ambient_light_colour = XMVectorSet(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Set point light colour_pos and attenuation values
-	m_point_light_colour = XMVectorSet(0.0f, 0.0f, 10000000.0f, 0.0f);
+	m_point_light_colour = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
 	// Don't set values to zero as we use them to divide
 	m_point_light_attenuation = XMFLOAT3(1.0f, 0.09f, 0.032f);
 
@@ -295,22 +295,18 @@ void Game::RenderFrame(void)
 	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
 
 	// Pointy sphere following model 1
-	m_Models[0]->LookAt_XZ(1.0f, 1.0f);
+	m_Models[0]->LookAt_XZ(m_Models[1]->GetX(), m_Models[1]->GetZ());
 	m_Models[0]->MoveForward(1);
 	CollisionCheck();
 	m_Models[0]->AddAmbientLight(m_ambient_light_colour);
 	m_Models[0]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	//m_point_light_position = XMVectorSet(m_Models[0]->GetX(), 10.0f, m_Models[0]->GetZ(), 0.0f);
-	m_point_light_position = XMVectorSet(0.0f, 10.0f, 0.0f, 0.0f);
+	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -7.0f, m_Models[0]->GetZ(), 0.0f);
 	m_Models[0]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[0]->Draw(&view, &projection);
 
 	// Pointy sphere following model 0
 	m_Models[1]->LookAt_XZ(m_Models[0]->GetX(), m_Models[0]->GetZ());
-	m_Models[1]->SetX(XMVectorGetX(m_point_light_position));
-	m_Models[1]->SetY(XMVectorGetY(m_point_light_position));
-	m_Models[1]->SetZ(XMVectorGetZ(m_point_light_position));
-	//m_Models[1]->MoveForward(1);
+	m_Models[1]->MoveForward(1);
 	CollisionCheck();
 	m_Models[1]->AddAmbientLight(m_ambient_light_colour);
 	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);

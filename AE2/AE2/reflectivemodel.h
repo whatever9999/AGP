@@ -17,7 +17,6 @@ public:
 		m_pPShader = nullptr;
 		m_pInputLayout = nullptr;
 		m_pConstantBuffer = nullptr;
-		m_pPixelConstantBuffer = nullptr;
 
 		m_x = 0.0f;
 		m_y = 0.0f;
@@ -35,14 +34,13 @@ public:
 			m_pObject = nullptr;
 		}
 
-		if (m_pPixelConstantBuffer) m_pPixelConstantBuffer->Release();
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
+		if (m_pTexture0)		m_pTexture0->Release();
+		if (m_pTexture1)		m_pTexture1->Release();
+		if (m_pSampler0)		m_pSampler0->Release();
+		if (m_pConstantBuffer)	m_pConstantBuffer->Release();
+		if (m_pVShader)			m_pVShader->Release();
+		if (m_pInputLayout)		m_pInputLayout->Release();
+		if (m_pPShader)			m_pPShader->Release();
 	}
 
 	HRESULT LoadObjModel(char* filename, char* pixel_shader, char* vertex_shader);

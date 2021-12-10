@@ -11,14 +11,9 @@
 
 using namespace DirectX;
 
-struct MODEL_CONSTANT_BUFFER // 128 bytes
+struct MODEL_CONSTANT_BUFFER // 160 bytes
 {
 	XMMATRIX WorldViewProjection;
-	XMMATRIX World;
-};
-
-struct MODEL_PIXEL_CONSTANT_BUFFER // 96 bytes
-{
 	XMVECTOR directional_light_vector;
 	XMVECTOR directional_light_colour;
 	XMVECTOR ambient_light_colour;
@@ -39,7 +34,6 @@ protected:
 	ID3D11PixelShader*			m_pPShader;
 	ID3D11InputLayout*			m_pInputLayout;
 	ID3D11Buffer*				m_pConstantBuffer;
-	ID3D11Buffer*				m_pPixelConstantBuffer;
 	ID3D11ShaderResourceView*	m_pTexture0;
 	ID3D11ShaderResourceView*	m_pTexture1;
 	ID3D11SamplerState*			m_pSampler0;
@@ -85,7 +79,6 @@ public:
 		m_pPShader = nullptr;
 		m_pInputLayout = nullptr;
 		m_pConstantBuffer = nullptr;
-		m_pPixelConstantBuffer = nullptr;
 
 		m_x = 0.0f; 
 		m_y = 0.0f;
@@ -103,14 +96,13 @@ public:
 			m_pObject = nullptr;
 		}
 
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
+		if (m_pTexture0)		m_pTexture0->Release();
+		if (m_pTexture1)		m_pTexture1->Release();
+		if (m_pSampler0)		m_pSampler0->Release();
+		if (m_pConstantBuffer)	m_pConstantBuffer->Release();
+		if (m_pVShader)			m_pVShader->Release();
+		if (m_pInputLayout)		m_pInputLayout->Release();
+		if (m_pPShader)			m_pPShader->Release();
 	}
 
 	// Setters
