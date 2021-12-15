@@ -179,9 +179,9 @@ HRESULT Game::InitialiseGame()
 	m_ambient_light_colour = XMVectorSet(0.2f, 0.2f, 0.2f, 1.0f);
 
 	// Set point light colour_pos and attenuation values
-	m_point_light_colour = XMVectorSet(0.0f, 2.0f, 0.0f, 1.0f);
+	m_point_light_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
 	// Don't set values to zero as we use them to divide
-	m_point_light_attenuation = XMFLOAT3(0.1f, 0.2f, 0.1f);
+	m_point_light_attenuation = XMFLOAT3(0.01f, 0.2f, 0.1f);
 
 	// Set directional light rotation vector
 	m_rotate_directional_light = XMMatrixIdentity();

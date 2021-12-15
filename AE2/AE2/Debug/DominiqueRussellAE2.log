@@ -1,5 +1,5 @@
-﻿C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\plane_shaders.hlsl(45,25): warning X3206: 'dot': implicit truncation of vector type
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\plane_shaders.hlsl(50,23): warning X3206: 'dot': implicit truncation of vector type
+﻿C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\model_shaders.hlsl(45,25): warning X3206: 'dot': implicit truncation of vector type
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\model_shaders.hlsl(50,23): warning X3206: 'dot': implicit truncation of vector type
   
-  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\plane_shaders.cso
+  compilation succeeded; see C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\model_shaders.cso
   DominiqueRussellAE2.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe

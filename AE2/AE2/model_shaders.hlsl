@@ -46,12 +46,12 @@ float4 ModelPS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITIO
 	diffuse_amount = saturate(diffuse_amount);
 
 	// Point Light
-	float4 lightvector = point_light_position - pixel_position;
-	float point_amount = dot(normalize(lightvector), normal);
+	float4 light_vector = point_light_position - pixel_position;
+	float point_amount = dot(normalize(light_vector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
-	float distance = length(lightvector);
-	float4 attenuated_point_light = point_light_colour / (distance * distance);
+	float distance = length(light_vector);
+	float4 attenuated_point_light = point_light_colour / distance;
 
 	// Set colour with lighting taken into account
 	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (point_light_colour * point_amount));

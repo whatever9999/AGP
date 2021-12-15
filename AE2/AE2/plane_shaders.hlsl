@@ -46,15 +46,22 @@ float4 PlanePS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITIO
 	diffuse_amount = saturate(diffuse_amount);
 
 	// Point Light
-	float4 lightvector = point_light_position - pixel_position;
-	float point_amount = dot(normalize(lightvector), normal);
+	float4 light_vector = point_light_position - pixel_position;
+	float point_amount = dot(normalize(light_vector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
-	float distance = length(lightvector);
+	//float distance = length(light_vector);
+	float distanceX = point_light_position.x - pixel_position.x;
+	float distanceY = point_light_position.y - pixel_position.y;
+	float distanceZ = point_light_position.z - pixel_position.z;
+	distanceX *= distanceX;
+	distanceY *= distanceY;
+	distanceZ *= distanceZ;
+	float distance = sqrt(distanceX + distanceZ);
 	float4 attenuated_point_light = point_light_colour / (distance * distance);
 
 	// Set colour with lighting taken into account
-	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (point_light_colour * point_amount));
+	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (attenuated_point_light * point_amount));
 
 	return final_colour * texture0.Sample(sampler0, texcoord);
 }
