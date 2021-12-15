@@ -2,36 +2,36 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\model_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\model_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\particlegenerator_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\particlegenerator_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\plane_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\plane_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\reflectivemodel_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\reflectivemodel_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\cube_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\cube_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\skybox_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\skybox_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\sprite_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\sprite_shaders.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\GitHub\AGP\AE2\AE2\Debug\text2D_shaders.cso</FullPath>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\text2D_shaders.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

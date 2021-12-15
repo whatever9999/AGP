@@ -99,16 +99,16 @@ void InputHandling::HandleInput(HWND hWnd, Camera* camera)
 	if (IsKeyPressed(DIK_ESCAPE)) DestroyWindow(hWnd);
 
 	// Keyboard Movement
-	if (IsKeyPressed(DIK_W)) camera->Forward(0.01);
-	if (IsKeyPressed(DIK_S)) camera->Forward(-0.01);
-	if (IsKeyPressed(DIK_D)) camera->Strafe(-0.01);
-	if (IsKeyPressed(DIK_A)) camera->Strafe(0.01);
+	if (IsKeyPressed(DIK_W)) camera->Forward(0.02);
+	if (IsKeyPressed(DIK_S)) camera->Forward(-0.02);
+	if (IsKeyPressed(DIK_D)) camera->Strafe(-0.02);
+	if (IsKeyPressed(DIK_A)) camera->Strafe(0.02);
 
-	if (IsKeyPressed(DIK_Z)) camera->Up(0.01);
-	if (IsKeyPressed(DIK_X)) camera->Up(-0.01);
+	if (IsKeyPressed(DIK_Z)) camera->Up(0.02);
+	if (IsKeyPressed(DIK_X)) camera->Up(-0.02);
 
-	if (IsKeyPressed(DIK_UP)) camera->Pitch(0.01);
-	if (IsKeyPressed(DIK_DOWN)) camera->Pitch(-0.01);
+	if (IsKeyPressed(DIK_UP)) camera->Pitch(0.04);
+	if (IsKeyPressed(DIK_DOWN)) camera->Pitch(-0.04);
 	if (IsKeyPressed(DIK_Q)) camera->Rotate(-0.05);
 	if (IsKeyPressed(DIK_E)) camera->Rotate(0.05);
 
