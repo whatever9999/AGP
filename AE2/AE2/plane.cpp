@@ -228,7 +228,8 @@ void Plane::AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_co
 void Plane::RenderPlane(XMMATRIX* view, XMMATRIX* projection)
 {
 	// World View Projection Matrix
-	XMMATRIX world = XMMatrixScaling(50.0f, 3.0f, 50.0f);
+	XMMATRIX world = XMMatrixIdentity();
+	world *= XMMatrixScaling(50.0f, 3.0f, 50.0f);
 	world *= XMMatrixTranslation(0, -10, 0);
 
 	PLANE_CONSTANT_BUFFER plane_cb_values;
@@ -243,10 +244,11 @@ void Plane::RenderPlane(XMMATRIX* view, XMMATRIX* projection)
 
 	// Lighting positions
 	XMMATRIX transpose = XMMatrixTranspose(world);
-	XMVECTOR determinant;
-	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
 	plane_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
 	plane_pcb_values.directional_light_vector = XMVector3Normalize(plane_pcb_values.directional_light_vector);
+
+	XMVECTOR determinant;
+	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
 	plane_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
 
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);

@@ -19,6 +19,7 @@ cbuffer PCBuffer0 // 96 bytes
 
 struct VOut
 {
+	float4 pixel_position : SP_POSITION;
 	float4 position : SV_POSITION;
 	float4 color	: COLOR;
 	float2 texcoord : TEXCOORD;
@@ -29,6 +30,7 @@ VOut PlaneVS(float4 position : POSITION, float4 color : COLOR, float2 texcoord :
 {
 	VOut output;
 
+	output.pixel_position = position;
 	output.position = mul(WVPMatrix, position);
 	output.color = color;
 	output.texcoord = texcoord;
@@ -37,14 +39,14 @@ VOut PlaneVS(float4 position : POSITION, float4 color : COLOR, float2 texcoord :
 	return output;
 }
 
-float4 PlanePS(float4 position : SV_POSITION, float4 color : COLOR0, float2 texcoord : TEXCOORD, float3 normal : NORMAL) : SV_TARGET
+float4 PlanePS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITION, float4 color : COLOR0, float2 texcoord : TEXCOORD, float3 normal : NORMAL) : SV_TARGET
 {
 	// Directional Light
 	float diffuse_amount = dot(directional_light_vector, normal);
 	diffuse_amount = saturate(diffuse_amount);
 
 	// Point Light
-	float4 lightvector = point_light_position - position;
+	float4 lightvector = point_light_position - pixel_position;
 	float point_amount = dot(normalize(lightvector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
