@@ -20,6 +20,7 @@
 #include "skybox.h"
 #include "particlegenerator.h"
 #include "plane.h"
+#include "player.h"
 
 using namespace DirectX;
 
@@ -41,7 +42,7 @@ private:
 	ID3D11BlendState*			m_pAlphaBlendDisable;
 
 	// Game elements
-	Camera*						m_camera;
+	Player*						m_player;
 	Text2D*						m_2DText0;
 	Text2D*						m_2DText1;
 	Sprite*						m_Sprite;

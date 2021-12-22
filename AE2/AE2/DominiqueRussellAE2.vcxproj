@@ -171,6 +171,7 @@
     <ClCompile Include="cube.cpp" />
     <ClCompile Include="particlegenerator.cpp" />
     <ClCompile Include="plane.cpp" />
+    <ClCompile Include="player.cpp" />
     <ClCompile Include="reflectivemodel.cpp" />
     <ClCompile Include="skybox.cpp" />
     <ClCompile Include="sprite.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="cube.h" />
     <ClInclude Include="particlegenerator.h" />
     <ClInclude Include="plane.h" />
+    <ClInclude Include="player.h" />
     <ClInclude Include="reflectivemodel.h" />
     <ClInclude Include="skybox.h" />
     <ClInclude Include="sprite.h" />

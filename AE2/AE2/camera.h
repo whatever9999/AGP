@@ -3,18 +3,17 @@
 #include <d3d11.h>
 #include <math.h>
 
+#include "entity.h"
+
 #define _XM_NO_INTRINSICS_
 #define XM_NO_ALIGNMENT
 #include <DirectXMath.h>
 
 using namespace DirectX;
 
-class Camera
+class Camera : public Entity
 {
-private:
-	float m_x;
-	float m_y;
-	float m_z;
+protected:
 	float m_dx;
 	float m_dy;
 	float m_dz;
@@ -32,6 +31,7 @@ private:
 	float m_gravity;
 
 public:
+	Camera() = default;
 	Camera(float x, float y, float z, float camera_rotation, float camera_pitch);
 	void Update();
 

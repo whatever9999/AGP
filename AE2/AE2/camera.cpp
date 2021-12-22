@@ -2,9 +2,6 @@
 
 Camera::Camera(float x, float y, float z, float camera_rotation, float camera_pitch)
 {
-	m_x = x;
-	m_y = y;
-	m_z = z;
 	m_camera_rotation = camera_rotation;
 	m_camera_pitch = camera_pitch;
 

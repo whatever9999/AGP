@@ -148,7 +148,7 @@ HRESULT Game::InitialiseGame()
 	m_skybox->LoadSkybox((char*)"assets/skybox02.dds");
 
 	// Add models to scene
-	Model* model0 = new Model(m_pD3DDevice, m_pImmediateContext);
+	Entity* model0 = new Entity(m_pD3DDevice, m_pImmediateContext);
 	model0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	model0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 	model0->SetX(-40);
@@ -161,23 +161,17 @@ HRESULT Game::InitialiseGame()
 	model1->SetX(-10);
 	model1->SetSpeed(0.0001);
 
-	Model* model2 = new Model(m_pD3DDevice, m_pImmediateContext);
-	model2->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	model2->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	model2->SetX(-40.0);
-	model2->SetY(10.0);
-	model2->SetZ(4.0);
-
 	m_Models.push_back(model0);
 	m_Models.push_back(model1);
-	m_Models.push_back(model2);
 
 	// Create particle generator
 	m_particleGenerator = new ParticleGenerator(m_pD3DDevice, m_pImmediateContext);
 	m_particleGenerator->Setup();
 
-	// Create camera
-	m_camera = new Camera(0.0, 0.0, -5.0, 0.0, 0.0);
+	// Create player
+	m_player = new Player(m_pD3DDevice, m_pImmediateContext, 0.0, 0.0, -5.0, 0.0, 0.0);
+	m_player->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	m_Models.push_back(m_player);
 
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
@@ -201,10 +195,11 @@ void Game::GameLoop()
 {
 	// Handle Input
 	m_InputHandling->ReadInputStates();
-	m_InputHandling->HandleInput(m_hWnd, m_camera);
+	m_InputHandling->HandleInput(m_hWnd, m_player);
 
 	// Update Camera
-	m_camera->Update();
+	m_player->Update();
+	CollisionCheck();
 
 	// Render
 	RenderFrame();
@@ -230,11 +225,6 @@ void Game::ShutdownD3D()
 			delete m_Models[i];
 			m_Models[i] = nullptr;
 		}
-	}
-	if (m_camera)
-	{
-		delete m_camera;
-		m_camera = nullptr;
 	}
 	if (m_Sprite)
 	{
@@ -285,10 +275,10 @@ void Game::RenderFrame(void)
 	XMMATRIX projection, world, view;
 	world = XMMatrixTranslation(0, 0, 0);
 	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
-	view = m_camera->GetViewMatrix();
+	view = m_player->GetViewMatrix();
 
 	// Show Skybox
-	m_skybox->RenderSkybox(&view, &projection, m_camera->GetX(), m_camera->GetY(), m_camera->GetZ());
+	m_skybox->RenderSkybox(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
 
 	// Show UI Sprites
 	m_Sprite->RenderSprites();
@@ -321,11 +311,6 @@ void Game::RenderFrame(void)
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[1]->Draw(&view, &projection);
 
-	m_Models[2]->AddAmbientLight(m_ambient_light_colour);
-	m_Models[2]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_Models[2]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_Models[2]->Draw(&view, &projection);
-
 	// Show plane
 	m_plane->AddAmbientLight(m_ambient_light_colour);
 	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
@@ -333,7 +318,7 @@ void Game::RenderFrame(void)
 	m_plane->RenderPlane(&view, &projection);
 
 	// Show particles
-	m_particleGenerator->Draw(&view, &projection, m_camera->GetX(), m_camera->GetY(), m_camera->GetZ());
+	m_particleGenerator->Draw(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
 
 	m_pSwapChain->Present(0, 0);
 }
