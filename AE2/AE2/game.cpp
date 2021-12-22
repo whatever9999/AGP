@@ -199,7 +199,6 @@ void Game::GameLoop()
 
 	// Update Camera
 	m_player->Update();
-	CollisionCheck();
 
 	// Render
 	RenderFrame();
@@ -259,7 +258,18 @@ void Game::CollisionCheck()
 		{
 			if (m_Models[i]->CheckCollision(m_Models[j]))
 			{
-				m_Models[i]->MoveForward(-1);
+				// Ensure the player can't avoid collision by going sideways/backwards
+				if (m_Models[i] == m_player)
+				{
+					if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
+					if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
+					if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
+					if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
+				}
+				else
+				{
+					m_Models[i]->MoveForward(-1);
+				}
 			}
 		}
 	}
