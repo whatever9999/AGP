@@ -50,15 +50,26 @@ float4 PlanePS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITIO
 	float point_amount = dot(normalize(light_vector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
-	//float distance = length(light_vector);
 	float distanceX = point_light_position.x - pixel_position.x;
-	float distanceY = point_light_position.y - pixel_position.y;
 	float distanceZ = point_light_position.z - pixel_position.z;
 	distanceX *= distanceX;
-	distanceY *= distanceY;
 	distanceZ *= distanceZ;
-	float distance = sqrt(distanceX + distanceZ);
-	float4 attenuated_point_light = point_light_colour / (distance * distance);
+	float distance = sqrt(distanceX  + distanceZ);
+
+	float denominator = 0.0f;
+	if (point_light_attenuation[0]) denominator += point_light_attenuation[0];
+	if (point_light_attenuation[1]) denominator += point_light_attenuation[1] * distance;
+	if (point_light_attenuation[2]) denominator += point_light_attenuation[2] * (distance * distance);
+
+	float4 attenuated_point_light;
+	if (!denominator)
+	{
+		attenuated_point_light = point_light_colour;
+	}
+	else
+	{
+		attenuated_point_light  = point_light_colour / denominator;
+	}
 
 	// Set colour with lighting taken into account
 	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (attenuated_point_light * point_amount));

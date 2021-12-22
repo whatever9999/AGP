@@ -161,8 +161,16 @@ HRESULT Game::InitialiseGame()
 	model1->SetX(-10);
 	model1->SetSpeed(0.0001);
 
+	Model* model2 = new Model(m_pD3DDevice, m_pImmediateContext);
+	model2->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	model2->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	model2->SetX(-40.0);
+	model2->SetY(10.0);
+	model2->SetZ(4.0);
+
 	m_Models.push_back(model0);
 	m_Models.push_back(model1);
+	m_Models.push_back(model2);
 
 	// Create particle generator
 	m_particleGenerator = new ParticleGenerator(m_pD3DDevice, m_pImmediateContext);
@@ -181,7 +189,7 @@ HRESULT Game::InitialiseGame()
 	// Set point light colour_pos and attenuation values
 	m_point_light_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
 	// Don't set values to zero as we use them to divide
-	m_point_light_attenuation = XMFLOAT3(0.01f, 0.2f, 0.1f);
+	m_point_light_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
 	// Set directional light rotation vector
 	m_rotate_directional_light = XMMatrixIdentity();
@@ -300,7 +308,7 @@ void Game::RenderFrame(void)
 	CollisionCheck();
 	m_Models[0]->AddAmbientLight(m_ambient_light_colour);
 	m_Models[0]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), 4.0f, m_Models[0]->GetZ(), 0.0f);
+	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
 	m_Models[0]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[0]->Draw(&view, &projection);
 
@@ -312,6 +320,11 @@ void Game::RenderFrame(void)
 	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[1]->Draw(&view, &projection);
+
+	m_Models[2]->AddAmbientLight(m_ambient_light_colour);
+	m_Models[2]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+	m_Models[2]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	m_Models[2]->Draw(&view, &projection);
 
 	// Show plane
 	m_plane->AddAmbientLight(m_ambient_light_colour);

@@ -22,7 +22,6 @@ struct VOut
 {
 	float4 pixel_position : SP_POSITION;
 	float4 position : SV_POSITION;
-	float4 color	: COLOR;
 	float2 texcoord : TEXCOORD;
 	float3 normal	: NORMAL;
 };
@@ -31,15 +30,15 @@ VOut ModelVS(float4 position : POSITION, float2 texcoord : TEXCOORD, float3 norm
 {
 	VOut output;
 
-	output.position = position;
-	output.position	= mul(WVPMatrix, position);
+	output.pixel_position = position;
+	output.position = mul(WVPMatrix, position);
 	output.texcoord = texcoord;
 	output.normal = normal;
 
 	return output;
 }
 
-float4 ModelPS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITION, float4 color : COLOR0, float2 texcoord : TEXCOORD, float3 normal : NORMAL) : SV_TARGET
+float4 ModelPS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITION, float2 texcoord : TEXCOORD, float3 normal : NORMAL) : SV_TARGET
 {
 	// Directional Light
 	float diffuse_amount = dot(directional_light_vector, normal);
@@ -50,11 +49,29 @@ float4 ModelPS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITIO
 	float point_amount = dot(normalize(light_vector), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
-	float distance = length(light_vector);
-	float4 attenuated_point_light = point_light_colour / distance;
+	float distanceX = point_light_position.x - pixel_position.x;
+	float distanceZ = point_light_position.z - pixel_position.z;
+	distanceX *= distanceX;
+	distanceZ *= distanceZ;
+	float distance = sqrt(distanceX + distanceZ);
+
+	float denominator = 0.0f;
+	if (point_light_attenuation[0]) denominator += point_light_attenuation[0];
+	if (point_light_attenuation[1]) denominator += point_light_attenuation[1] * distance;
+	if (point_light_attenuation[2]) denominator += point_light_attenuation[2] * (distance * distance);
+
+	float4 attenuated_point_light;
+	if (!denominator)
+	{
+		attenuated_point_light = point_light_colour;
+	}
+	else
+	{
+		attenuated_point_light = point_light_colour / denominator;
+	}
 
 	// Set colour with lighting taken into account
-	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (point_light_colour * point_amount));
+	float4 final_colour = (ambient_light_colour + (directional_light_colour * diffuse_amount) + (attenuated_point_light * 1000 * point_amount));
 
-	return final_colour * texture0.Sample(sampler0, texcoord) * texture1.Sample(sampler0, texcoord);
+	return final_colour * texture0.Sample(sampler0, texcoord);
 }
