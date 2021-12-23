@@ -72,3 +72,23 @@ bool CubeTrigger::CheckCollision(Model* other_model)
 	if (distance_between_models < pow(GetBoundingSphereRadius()/4 + other_model->GetBoundingSphereRadius(), 2)) return true;
 	else return false;
 }
+
+void Door::Update()
+{
+	m_unlocked = true;
+	for (int i = 0; i < m_triggers.size(); i++)
+	{
+		if (!m_triggers[i]->IsTriggered())
+		{
+			m_unlocked = false;
+			break;
+		}
+	}
+}
+void Door::OnCollision(Model* other_model)
+{
+	if (m_unlocked && other_model == m_player)
+	{
+		// TODO: Game Complete Screen
+	}
+}

@@ -236,6 +236,21 @@ HRESULT Game::InitialiseGame()
 	cube_trigger1->SetCollisionType(TRIGGER);
 #pragma endregion
 
+#pragma region Door
+	Door* door = new Door(m_pD3DDevice, m_pImmediateContext, m_player);
+	door->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	door->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	door->SetX(20);
+	door->SetZ(-30);
+	door->SetY(0);
+	door->SetXScale(6.0);
+	door->SetYScale(6.0);
+	door->SetZScale(6.0);
+	door->SetCollisionType(CONSTANT);
+	door->AddCubeTrigger(cube_trigger0);
+	door->AddCubeTrigger(cube_trigger1);
+#pragma endregion
+
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
 	m_directional_light_colour = XMVectorSet(2.0f, 2.0f, 2.0f, 0.0f);
@@ -261,6 +276,7 @@ HRESULT Game::InitialiseGame()
 	m_Models.push_back(pushable_cube1); // 6
 	m_Models.push_back(cube_trigger0); // 7
 	m_Models.push_back(cube_trigger1); // 8
+	m_Models.push_back(door); // 9
 
 	return S_OK;
 }
@@ -361,6 +377,11 @@ void Game::CollisionCheck()
 							float yAngle = atan2(dx, dz) * (180.0 / XM_PI);
 							m_Models[j]->SetYAngle(yAngle);
 							m_Models[j]->MoveForward(1);
+						}
+						// Otherwise the player can trigger an objects OnCollision function
+						else
+						{
+							m_Models[j]->OnCollision(m_Models[i]);
 						}
 					}
 					else
