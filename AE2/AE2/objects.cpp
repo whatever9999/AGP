@@ -32,3 +32,43 @@ void Spell::OnCollision(Model* other_model)
 		enemy->ChangeHealth(-m_damage);
 	}
 }
+
+// If the pushable object comes off of the cube we need to disable its triggered state
+void CubeTrigger::Update()
+{
+	if (m_pushable_object)
+	{
+		m_triggered = CheckCollision(m_pushable_object);
+		if (!m_triggered)
+		{
+			m_pushable_object = nullptr;
+		}
+	}
+}
+void CubeTrigger::OnCollision(Model* other_model)
+{
+	if (other_model->GetCollisionType() == PUSHABLE)
+	{
+		m_triggered = true;
+	}
+}
+// Collision check for cube trigger is smaller so it's less sensitive
+bool CubeTrigger::CheckCollision(Model* other_model)
+{
+	if (other_model == this) return false;
+
+	float x1 = XMVectorGetX(GetBoundingSphereWorldSpacePosition());
+	float y1 = XMVectorGetY(GetBoundingSphereWorldSpacePosition());
+	float z1 = XMVectorGetZ(GetBoundingSphereWorldSpacePosition());
+
+	float x2 = XMVectorGetX(other_model->GetBoundingSphereWorldSpacePosition());
+	float y2 = XMVectorGetY(other_model->GetBoundingSphereWorldSpacePosition());
+	float z2 = XMVectorGetZ(other_model->GetBoundingSphereWorldSpacePosition());
+
+	float distance_between_models = pow(x1 - x2, 2) +
+		pow(y1 - y2, 2) +
+		pow(z1 - z2, 2);
+
+	if (distance_between_models < pow(GetBoundingSphereRadius()/4 + other_model->GetBoundingSphereRadius(), 2)) return true;
+	else return false;
+}

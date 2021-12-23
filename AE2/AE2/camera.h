@@ -48,5 +48,6 @@ public:
 
 	void Jump();
 
+	float GetCameraRotation() { return m_camera_rotation; }
 	XMMATRIX GetViewMatrix();
 };

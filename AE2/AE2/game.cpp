@@ -190,6 +190,52 @@ HRESULT Game::InitialiseGame()
 	spell->SetSpeed(0.05);
 	m_player->SetSpell(spell);
 
+#pragma region Pushable Cubes
+	Model* pushable_cube0 = new Model(m_pD3DDevice, m_pImmediateContext);
+	pushable_cube0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	pushable_cube0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	pushable_cube0->SetX(20);
+	pushable_cube0->SetY(-3.5);
+	pushable_cube0->SetXScale(3.0);
+	pushable_cube0->SetYScale(3.0);
+	pushable_cube0->SetZScale(3.0);
+	pushable_cube0->SetSpeed(0.001);
+	pushable_cube0->SetCollisionType(PUSHABLE);
+
+	Model* pushable_cube1 = new Model(m_pD3DDevice, m_pImmediateContext);
+	pushable_cube1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	pushable_cube1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	pushable_cube1->SetX(35);
+	pushable_cube1->SetY(-3.5);
+	pushable_cube1->SetXScale(3.0);
+	pushable_cube1->SetYScale(3.0);
+	pushable_cube1->SetZScale(3.0);
+	pushable_cube1->SetSpeed(0.001);
+	pushable_cube1->SetCollisionType(PUSHABLE);
+#pragma endregion
+
+#pragma region Cube Triggers
+	CubeTrigger* cube_trigger0 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
+	cube_trigger0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	cube_trigger0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	cube_trigger0->SetZ(10);
+	cube_trigger0->SetY(-7);
+	cube_trigger0->SetXScale(3.0);
+	cube_trigger0->SetYScale(0.1);
+	cube_trigger0->SetZScale(3.0);
+	cube_trigger0->SetCollisionType(TRIGGER);
+
+	CubeTrigger* cube_trigger1 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
+	cube_trigger1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	cube_trigger1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	cube_trigger1->SetZ(-10);
+	cube_trigger1->SetY(-7);
+	cube_trigger1->SetXScale(3.0);
+	cube_trigger1->SetYScale(0.1);
+	cube_trigger1->SetZScale(3.0);
+	cube_trigger1->SetCollisionType(TRIGGER);
+#pragma endregion
+
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
 	m_directional_light_colour = XMVectorSet(2.0f, 2.0f, 2.0f, 0.0f);
@@ -206,11 +252,15 @@ HRESULT Game::InitialiseGame()
 	m_rotate_directional_light = XMMatrixIdentity();
 
 	// Add models to list
-	m_Models.push_back(model0);
-	m_Models.push_back(model1);
-	m_Models.push_back(m_player);
-	m_Models.push_back(meleeSphere);
-	m_Models.push_back(spell);
+	m_Models.push_back(model0); // 0
+	m_Models.push_back(model1); // 1
+	m_Models.push_back(m_player); // 2
+	m_Models.push_back(meleeSphere); // 3
+	m_Models.push_back(spell); // 4
+	m_Models.push_back(pushable_cube0); // 5
+	m_Models.push_back(pushable_cube1); // 6
+	m_Models.push_back(cube_trigger0); // 7
+	m_Models.push_back(cube_trigger1); // 8
 
 	return S_OK;
 }
@@ -248,37 +298,37 @@ void Game::ShutdownD3D()
 		delete m_InputHandling;
 		m_InputHandling = nullptr;
 	}
-	for (int i = 0; i < m_Models.size(); i++)
+for (int i = 0; i < m_Models.size(); i++)
+{
+	if (m_Models[i])
 	{
-		if (m_Models[i])
-		{
-			delete m_Models[i];
-			m_Models[i] = nullptr;
-		}
+		delete m_Models[i];
+		m_Models[i] = nullptr;
 	}
-	if (m_Sprite)
-	{
-		delete m_Sprite;
-		m_Sprite = nullptr;
-	}
-	if (m_2DText0)
-	{
-		delete m_2DText0;
-		m_2DText0 = nullptr;
-	}
-	if (m_2DText1)
-	{
-		delete m_2DText1;
-		m_2DText1 = nullptr;
-	}
+}
+if (m_Sprite)
+{
+	delete m_Sprite;
+	m_Sprite = nullptr;
+}
+if (m_2DText0)
+{
+	delete m_2DText0;
+	m_2DText0 = nullptr;
+}
+if (m_2DText1)
+{
+	delete m_2DText1;
+	m_2DText1 = nullptr;
+}
 
-	if (m_pAlphaBlendEnable)	m_pAlphaBlendEnable->Release();
-	if (m_pAlphaBlendDisable)	m_pAlphaBlendDisable->Release();
-	if (m_pZBuffer)				m_pZBuffer->Release();
-	if (m_pBackBufferRTView)	m_pBackBufferRTView->Release();
-	if (m_pSwapChain)			m_pSwapChain->Release();
-	if (m_pImmediateContext)	m_pImmediateContext->Release();
-	if (m_pD3DDevice)			m_pD3DDevice->Release();
+if (m_pAlphaBlendEnable)	m_pAlphaBlendEnable->Release();
+if (m_pAlphaBlendDisable)	m_pAlphaBlendDisable->Release();
+if (m_pZBuffer)				m_pZBuffer->Release();
+if (m_pBackBufferRTView)	m_pBackBufferRTView->Release();
+if (m_pSwapChain)			m_pSwapChain->Release();
+if (m_pImmediateContext)	m_pImmediateContext->Release();
+if (m_pD3DDevice)			m_pD3DDevice->Release();
 }
 void Game::CollisionCheck()
 {
@@ -291,7 +341,8 @@ void Game::CollisionCheck()
 			if (m_Models[i]->IsActive() && m_Models[j]->IsActive() && m_Models[i]->CheckCollision(m_Models[j]))
 			{
 				// If both are constant they can't enter each other
-				if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == CONSTANT)
+				if ((m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == CONSTANT) ||
+					(m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == PUSHABLE))
 				{
 					// Ensure the player can't avoid collision by going sideways/backwards
 					if (m_Models[i] == m_player)
@@ -300,6 +351,17 @@ void Game::CollisionCheck()
 						if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
 						if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
 						if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
+
+						// The player can move pushable items
+						if (m_Models[j]->GetCollisionType() == PUSHABLE)
+						{
+							// Angle the pushable object according to the camera rotation
+							float dx = (float)sin(m_player->GetCameraRotation() * (XM_PI / 180.0));
+							float dz = (float)cos(m_player->GetCameraRotation() * (XM_PI / 180.0));
+							float yAngle = atan2(dx, dz) * (180.0 / XM_PI);
+							m_Models[j]->SetYAngle(yAngle);
+							m_Models[j]->MoveForward(1);
+						}
 					}
 					else
 					{
@@ -335,6 +397,17 @@ void Game::CollisionCheck()
 						m_Models[j]->OnCollision(m_Models[i]);
 					}
 				}
+				// If a pushable object is pushed into a constant object or another pushable it should jump back
+				else if ((m_Models[i]->GetCollisionType() == PUSHABLE && m_Models[j]->GetCollisionType() == CONSTANT) ||
+						(m_Models[i]->GetCollisionType() == PUSHABLE && m_Models[j]->GetCollisionType() == PUSHABLE))
+				{
+					m_Models[j]->MoveForward(-2);
+				}
+				// Pushable objects trigger triggers
+				else if (m_Models[i]->GetCollisionType() == TRIGGER && m_Models[j]->GetCollisionType() == PUSHABLE)
+				{
+					m_Models[i]->OnCollision(m_Models[j]);
+				}
 			}
 		}
 	}
@@ -352,6 +425,9 @@ void Game::RenderFrame(void)
 	projection = XMMatrixPerspectiveFovLH(XMConvertToRadians(90), 640.0 / 480.0, 1.0, 100.0);
 	view = m_player->GetViewMatrix();
 
+	// Add point lights
+	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
+
 	// Show Skybox
 	m_skybox->RenderSkybox(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
 
@@ -365,31 +441,18 @@ void Game::RenderFrame(void)
 	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_plane->RenderPlane(&view, &projection);
 
-#pragma region Models
-	// Enemy Sphere
-	m_Models[0]->AddAmbientLight(m_ambient_light_colour);
-	m_Models[0]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
-	m_Models[0]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_Models[0]->Draw(&view, &projection);
+	// Add lighting to and draw all models
+	for (int i = 0; i < m_Models.size(); i++)
+	{
+		if (m_Models[i]->IsActive())
+		{
+			m_Models[i]->AddAmbientLight(m_ambient_light_colour);
+			m_Models[i]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+			m_Models[i]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+			m_Models[i]->Draw(&view, &projection);
+		}
+	}
 
-	// Reflective Sphere
-	m_Models[1]->AddAmbientLight(m_ambient_light_colour);
-	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_Models[1]->Draw(&view, &projection);
-
-	// Player melee sphere
-	m_Models[3]->AddAmbientLight(m_ambient_light_colour);
-	m_Models[3]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_Models[3]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_Models[3]->Draw(&view, &projection);
-
-	// Player spell
-	m_Models[4]->AddAmbientLight(m_ambient_light_colour);
-	m_Models[4]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_Models[4]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_Models[4]->Draw(&view, &projection);
 	// Show particles
 	if (m_player->GetSpell()->IsActive())
 	{
@@ -398,7 +461,6 @@ void Game::RenderFrame(void)
 		m_particleGenerator->SetZ(m_player->GetSpell()->GetZ());
 		m_particleGenerator->Draw(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
 	}
-#pragma endregion
 
 	// Show UI Sprites
 	m_Sprite->RenderSprites();

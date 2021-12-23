@@ -32,6 +32,7 @@ enum COLLISION_TYPE
 	CONSTANT,
 	PICKUP,
 	TRIGGER,
+	PUSHABLE,
 	NUM_COLLISION_TYPES,
 };
 
@@ -165,7 +166,7 @@ public:
 	// Use the largest radius
 	float GetBoundingSphereRadius() { return m_bounding_sphere_radius * ((m_xScale > m_yScale) ? ((m_xScale > m_zScale) ? m_xScale : m_zScale) : ((m_yScale > m_zScale) ? m_yScale : m_zScale)); }
 	XMVECTOR GetBoundingSphereWorldSpacePosition();
-	bool CheckCollision(Model* other_model);
+	virtual bool CheckCollision(Model* other_model);
 	virtual void OnCollision(Model* other_model) {}
 
 	// Movement
