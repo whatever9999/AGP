@@ -237,47 +237,50 @@ void Model::AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_co
 
 void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
 {
-	XMMATRIX world = XMMatrixScaling(m_scale, m_scale, m_scale);
-	world *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
-	world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
-	world *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));
-	world *= XMMatrixTranslation(m_x, m_y, m_z);
-
-	MODEL_CONSTANT_BUFFER model_cb_values;
-	model_cb_values.WorldViewProjection = world * (*view) * (*projection);
-
-	MODEL_PIXEL_CONSTANT_BUFFER model_pcb_values;
-	// Lighting colours
-	model_pcb_values.point_light_colour = m_point_light_colour;
-	model_pcb_values.directional_light_colour = m_directional_light_colour;
-	model_pcb_values.ambient_light_colour = m_ambient_light_colour;
-	model_pcb_values.point_light_attenuation = m_point_light_attenuation;
-
-	// Lighting positions
-	XMMATRIX transpose = XMMatrixTranspose(world);
-	XMVECTOR determinant;
-	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
-	model_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
-	model_pcb_values.directional_light_vector = XMVector3Normalize(model_pcb_values.directional_light_vector);
-	model_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
-
-	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
-	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &model_cb_values, 0, 0);
-
-	m_pImmediateContext->PSSetConstantBuffers(0, 1, &m_pPixelConstantBuffer);
-	m_pImmediateContext->UpdateSubresource(m_pPixelConstantBuffer, 0, 0, &model_pcb_values, 0, 0);
-
-	m_pImmediateContext->VSSetShader(m_pVShader, 0, 0);
-	m_pImmediateContext->PSSetShader(m_pPShader, 0, 0);
-	m_pImmediateContext->IASetInputLayout(m_pInputLayout);
-
-	if (m_pTexture0 && m_pTexture1)
+	if (m_active)
 	{
-		m_pImmediateContext->PSSetSamplers(0, 1, &m_pSampler0);
-		m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTexture0);
-		m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-		m_pImmediateContext->PSSetShaderResources(1, 1, &m_pTexture1);
-	}
+		XMMATRIX world = XMMatrixScaling(m_scale, m_scale, m_scale);
+		world *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
+		world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
+		world *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));
+		world *= XMMatrixTranslation(m_x, m_y, m_z);
 
-	m_pObject->Draw();
+		MODEL_CONSTANT_BUFFER model_cb_values;
+		model_cb_values.WorldViewProjection = world * (*view) * (*projection);
+
+		MODEL_PIXEL_CONSTANT_BUFFER model_pcb_values;
+		// Lighting colours
+		model_pcb_values.point_light_colour = m_point_light_colour;
+		model_pcb_values.directional_light_colour = m_directional_light_colour;
+		model_pcb_values.ambient_light_colour = m_ambient_light_colour;
+		model_pcb_values.point_light_attenuation = m_point_light_attenuation;
+
+		// Lighting positions
+		XMMATRIX transpose = XMMatrixTranspose(world);
+		XMVECTOR determinant;
+		XMMATRIX inverse = XMMatrixInverse(&determinant, world);
+		model_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
+		model_pcb_values.directional_light_vector = XMVector3Normalize(model_pcb_values.directional_light_vector);
+		model_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
+
+		m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
+		m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &model_cb_values, 0, 0);
+
+		m_pImmediateContext->PSSetConstantBuffers(0, 1, &m_pPixelConstantBuffer);
+		m_pImmediateContext->UpdateSubresource(m_pPixelConstantBuffer, 0, 0, &model_pcb_values, 0, 0);
+
+		m_pImmediateContext->VSSetShader(m_pVShader, 0, 0);
+		m_pImmediateContext->PSSetShader(m_pPShader, 0, 0);
+		m_pImmediateContext->IASetInputLayout(m_pInputLayout);
+
+		if (m_pTexture0 && m_pTexture1)
+		{
+			m_pImmediateContext->PSSetSamplers(0, 1, &m_pSampler0);
+			m_pImmediateContext->PSSetShaderResources(0, 1, &m_pTexture0);
+			m_pImmediateContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+			m_pImmediateContext->PSSetShaderResources(1, 1, &m_pTexture1);
+		}
+
+		m_pObject->Draw();
+	}
 }

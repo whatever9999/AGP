@@ -51,6 +51,8 @@ protected:
 	XMVECTOR	m_point_light_colour;
 	XMFLOAT3	m_point_light_attenuation;
 
+	bool m_active = true;
+
 	char* m_vertex_shader;
 	char* m_pixel_shader;
 
@@ -112,6 +114,9 @@ public:
 	}
 
 	// Setters
+	void SetActive(bool active) { m_active = active; }
+	bool IsActive() { return m_active; }
+
 	void SetX(float x) { m_x = x; }
 	void SetY(float y) { m_y = y; }
 	void SetZ(float z) { m_z = z; }

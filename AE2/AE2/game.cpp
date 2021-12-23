@@ -256,7 +256,8 @@ void Game::CollisionCheck()
 	{
 		for (int j = 0; j < m_Models.size(); j++)
 		{
-			if (m_Models[i]->CheckCollision(m_Models[j]))
+			// Make sure both models are active when checking collisions
+			if (m_Models[i]->IsActive() && m_Models[j]->IsActive() && m_Models[i]->CheckCollision(m_Models[j]))
 			{
 				// Ensure the player can't avoid collision by going sideways/backwards
 				if (m_Models[i] == m_player)
@@ -302,6 +303,7 @@ void Game::RenderFrame(void)
 	m_2DText1->AddText("Bye world!", -1.0, -0.9, 0.08);
 	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
 
+#pragma region Models
 	// Pointy sphere following model 1
 	m_Models[0]->LookAt_XZ(m_Models[1]->GetX(), m_Models[1]->GetZ());
 	m_Models[0]->MoveForward(1);
@@ -320,11 +322,15 @@ void Game::RenderFrame(void)
 	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[1]->Draw(&view, &projection);
+#pragma endregion
 
 	// Show plane
 	m_plane->AddAmbientLight(m_ambient_light_colour);
 	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	if (m_Models[0]->IsActive())
+	{
+		m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	}
 	m_plane->RenderPlane(&view, &projection);
 
 	// Show particles
