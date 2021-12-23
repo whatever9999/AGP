@@ -115,11 +115,11 @@ public:
 		m_sight_range->SetCollisionType(TRIGGER);
 		m_sight_range->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 		m_sight_range->SetX(m_x);
-		m_sight_range->SetXScale(3.0f);
+		m_sight_range->SetXScale(10.0f);
 		m_sight_range->SetY(m_y);
-		m_sight_range->SetYScale(3.0f);
+		m_sight_range->SetYScale(10.0f);
 		m_sight_range->SetZ(m_z);
-		m_sight_range->SetZScale(3.0f);
+		m_sight_range->SetZScale(10.0f);
 	}
 	~Enemy()
 	{

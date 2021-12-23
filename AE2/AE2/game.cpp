@@ -161,7 +161,7 @@ HRESULT Game::InitialiseGame()
 	model0->SetXScale(0.5);
 	model0->SetYScale(0.5);
 	model0->SetZScale(0.5);
-	model0->SetSpeed(0.0002);
+	model0->SetSpeed(0.002);
 
 	ReflectiveModel* model1 = new ReflectiveModel(m_pD3DDevice, m_pImmediateContext);
 	model1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
@@ -310,8 +310,10 @@ void Game::CollisionCheck()
 							m_player->ChangeHealth(-20);
 							m_player->Forward(-5);
 						}
+						// If the enemy hits something else it should turn 90 degrees and jump back
 						else
 						{
+							m_Models[i]->SetYAngle(m_Models[i]->GetYAngle() + 90);
 							m_Models[i]->MoveForward(-1);
 						}
 					}
