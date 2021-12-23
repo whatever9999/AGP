@@ -500,10 +500,29 @@ void Game::RenderFrame(void)
 	}
 
 	// Health HUD
-	m_Sprite->AddBox(12, -1.0, 1.0, 0.1);
-	m_2DText1->RenderText();
-	m_2DText1->AddText("Health.." + std::to_string(m_player->GetHealth()) + "/" + std::to_string(m_player->GetMaxHealth()), -1.0, 1.0, 0.08);
-	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
+	if (m_player->IsActive())
+	{
+		m_Sprite->AddBox(12, -1.0, 1.0, 0.1);
+		m_2DText1->RenderText();
+		m_2DText1->AddText("Health.." + std::to_string(m_player->GetHealth()) + "/" + std::to_string(m_player->GetMaxHealth()), -1.0, 1.0, 0.08);
+		m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
+	}
+	// If the player died they lose
+	else if (m_player->GetHealth() <= 0)
+	{
+		m_Sprite->AddBox(8, -1.0, 1.0, 0.1);
+		m_2DText1->RenderText();
+		m_2DText1->AddText("Game Over", -1.0, 1.0, 0.08);
+		m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
+	}
+	// If the player is disabled but their health is above 0 they have won
+	else
+	{
+		m_Sprite->AddBox(11, -1.0, 1.0, 0.1);
+		m_2DText1->RenderText();
+		m_2DText1->AddText("Game Complete", -1.0, 1.0, 0.08);
+		m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
+	}
 
 	m_pSwapChain->Present(0, 0);
 }

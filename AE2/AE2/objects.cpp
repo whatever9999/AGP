@@ -89,7 +89,7 @@ void Door::OnCollision(Model* other_model)
 {
 	if (m_unlocked && other_model == m_player)
 	{
-		// TODO: Game Complete Screen
+		m_player->SetActive(false);
 	}
 }
 

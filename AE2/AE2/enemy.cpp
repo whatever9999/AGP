@@ -12,14 +12,14 @@ void Enemy::Update()
 	case PATROL:
 
 		// If player is in sight range and alive then persue them
-		if (m_sight_range->CheckCollision(m_player) && m_player->GetHealth() > 0)
+		if (m_sight_range->CheckCollision(m_player) && m_player->IsActive())
 		{
 			m_current_state = m_states[PERSUE];
 		}
 		break;
 	case PERSUE:
 		// If player is out of sight or dead then patrol
-		if (!m_sight_range->CheckCollision(m_player) || m_player->GetHealth() <= 0)
+		if (!m_sight_range->CheckCollision(m_player) || !m_player->IsActive())
 		{
 			m_current_state = m_states[PATROL];
 		}
