@@ -1,3 +1,5 @@
 ﻿  enemy.cpp
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\enemy.h(101,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\player.h(27,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\player.h(28,1): warning C4305: '=': truncation from 'double' to 'float'
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\enemy.h(132,21): warning C4018: '<': signed/unsigned mismatch
   DominiqueRussellAE2.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe

@@ -1,12 +1,14 @@
 #pragma once
 
-#include "entity.h"
+#include "player.h"
+
+// Forward Declaration
+class Enemy;
 
 enum STATE_TYPES
 {
 	PATROL,
 	PERSUE,
-	ATTACK,
 	NUM_STATE_TYPES,
 };
 
@@ -14,6 +16,7 @@ class State
 {
 protected:
 	STATE_TYPES m_state;
+	Enemy* m_enemy;
 public:
 	STATE_TYPES GetState() { return m_state; }
 
@@ -24,45 +27,51 @@ public:
 
 class PatrolState : public State
 {
+private:
+	float m_walk_timer = 0.0f;
+	float m_walk_time = 4.0f;
+	float m_time_previous = 0.0f;
 public:
-	PatrolState()
+	PatrolState(Enemy* enemy)
 	{
 		m_state = PATROL;
+		m_enemy = enemy;
 	}
 
+	void Enter() override;
 	void Update() override;
 };
 
 class PersueState : public State
 {
+private:
+	Player* m_player;
 public:
-	PersueState()
+	PersueState(Enemy* enemy, Player* player)
 	{
 		m_state = PERSUE;
+		m_enemy = enemy;
+		m_player = player;
 	}
 
 	void Update() override;
 };
 
-class AttackState : public State
-{
-public:
-	AttackState()
-	{
-		m_state = ATTACK;
-	}
 
-	void Update() override;
-};
-
-class Enemy : Entity
+class Enemy : public Entity
 {
 private:
 	State* m_current_state;
 	vector<State*> m_states;
+
+	Model* m_sight_range;
+
+	Player* m_player;
 public:
-	Enemy(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
+	Enemy(ID3D11Device* device, ID3D11DeviceContext* deviceContext, Player* player)
 	{
+		m_player = player;
+
 		m_D3DDevice = device;
 		m_pImmediateContext = deviceContext;
 
@@ -86,18 +95,40 @@ public:
 		m_current_health = m_max_health;
 
 		// FSM
-		PatrolState* patrol_state = new PatrolState();
+		PatrolState* patrol_state = new PatrolState(this);
 		m_states.push_back(patrol_state);
-		PersueState* persue_state = new PersueState();
+		PersueState* persue_state = new PersueState(this, m_player);
 		m_states.push_back(persue_state);
-		AttackState* attack_state = new AttackState();
-		m_states.push_back(attack_state);
 
 		// Start in patrol state
 		m_current_state = patrol_state;
+
+		// Setup melee sphere
+		m_melee_sphere = new MeleeSphere(device, deviceContext);
+		m_melee_sphere->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+		m_melee_sphere->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
+		m_melee_sphere->SetCollisionType(TRIGGER);
+		m_melee_sphere->SetActive(false);
+
+		// Set up sight/attack range checks
+		m_sight_range = new Model(device, deviceContext);
+		m_sight_range->SetCollisionType(TRIGGER);
+		m_sight_range->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+		m_sight_range->SetX(m_x);
+		m_sight_range->SetXScale(3.0f);
+		m_sight_range->SetY(m_y);
+		m_sight_range->SetYScale(3.0f);
+		m_sight_range->SetZ(m_z);
+		m_sight_range->SetZScale(3.0f);
 	}
 	~Enemy()
 	{
+		if (m_sight_range)
+		{
+			delete m_sight_range;
+			m_sight_range = nullptr;
+		}
+
 		for (int i = 0; i < m_states.size(); i++)
 		{
 			if (m_states[i])
@@ -124,3 +155,4 @@ public:
 
 	void Update() override;
 };
+

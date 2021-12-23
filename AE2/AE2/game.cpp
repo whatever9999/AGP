@@ -1,5 +1,7 @@
 #include "game.h"
 
+#include "enemy.h"
+
 HRESULT Game::InitialiseD3D()
 {
 	HRESULT hr = S_OK;
@@ -132,6 +134,10 @@ HRESULT Game::InitialiseGame()
 {
 	HRESULT hr = S_OK;
 
+	// Create player
+	m_player = new Player(m_pD3DDevice, m_pImmediateContext, 0.0, 0.0, -5.0, 0.0, 0.0);
+	m_player->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+
 	// Add plane
 	m_plane = new Plane(m_pD3DDevice, m_pImmediateContext);
 	m_plane->LoadPlane((char*)"assets/BoxTexture.bmp");
@@ -148,7 +154,7 @@ HRESULT Game::InitialiseGame()
 	m_skybox->LoadSkybox((char*)"assets/skybox02.dds");
 
 	// Add models to scene
-	Entity* model0 = new Entity(m_pD3DDevice, m_pImmediateContext);
+	Enemy* model0 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	model0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	model0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 	model0->SetX(-40);
@@ -163,17 +169,9 @@ HRESULT Game::InitialiseGame()
 	model1->SetX(-10);
 	model1->SetSpeed(0.0001);
 
-	m_Models.push_back(model0);
-	m_Models.push_back(model1);
-
 	// Create particle generator
 	m_particleGenerator = new ParticleGenerator(m_pD3DDevice, m_pImmediateContext);
 	m_particleGenerator->Setup();
-
-	// Create player
-	m_player = new Player(m_pD3DDevice, m_pImmediateContext, 0.0, 0.0, -5.0, 0.0, 0.0);
-	m_player->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	m_Models.push_back(m_player);
 
 	// Player Melee
 	MeleeSphere* meleeSphere = new MeleeSphere(m_pD3DDevice, m_pImmediateContext);
@@ -182,7 +180,6 @@ HRESULT Game::InitialiseGame()
 	meleeSphere->SetCollisionType(TRIGGER);
 	meleeSphere->SetActive(false);
 	m_player->SetMeleeSphere(meleeSphere);
-	m_Models.push_back(meleeSphere);
 
 	// Player Spell
 	Spell* spell = new Spell(m_pD3DDevice, m_pImmediateContext);
@@ -192,7 +189,6 @@ HRESULT Game::InitialiseGame()
 	spell->SetActive(false);
 	spell->SetSpeed(0.05);
 	m_player->SetSpell(spell);
-	m_Models.push_back(spell);
 
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
@@ -208,6 +204,13 @@ HRESULT Game::InitialiseGame()
 
 	// Set directional light rotation vector
 	m_rotate_directional_light = XMMatrixIdentity();
+
+	// Add models to list
+	m_Models.push_back(model0);
+	m_Models.push_back(model1);
+	m_Models.push_back(m_player);
+	m_Models.push_back(meleeSphere);
+	m_Models.push_back(spell);
 
 	return S_OK;
 }
@@ -300,7 +303,17 @@ void Game::CollisionCheck()
 					}
 					else
 					{
-						m_Models[i]->MoveForward(-1);
+						// If an enemy has hit the player they should damage them and the player should be pushed back
+						Enemy* enemy = static_cast<Enemy*>(m_Models[i]);
+						if (enemy && m_Models[j] == m_player)
+						{
+							m_player->ChangeHealth(-20);
+							m_player->Forward(-5);
+						}
+						else
+						{
+							m_Models[i]->MoveForward(-1);
+						}
 					}
 				}
 				// If the player collides with a pick up they pick it up
@@ -351,20 +364,14 @@ void Game::RenderFrame(void)
 	m_plane->RenderPlane(&view, &projection);
 
 #pragma region Models
-	// Pointy sphere following model 1
-	m_Models[0]->LookAt_XZ(m_Models[1]->GetX(), m_Models[1]->GetZ());
-	m_Models[0]->MoveForward(1);
-	CollisionCheck();
+	// Enemy Sphere
 	m_Models[0]->AddAmbientLight(m_ambient_light_colour);
 	m_Models[0]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
 	m_Models[0]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[0]->Draw(&view, &projection);
 
-	// Pointy sphere following model 0
-	m_Models[1]->LookAt_XZ(m_Models[0]->GetX(), m_Models[0]->GetZ());
-	m_Models[1]->MoveForward(1);
-	CollisionCheck();
+	// Reflective Sphere
 	m_Models[1]->AddAmbientLight(m_ambient_light_colour);
 	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
