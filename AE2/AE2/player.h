@@ -6,6 +6,10 @@
 class Player : public Camera
 {
 private:
+	Spell* m_spell;
+	float m_spell_time_previous = 0.0f;
+	float m_spell_timer = 0.0f;
+	float m_spell_time = 1.0f;
 public:
 	Player(ID3D11Device* device, ID3D11DeviceContext* deviceContext, float x, float y, float z, float camera_rotation, float camera_pitch)
 	{
@@ -63,7 +67,7 @@ public:
 		if (m_pPShader)			m_pPShader->Release();
 	}
 
-	void Update();
+	void Update() override;
 
 	// Health System
 	int GetMaxHealth() { return m_max_health; }
@@ -71,4 +75,6 @@ public:
 
 	// Attack System
 	void SpellAttack();
+	void SetSpell(Spell* spell) { m_spell = spell; }
+	Spell* GetSpell() { return m_spell; }
 };

@@ -47,9 +47,9 @@ public:
 		m_yScale = 0.3f;
 		m_zScale = 0.3f;
 		m_timePrevious = float(timeGetTime()/1000.0f);
-		m_untilParticle = 0.2f;
+		m_untilParticle = 0.001f;
 		m_untilParticleTimer = m_untilParticle;
-		m_age = 5.0f;
+		m_age = 1.0f;
 
 		m_D3DDevice = device;
 		m_pImmediateContext = deviceContext;

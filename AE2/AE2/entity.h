@@ -59,7 +59,7 @@ public:
 		if (m_pPShader)			m_pPShader->Release();
 	}
 
-	void Update();
+	void Update() override;
 
 	int GetHealth() { return m_current_health; }
 	void ChangeHealth(int amount);

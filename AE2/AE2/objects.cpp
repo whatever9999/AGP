@@ -16,3 +16,19 @@ void MeleeSphere::OnCollision(Model* other_model)
 		}
 	}
 }
+
+void Spell::Update()
+{
+	MoveForward(1);
+}
+// When the spell hits an enemy disable it and damage the enemy
+void Spell::OnCollision(Model* other_model)
+{
+	SetActive(false);
+
+	Entity* enemy = static_cast<Entity*>(other_model);
+	if (enemy)
+	{
+		enemy->ChangeHealth(-m_damage);
+	}
+}

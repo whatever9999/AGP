@@ -27,10 +27,10 @@ void ParticleGenerator::Update()
 			if (m_free.size() != NULL)
 			{
 				m_untilParticleTimer = m_untilParticle;
-				(*it)->color = XMFLOAT4(RandomZeroToOne(), RandomZeroToOne(), RandomZeroToOne(), 1.0f);
+				(*it)->color = XMFLOAT4(RandomZeroToOne(), 0.0f, 0.0f, 1.0f);
 				(*it)->gravity = 2.5f;
-				(*it)->position = XMFLOAT3(0.0f, -6.0f, 12.0f);
-				(*it)->velocity = XMFLOAT3(RandomNegOneToPosOne(), 4.50f, RandomNegOneToPosOne());
+				(*it)->position = XMFLOAT3(0.0f, 0.0f, 0.0f);
+				(*it)->velocity = XMFLOAT3(RandomNegOneToPosOne(), 10.0f, RandomNegOneToPosOne());
 				(*it)->age = 0.0f;
 
 				m_active.push_back(*it);
@@ -217,7 +217,8 @@ void ParticleGenerator::DrawOne(Particle* one, XMMATRIX* view, XMMATRIX* project
 	// Ensure the particles face the camera
 	LookAt_XZ(camera_x, camera_z);
 	world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
-	world *= XMMatrixTranslation(one->position.x, one->position.y, one->position.z);
+	world *= XMMatrixTranslation(m_x, m_y, m_z);
+	world *= XMMatrixTranslation(one->position.x / 2, one->position.y / 2, one->position.z / 2);
 
 	PARTICLEGENERATOR_CONSTANT_BUFFER particlegenerator_cb_values;
 	particlegenerator_cb_values.WorldViewProjection = world * (*view) * (*projection);

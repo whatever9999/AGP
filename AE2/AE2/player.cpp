@@ -15,6 +15,31 @@ void Player::Update()
 	float swordYAngle = atan2(dx, dz) * (180.0 / XM_PI);
 	m_melee_sphere->SetYAngle(swordYAngle);
 
+	// Null reference check for spell
+	if (m_spell)
+	{
+		// Disable the spell if it's out of time
+		if (m_spell->IsActive())
+		{
+			float timeNow = float(timeGetTime() / 1000.0f);
+			float deltaTime = timeNow - m_spell_time_previous;
+			m_spell_time_previous = timeNow;
+			m_spell_timer += deltaTime;
+
+			if (m_spell_timer >= m_spell_time)
+			{
+				m_spell->SetActive(false);
+				m_spell_timer = 0.0f;
+			}
+		}
+		else
+		{
+			// Angle the spell according to the camera rotation
+			// Only do this if the spell isn't active as we don't want it to move while shooting
+			m_spell->SetYAngle(swordYAngle);
+		}
+	}
+
 	Entity::Update();
 }
 
@@ -34,5 +59,9 @@ void Player::ChangeHealth(int amount)
 
 void Player::SpellAttack()
 {
-
+	// The spell comes from the player's position
+	m_spell->SetX(m_x);
+	m_spell->SetY(m_y);
+	m_spell->SetZ(m_z);
+	m_spell->SetActive(true);
 }

@@ -184,6 +184,16 @@ HRESULT Game::InitialiseGame()
 	m_player->SetMeleeSphere(meleeSphere);
 	m_Models.push_back(meleeSphere);
 
+	// Player Spell
+	Spell* spell = new Spell(m_pD3DDevice, m_pImmediateContext);
+	spell->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	spell->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
+	spell->SetCollisionType(TRIGGER);
+	spell->SetActive(false);
+	spell->SetSpeed(0.05);
+	m_player->SetSpell(spell);
+	m_Models.push_back(spell);
+
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
 	m_directional_light_colour = XMVectorSet(2.0f, 2.0f, 2.0f, 0.0f);
@@ -209,8 +219,14 @@ void Game::GameLoop()
 	m_InputHandling->HandleInput(m_hWnd, m_player);
 	CollisionCheck();
 
-	// Update Camera
-	m_player->Update();
+	// Update objects (including player)
+	for (int i = 0; i < m_Models.size(); i++)
+	{
+		if (m_Models[i] && m_Models[i]->IsActive())
+		{
+			m_Models[i]->Update();
+		}
+	}
 
 	// Render
 	RenderFrame();
@@ -296,9 +312,10 @@ void Game::CollisionCheck()
 				// If a constant object is in a trigger then it's triggered
 				else if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == TRIGGER)
 				{
-					// Ensure player melee attack doesn't affect player
+					// Ensure player melee attack doesn't affect player, likewise for the spell
 					bool player_and_their_melee_sphere = (m_Models[i] == m_player->GetMeleeSphere() && m_Models[j] == m_player) || (m_Models[j] == m_player->GetMeleeSphere() && m_Models[i] == m_player);
-					if (!player_and_their_melee_sphere)
+					bool player_and_their_spell = (m_Models[i] == m_player->GetSpell() && m_Models[j] == m_player) || (m_Models[j] == m_player->GetSpell() && m_Models[i] == m_player);
+					if (!player_and_their_melee_sphere && !player_and_their_spell)
 					{
 						m_Models[j]->OnCollision(m_Models[i]);
 					}
@@ -322,6 +339,16 @@ void Game::RenderFrame(void)
 
 	// Show Skybox
 	m_skybox->RenderSkybox(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
+
+	// Show plane
+	m_plane->AddAmbientLight(m_ambient_light_colour);
+	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+	if (!m_Models[0]->IsActive())
+	{
+		m_point_light_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	m_plane->RenderPlane(&view, &projection);
 
 #pragma region Models
 	// Pointy sphere following model 1
@@ -348,20 +375,21 @@ void Game::RenderFrame(void)
 	m_Models[3]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_Models[3]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[3]->Draw(&view, &projection);
-#pragma endregion
 
-	// Show plane
-	m_plane->AddAmbientLight(m_ambient_light_colour);
-	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	if (!m_Models[0]->IsActive())
-	{
-		m_point_light_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
-	}
-	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
-	m_plane->RenderPlane(&view, &projection);
-
+	// Player spell
+	m_Models[4]->AddAmbientLight(m_ambient_light_colour);
+	m_Models[4]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+	m_Models[4]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	m_Models[4]->Draw(&view, &projection);
 	// Show particles
-	m_particleGenerator->Draw(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
+	if (m_player->GetSpell()->IsActive())
+	{
+		m_particleGenerator->SetX(m_player->GetSpell()->GetX());
+		m_particleGenerator->SetY(m_player->GetSpell()->GetY());
+		m_particleGenerator->SetZ(m_player->GetSpell()->GetZ());
+		m_particleGenerator->Draw(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
+	}
+#pragma endregion
 
 	// Show UI Sprites
 	m_Sprite->RenderSprites();

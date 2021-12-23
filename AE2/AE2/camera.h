@@ -33,7 +33,7 @@ protected:
 public:
 	Camera() = default;
 	Camera(float x, float y, float z, float camera_rotation, float camera_pitch);
-	void Update();
+	void Update() override;
 
 	float GetX() { return m_x; }
 	float GetY() { return m_y; }

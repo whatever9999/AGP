@@ -127,6 +127,8 @@ public:
 		if (m_pPShader)				m_pPShader->Release();
 	}
 
+	virtual void Update() {};
+
 	// Setters
 	// Reset collision started when disabling/enabling
 	void SetActive(bool active) { m_active = active; m_collision_started = false; }
