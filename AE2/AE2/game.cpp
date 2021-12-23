@@ -163,12 +163,6 @@ HRESULT Game::InitialiseGame()
 	model0->SetZScale(0.5);
 	model0->SetSpeed(0.002);
 
-	ReflectiveModel* model1 = new ReflectiveModel(m_pD3DDevice, m_pImmediateContext);
-	model1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
-	model1->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
-	model1->SetX(-10);
-	model1->SetSpeed(0.0001);
-
 	// Create particle generator
 	m_particleGenerator = new ParticleGenerator(m_pD3DDevice, m_pImmediateContext);
 	m_particleGenerator->Setup();
@@ -251,6 +245,17 @@ HRESULT Game::InitialiseGame()
 	door->AddCubeTrigger(cube_trigger1);
 #pragma endregion
 
+#pragma region Life Pickups
+	LifePickup* life_pickup0 = new LifePickup(m_pD3DDevice, m_pImmediateContext, m_player);
+	life_pickup0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
+	life_pickup0->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
+	life_pickup0->SetX(5);
+	life_pickup0->SetZ(-20);
+	life_pickup0->SetY(-2);
+	life_pickup0->SetCollisionType(PICKUP);
+#pragma endregion
+
+
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
 	m_directional_light_colour = XMVectorSet(2.0f, 2.0f, 2.0f, 0.0f);
@@ -268,15 +273,15 @@ HRESULT Game::InitialiseGame()
 
 	// Add models to list
 	m_Models.push_back(model0); // 0
-	m_Models.push_back(model1); // 1
-	m_Models.push_back(m_player); // 2
-	m_Models.push_back(meleeSphere); // 3
-	m_Models.push_back(spell); // 4
-	m_Models.push_back(pushable_cube0); // 5
-	m_Models.push_back(pushable_cube1); // 6
-	m_Models.push_back(cube_trigger0); // 7
-	m_Models.push_back(cube_trigger1); // 8
-	m_Models.push_back(door); // 9
+	m_Models.push_back(m_player); // 1
+	m_Models.push_back(meleeSphere); // 2
+	m_Models.push_back(spell); // 3
+	m_Models.push_back(pushable_cube0); // 4
+	m_Models.push_back(pushable_cube1); // 5
+	m_Models.push_back(cube_trigger0); // 6
+	m_Models.push_back(cube_trigger1); // 7
+	m_Models.push_back(door); // 8
+	m_Models.push_back(life_pickup0); // 9
 
 	return S_OK;
 }

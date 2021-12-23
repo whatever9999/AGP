@@ -92,3 +92,19 @@ void Door::OnCollision(Model* other_model)
 		// TODO: Game Complete Screen
 	}
 }
+
+// Rotate for extra effect
+void LifePickup::Update()
+{
+	m_yAngle += 0.1;
+}
+// Increase player health on pickup
+void LifePickup::OnCollision(Model* other_model)
+{
+	if (other_model == m_player)
+	{
+		Entity* player = static_cast<Entity*>(m_player);
+		player->ChangeHealth(m_health_amount);
+		SetActive(false);
+	}
+}

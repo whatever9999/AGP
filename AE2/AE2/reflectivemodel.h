@@ -7,6 +7,7 @@ class ReflectiveModel : public Model
 protected:
 	HRESULT Setup();
 public:
+	ReflectiveModel() = default;
 	ReflectiveModel(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
 	{
 		m_D3DDevice = device;
