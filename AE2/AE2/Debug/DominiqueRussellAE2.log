@@ -1,21 +1,3 @@
-﻿  game.cpp
-  C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\um\dinput.h: DIRECTINPUT_VERSION undefined. Defaulting to version 0x0800
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\player.h(27,1): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\player.h(28,1): warning C4305: '=': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(158,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(164,25): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(193,22): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(223,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(248,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(283,20): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(285,21): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(296,72): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(297,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(298,70): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(299,71): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(337,89): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(400,38): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(402,49): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(406,37): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\game.cpp(408,137): warning C4305: 'argument': truncation from 'double' to 'float'
+﻿  enemy.cpp
+C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\enemy.h(101,21): warning C4018: '<': signed/unsigned mismatch
   DominiqueRussellAE2.vcxproj -> C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Debug\DominiqueRussellAE2.exe
