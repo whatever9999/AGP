@@ -63,13 +63,14 @@ protected:
 
 	// Collision
 	COLLISION_TYPE m_collision_type = CONSTANT;
+	bool m_collision_started = false;
 
 	char* m_vertex_shader;
 	char* m_pixel_shader;
 
 	float m_x, m_y, m_z;
 	float m_xAngle, m_yAngle, m_zAngle;
-	float m_scale;
+	float m_xScale, m_yScale, m_zScale;
 
 	// Bounding Sphere Variables
 	float m_bounding_sphere_centre_x;
@@ -104,7 +105,9 @@ public:
 		m_xAngle = 0.0f; 
 		m_yAngle = 0.0f; 
 		m_zAngle = 0.0f;
-		m_scale = 1.0f;
+		m_xScale = 1.0f;
+		m_yScale = 1.0f;
+		m_zScale = 1.0f;
 	}
 	~Model()
 	{
@@ -125,7 +128,8 @@ public:
 	}
 
 	// Setters
-	void SetActive(bool active) { m_active = active; }
+	// Reset collision started when disabling/enabling
+	void SetActive(bool active) { m_active = active; m_collision_started = false; }
 	bool IsActive() { return m_active; }
 
 	void SetCollisionType(COLLISION_TYPE type) { m_collision_type = type; }
@@ -137,7 +141,9 @@ public:
 	void SetXAngle(float x_angle) { m_xAngle = x_angle; }
 	void SetYAngle(float y_angle) { m_yAngle = y_angle; }
 	void SetZAngle(float z_angle) { m_zAngle = z_angle; }
-	void SetScale(float scale) { m_scale = scale; }
+	void SetXScale(float scale) { m_xScale = scale; }
+	void SetYScale(float scale) { m_yScale = scale; }
+	void SetZScale(float scale) { m_zScale = scale; }
 	// Getters
 	float GetX() { return m_x; }
 	float GetY() { return m_y; }
@@ -145,25 +151,20 @@ public:
 	float GetXAngle() { return m_xAngle; }
 	float GetYAngle() { return m_yAngle; }
 	float GetZAngle() { return m_zAngle; }
-	float GetScale() { return m_scale; }
-	// Incrementors
-	float IncX(float amount) { m_x += amount; }
-	float IncY(float amount) { m_y += amount; }
-	float IncZ(float amount) { m_z += amount; }
-	float IncXAngle(float amount) { m_xAngle += amount; }
-	float IncYAngle(float amount) { m_yAngle += amount; }
-	float IncZAngle(float amount) { m_zAngle += amount; }
-	float IncScale(float amount) { m_scale += amount; }
+	float GetXScale() { return m_xScale; }
+	float GetYScale() { return m_yScale; }
+	float GetZScale() { return m_zScale; }
 
 	// Orienting
 	void LookAt_XZ(float x, float z);
 	void MoveForward(float multiplier);
 
 	// Collision
-	float GetBoundingSphereRadius() { return m_bounding_sphere_radius * m_scale; }
+	// Use the largest radius
+	float GetBoundingSphereRadius() { return m_bounding_sphere_radius * ((m_xScale > m_yScale) ? ((m_xScale > m_zScale) ? m_xScale : m_zScale) : ((m_yScale > m_zScale) ? m_yScale : m_zScale)); }
 	XMVECTOR GetBoundingSphereWorldSpacePosition();
 	bool CheckCollision(Model* other_model);
-	void OnCollision(Model* other_model) {}
+	virtual void OnCollision(Model* other_model) {}
 
 	// Movement
 	void SetSpeed(float speed) { m_speed = speed; }

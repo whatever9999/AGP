@@ -43,7 +43,9 @@ public:
 		m_isActive = true;
 
 		// Set important values
-		m_scale = 0.3f;
+		m_xScale = 0.3f;
+		m_yScale = 0.3f;
+		m_zScale = 0.3f;
 		m_timePrevious = float(timeGetTime()/1000.0f);
 		m_untilParticle = 0.2f;
 		m_untilParticleTimer = m_untilParticle;

@@ -21,10 +21,12 @@ public:
 		m_x = 0.0f;
 		m_y = 0.0f;
 		m_z = 0.0f;
-		m_xAngle = 0.0f;
+		m_xAngle = -30.0f;
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
-		m_scale = 1.0f;
+		m_xScale = 0.1f;
+		m_yScale = 0.1f;
+		m_zScale = 2.0f;
 	}
 	~MeleeSphere()
 	{
@@ -46,5 +48,5 @@ public:
 
 	void SetDamage(int damage) { m_damage = damage; }
 
-	void OnCollision(Model* other_model);
+	void OnCollision(Model* other_model) override;
 };

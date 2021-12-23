@@ -35,7 +35,9 @@ public:
 		m_xAngle = 0.0f;
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
-		m_scale = 1.0f;
+		m_xScale = 1.0f;
+		m_yScale = 1.0f;
+		m_zScale = 1.0f;
 
 		// Health System
 		m_current_health = m_max_health;
@@ -66,4 +68,5 @@ public:
 	bool IsAttacking() { return m_is_attacking; }
 	void MeleeAttack();
 	void SetMeleeSphere(MeleeSphere* melee_sphere) { m_melee_sphere = melee_sphere; }
+	MeleeSphere* GetMeleeSphere() { return m_melee_sphere; }
 };

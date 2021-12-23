@@ -5,9 +5,16 @@ void Player::Update()
 	Camera::Update();
 
 	// Melee Attack
-	m_melee_sphere->SetX(m_x + 10);
-	m_melee_sphere->SetY(m_y);
+	m_melee_sphere->SetX(m_x);
+	m_melee_sphere->SetY(m_y - 1.0f);
 	m_melee_sphere->SetZ(m_z);
+
+	// Angle the sword according to the camera rotation
+	float dx = (float)sin(m_camera_rotation * (XM_PI / 180.0));
+	float dz = (float)cos(m_camera_rotation * (XM_PI / 180.0));
+	float swordYAngle = atan2(dx, dz) * (180.0 / XM_PI);
+	m_melee_sphere->SetYAngle(swordYAngle);
+
 	Entity::Update();
 }
 

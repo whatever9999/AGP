@@ -152,7 +152,9 @@ HRESULT Game::InitialiseGame()
 	model0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	model0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 	model0->SetX(-40);
-	model0->SetScale(0.5);
+	model0->SetXScale(0.5);
+	model0->SetYScale(0.5);
+	model0->SetZScale(0.5);
 	model0->SetSpeed(0.0002);
 
 	ReflectiveModel* model1 = new ReflectiveModel(m_pD3DDevice, m_pImmediateContext);
@@ -175,8 +177,10 @@ HRESULT Game::InitialiseGame()
 
 	// Player Melee
 	MeleeSphere* meleeSphere = new MeleeSphere(m_pD3DDevice, m_pImmediateContext);
-	model0->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	meleeSphere->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
+	meleeSphere->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
 	meleeSphere->SetCollisionType(TRIGGER);
+	meleeSphere->SetActive(false);
 	m_player->SetMeleeSphere(meleeSphere);
 	m_Models.push_back(meleeSphere);
 
@@ -203,6 +207,7 @@ void Game::GameLoop()
 	// Handle Input
 	m_InputHandling->ReadInputStates();
 	m_InputHandling->HandleInput(m_hWnd, m_player);
+	CollisionCheck();
 
 	// Update Camera
 	m_player->Update();
@@ -291,8 +296,12 @@ void Game::CollisionCheck()
 				// If a constant object is in a trigger then it's triggered
 				else if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == TRIGGER)
 				{
-					// Set triggered state to true
-					m_Models[j]->OnCollision(m_Models[i]);
+					// Ensure player melee attack doesn't affect player
+					bool player_and_their_melee_sphere = (m_Models[i] == m_player->GetMeleeSphere() && m_Models[j] == m_player) || (m_Models[j] == m_player->GetMeleeSphere() && m_Models[i] == m_player);
+					if (!player_and_their_melee_sphere)
+					{
+						m_Models[j]->OnCollision(m_Models[i]);
+					}
 				}
 			}
 		}
@@ -334,17 +343,21 @@ void Game::RenderFrame(void)
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[1]->Draw(&view, &projection);
 
-	// Melee Sphere
-
+	// Player melee sphere
+	m_Models[3]->AddAmbientLight(m_ambient_light_colour);
+	m_Models[3]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+	m_Models[3]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	m_Models[3]->Draw(&view, &projection);
 #pragma endregion
 
 	// Show plane
 	m_plane->AddAmbientLight(m_ambient_light_colour);
 	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-	if (m_Models[0]->IsActive())
+	if (!m_Models[0]->IsActive())
 	{
-		m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+		m_point_light_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	}
+	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_plane->RenderPlane(&view, &projection);
 
 	// Show particles
@@ -356,9 +369,9 @@ void Game::RenderFrame(void)
 	// Attacking HUD Notif
 	if (m_player->IsAttacking())
 	{
-		m_Sprite->AddBox(8, -1.0, -0.9, 0.1);
+		m_Sprite->AddBox(6, -1.0, -0.9, 0.1);
 		m_2DText0->RenderText();
-		m_2DText0->AddText("Attacking!", -1.0, -0.9, 0.08);
+		m_2DText0->AddText("Attack!", -1.0, -0.9, 0.08);
 	}
 
 	// Health HUD

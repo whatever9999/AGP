@@ -159,7 +159,7 @@ void Model::MoveForward(float multiplier)
 
 XMVECTOR Model::GetBoundingSphereWorldSpacePosition()
 {
-	XMMATRIX world = XMMatrixScaling(m_scale, m_scale, m_scale);
+	XMMATRIX world = XMMatrixScaling(m_xScale, m_yScale, m_zScale);
 	world *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
 	world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
 	world *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));
@@ -239,7 +239,7 @@ void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
 {
 	if (m_active)
 	{
-		XMMATRIX world = XMMatrixScaling(m_scale, m_scale, m_scale);
+		XMMATRIX world = XMMatrixScaling(m_xScale, m_yScale, m_zScale);
 		world *= XMMatrixRotationX(XMConvertToRadians(m_xAngle));
 		world *= XMMatrixRotationY(XMConvertToRadians(m_yAngle));
 		world *= XMMatrixRotationZ(XMConvertToRadians(m_zAngle));

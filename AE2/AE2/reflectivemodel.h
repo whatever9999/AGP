@@ -24,7 +24,9 @@ public:
 		m_xAngle = 0.0f;
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
-		m_scale = 1.0f;
+		m_xScale = 1.0f;
+		m_yScale = 1.0f;
+		m_zScale = 1.0f;
 	}
 	~ReflectiveModel()
 	{
