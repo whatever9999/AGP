@@ -39,6 +39,9 @@ public:
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
 		m_scale = 1.0f;
+
+		// HEALTH SYSTEM
+		m_current_health = m_max_health;
 	}
 	~Player()
 	{
@@ -56,4 +59,8 @@ public:
 		if (m_pInputLayout)		m_pInputLayout->Release();
 		if (m_pPShader)			m_pPShader->Release();
 	}
+
+	int GetMaxHealth() { return m_max_health; }
+
+	void ChangeHealth(int amount);
 };

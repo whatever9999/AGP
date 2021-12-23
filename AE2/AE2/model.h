@@ -27,6 +27,14 @@ struct MODEL_PIXEL_CONSTANT_BUFFER // 96 bytes
 	float packing_1;
 };
 
+enum COLLISION_TYPE
+{
+	CONSTANT,
+	PICKUP,
+	TRIGGER,
+	NUM_COLLISION_TYPES,
+};
+
 class Model
 {
 protected:
@@ -52,6 +60,9 @@ protected:
 	XMFLOAT3	m_point_light_attenuation;
 
 	bool m_active = true;
+
+	// Collision
+	COLLISION_TYPE m_collision_type = CONSTANT;
 
 	char* m_vertex_shader;
 	char* m_pixel_shader;
@@ -117,6 +128,9 @@ public:
 	void SetActive(bool active) { m_active = active; }
 	bool IsActive() { return m_active; }
 
+	void SetCollisionType(COLLISION_TYPE type) { m_collision_type = type; }
+	COLLISION_TYPE GetCollisionType() { return m_collision_type; }
+
 	void SetX(float x) { m_x = x; }
 	void SetY(float y) { m_y = y; }
 	void SetZ(float z) { m_z = z; }
@@ -149,6 +163,7 @@ public:
 	float GetBoundingSphereRadius() { return m_bounding_sphere_radius * m_scale; }
 	XMVECTOR GetBoundingSphereWorldSpacePosition();
 	bool CheckCollision(Model* other_model);
+	void OnCollision(Model* other_model) {}
 
 	// Movement
 	void SetSpeed(float speed) { m_speed = speed; }

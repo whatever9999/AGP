@@ -259,17 +259,33 @@ void Game::CollisionCheck()
 			// Make sure both models are active when checking collisions
 			if (m_Models[i]->IsActive() && m_Models[j]->IsActive() && m_Models[i]->CheckCollision(m_Models[j]))
 			{
-				// Ensure the player can't avoid collision by going sideways/backwards
-				if (m_Models[i] == m_player)
+				// If both are constant they can't enter each other
+				if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == CONSTANT)
 				{
-					if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
-					if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
-					if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
-					if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
+					// Ensure the player can't avoid collision by going sideways/backwards
+					if (m_Models[i] == m_player)
+					{
+						if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
+						if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
+						if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
+						if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
+					}
+					else
+					{
+						m_Models[i]->MoveForward(-1);
+					}
 				}
-				else
+				// If the player collides with a pick up they pick it up
+				else if (m_Models[i] == m_player && m_Models[j]->GetCollisionType() == PICKUP)
 				{
-					m_Models[i]->MoveForward(-1);
+					// TODO: Increase player health and disable object
+					m_Models[j]->OnCollision(m_player);
+				}
+				// If a constant object is in a trigger then it's triggered
+				else if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == TRIGGER)
+				{
+					// Set triggered state to true
+					m_Models[j]->OnCollision(m_player);
 				}
 			}
 		}
@@ -290,18 +306,6 @@ void Game::RenderFrame(void)
 
 	// Show Skybox
 	m_skybox->RenderSkybox(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
-
-	// Show UI Sprites
-	m_Sprite->RenderSprites();
-	m_Sprite->AddBox(9, -1.0, 1.0, 0.1);
-	m_Sprite->AddBox(8, -1.0, -0.9, 0.1);
-
-	// Show 2D Text with transparent background
-	m_2DText0->RenderText();
-	m_2DText0->AddText("Hello world", -1.0, 1.0, 0.08);
-	m_2DText1->RenderText();
-	m_2DText1->AddText("Bye world!", -1.0, -0.9, 0.08);
-	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
 
 #pragma region Models
 	// Pointy sphere following model 1
@@ -335,6 +339,15 @@ void Game::RenderFrame(void)
 
 	// Show particles
 	m_particleGenerator->Draw(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
+
+	// Show UI Sprites
+	m_Sprite->RenderSprites();
+	m_Sprite->AddBox(12, -1.0, 1.0, 0.1);
+
+	// Show 2D Text with transparent background
+	m_2DText1->RenderText();
+	m_2DText1->AddText("Health.." + std::to_string(m_player->GetHealth()) + "/" + std::to_string(m_player->GetMaxHealth()), -1.0, 1.0, 0.08);
+	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);
 
 	m_pSwapChain->Present(0, 0);
 }

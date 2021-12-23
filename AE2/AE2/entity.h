@@ -4,7 +4,9 @@
 
 class Entity : public Model
 {
-private:
+protected:
+	int m_current_health;
+	int m_max_health = 100;
 public:
 	Entity() = default;
 	Entity(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
@@ -25,6 +27,9 @@ public:
 		m_yAngle = 0.0f;
 		m_zAngle = 0.0f;
 		m_scale = 1.0f;
+
+		// Health System
+		m_current_health = m_max_health;
 	}
 	~Entity()
 	{
@@ -42,4 +47,7 @@ public:
 		if (m_pInputLayout)		m_pInputLayout->Release();
 		if (m_pPShader)			m_pPShader->Release();
 	}
+
+	int GetHealth() { return m_current_health; }
+	void ChangeHealth(int amount);
 };
