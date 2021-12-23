@@ -137,7 +137,7 @@ HRESULT Game::InitialiseGame()
 	m_plane->LoadPlane((char*)"assets/BoxTexture.bmp");
 
 	// Setup 2D Text
-	m_2DText0 = new Text2D("assets/font1.png", m_pD3DDevice, m_pImmediateContext);
+	m_2DText0 = new Text2D("assets/font2.png", m_pD3DDevice, m_pImmediateContext);
 	m_2DText1 = new Text2D("assets/font2.png", m_pD3DDevice, m_pImmediateContext);
 
 	// Setup UI Sprites
@@ -172,6 +172,13 @@ HRESULT Game::InitialiseGame()
 	m_player = new Player(m_pD3DDevice, m_pImmediateContext, 0.0, 0.0, -5.0, 0.0, 0.0);
 	m_player->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	m_Models.push_back(m_player);
+
+	// Player Melee
+	MeleeSphere* meleeSphere = new MeleeSphere(m_pD3DDevice, m_pImmediateContext);
+	model0->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	meleeSphere->SetCollisionType(TRIGGER);
+	m_player->SetMeleeSphere(meleeSphere);
+	m_Models.push_back(meleeSphere);
 
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
@@ -285,7 +292,7 @@ void Game::CollisionCheck()
 				else if (m_Models[i]->GetCollisionType() == CONSTANT && m_Models[j]->GetCollisionType() == TRIGGER)
 				{
 					// Set triggered state to true
-					m_Models[j]->OnCollision(m_player);
+					m_Models[j]->OnCollision(m_Models[i]);
 				}
 			}
 		}
@@ -326,6 +333,9 @@ void Game::RenderFrame(void)
 	m_Models[1]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	m_Models[1]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
 	m_Models[1]->Draw(&view, &projection);
+
+	// Melee Sphere
+
 #pragma endregion
 
 	// Show plane
@@ -342,9 +352,17 @@ void Game::RenderFrame(void)
 
 	// Show UI Sprites
 	m_Sprite->RenderSprites();
-	m_Sprite->AddBox(12, -1.0, 1.0, 0.1);
+	
+	// Attacking HUD Notif
+	if (m_player->IsAttacking())
+	{
+		m_Sprite->AddBox(8, -1.0, -0.9, 0.1);
+		m_2DText0->RenderText();
+		m_2DText0->AddText("Attacking!", -1.0, -0.9, 0.08);
+	}
 
-	// Show 2D Text with transparent background
+	// Health HUD
+	m_Sprite->AddBox(12, -1.0, 1.0, 0.1);
 	m_2DText1->RenderText();
 	m_2DText1->AddText("Health.." + std::to_string(m_player->GetHealth()) + "/" + std::to_string(m_player->GetMaxHealth()), -1.0, 1.0, 0.08);
 	m_pImmediateContext->OMSetBlendState(m_pAlphaBlendDisable, 0, 0xffffffff);

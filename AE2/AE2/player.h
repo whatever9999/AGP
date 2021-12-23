@@ -1,6 +1,7 @@
 #pragma once
 
 #include "camera.h"
+#include "objects.h"
 
 class Player : public Camera
 {
@@ -60,7 +61,12 @@ public:
 		if (m_pPShader)			m_pPShader->Release();
 	}
 
-	int GetMaxHealth() { return m_max_health; }
+	void Update();
 
+	// Health System
+	int GetMaxHealth() { return m_max_health; }
 	void ChangeHealth(int amount);
+
+	// Attack System
+	void SpellAttack();
 };

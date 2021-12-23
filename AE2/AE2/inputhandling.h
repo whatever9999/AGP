@@ -1,7 +1,7 @@
 #pragma once
 
 #include <dinput.h>
-#include "camera.h"
+#include "player.h"
 
 class InputHandling
 {
@@ -45,7 +45,7 @@ public:
 	void ShutdownInput();
 	
 	void ReadInputStates();
-	void HandleInput(HWND hWnd, Camera* camera);
+	void HandleInput(HWND hWnd, Player* player);
 
 	bool IsKeyPressed(unsigned char DI_keycode);
 	bool IsMouseChanged(MOUSE_INPUT mouse_input);

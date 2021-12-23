@@ -93,38 +93,39 @@ void InputHandling::ReadInputStates()
 		}
 	}
 }
-void InputHandling::HandleInput(HWND hWnd, Camera* camera)
+void InputHandling::HandleInput(HWND hWnd, Player* player)
 {
 	// Exit
 	if (IsKeyPressed(DIK_ESCAPE)) DestroyWindow(hWnd);
 
 	// Keyboard Movement
-	if (IsKeyPressed(DIK_W)) camera->Forward(0.02);
-	if (IsKeyPressed(DIK_S)) camera->Forward(-0.02);
-	if (IsKeyPressed(DIK_D)) camera->Strafe(-0.02);
-	if (IsKeyPressed(DIK_A)) camera->Strafe(0.02);
+	if (IsKeyPressed(DIK_W)) player->Forward(0.02);
+	if (IsKeyPressed(DIK_S)) player->Forward(-0.02);
+	if (IsKeyPressed(DIK_D)) player->Strafe(-0.02);
+	if (IsKeyPressed(DIK_A)) player->Strafe(0.02);
 
-	if (IsKeyPressed(DIK_Z)) camera->Up(0.02);
-	if (IsKeyPressed(DIK_X)) camera->Up(-0.02);
+	if (IsKeyPressed(DIK_Z)) player->Up(0.02);
+	if (IsKeyPressed(DIK_X)) player->Up(-0.02);
 
-	if (IsKeyPressed(DIK_UP)) camera->Pitch(0.04);
-	if (IsKeyPressed(DIK_DOWN)) camera->Pitch(-0.04);
-	if (IsKeyPressed(DIK_Q)) camera->Rotate(-0.05);
-	if (IsKeyPressed(DIK_E)) camera->Rotate(0.05);
+	if (IsKeyPressed(DIK_UP)) player->Pitch(0.04);
+	if (IsKeyPressed(DIK_DOWN)) player->Pitch(-0.04);
+	if (IsKeyPressed(DIK_Q)) player->Rotate(-0.05);
+	if (IsKeyPressed(DIK_E)) player->Rotate(0.05);
 
 	// Mouse Movement
 	//if (IsMouseChanged(Y_POSITIVE)) camera->Pitch(-1.5);
 	//if (IsMouseChanged(Y_NEGATIVE)) camera->Pitch(1.5);
-	if (IsMouseChanged(X_POSITIVE)) camera->Rotate(2);
-	if (IsMouseChanged(X_NEGATIVE)) camera->Rotate(-2);
+	if (IsMouseChanged(X_POSITIVE)) player->Rotate(2);
+	if (IsMouseChanged(X_NEGATIVE)) player->Rotate(-2);
 
-	// Buttons (don't trigger when held)
+#pragma region Buttons
+	// Jump
 	if (!m_button_pressed[JUMP])
 	{
 		// Only allow jump if we're on the floor
-		if (IsKeyPressed(DIK_SPACE) && camera->GetY() < 0.1)
+		if (IsKeyPressed(DIK_SPACE) && player->GetY() < 0.1)
 		{
-			camera->Jump();
+			player->Jump();
 			m_button_pressed[JUMP] = true;
 		}
 	}
@@ -135,6 +136,39 @@ void InputHandling::HandleInput(HWND hWnd, Camera* camera)
 			m_button_pressed[JUMP] = false;
 		}
 	}
+	// Melee Attack
+	if (!m_button_pressed[MELEE_ATTACK])
+	{
+		if (IsMouseChanged(LEFT_BUTTON) && !player->IsAttacking())
+		{
+			player->MeleeAttack();
+			m_button_pressed[MELEE_ATTACK] = true;
+		}
+	}
+	else
+	{
+		if (!IsMouseChanged(LEFT_BUTTON))
+		{
+			m_button_pressed[MELEE_ATTACK] = false;
+		}
+	}
+	// Spell Attack
+	if (!m_button_pressed[SPELL_ATTACK])
+	{
+		if (IsMouseChanged(RIGHT_BUTTON))
+		{
+			player->SpellAttack();
+			m_button_pressed[SPELL_ATTACK] = true;
+		}
+	}
+	else
+	{
+		if (!IsMouseChanged(RIGHT_BUTTON))
+		{
+			m_button_pressed[SPELL_ATTACK] = false;
+		}
+	}
+#pragma endregion
 }
 
 bool InputHandling::IsKeyPressed(unsigned char DI_keycode)

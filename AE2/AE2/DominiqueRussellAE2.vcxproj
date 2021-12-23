@@ -167,6 +167,7 @@
     <ClCompile Include="inputhandling.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="model.cpp" />
+    <ClCompile Include="objects.cpp" />
     <ClCompile Include="objfilemodel.cpp" />
     <ClCompile Include="cube.cpp" />
     <ClCompile Include="particlegenerator.cpp" />
@@ -271,6 +272,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="inputhandling.h" />
     <ClInclude Include="model.h" />
+    <ClInclude Include="objects.h" />
     <ClInclude Include="objfilemodel.h" />
     <ClInclude Include="cube.h" />
     <ClInclude Include="particlegenerator.h" />

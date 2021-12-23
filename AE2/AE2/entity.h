@@ -1,12 +1,21 @@
 #pragma once
 
 #include "model.h"
+#include "objects.h"
 
 class Entity : public Model
 {
 protected:
+	// Health System
 	int m_current_health;
 	int m_max_health = 100;
+
+	// Attack System
+	MeleeSphere* m_melee_sphere;
+	bool m_is_attacking = false;
+	float m_attacking_timer = 0.0f;
+	float m_attack_time = 1.0f;
+	float m_time_previous = 0.0f;
 public:
 	Entity() = default;
 	Entity(ID3D11Device* device, ID3D11DeviceContext* deviceContext)
@@ -48,6 +57,13 @@ public:
 		if (m_pPShader)			m_pPShader->Release();
 	}
 
+	void Update();
+
 	int GetHealth() { return m_current_health; }
 	void ChangeHealth(int amount);
+
+	// Attack System
+	bool IsAttacking() { return m_is_attacking; }
+	void MeleeAttack();
+	void SetMeleeSphere(MeleeSphere* melee_sphere) { m_melee_sphere = melee_sphere; }
 };
