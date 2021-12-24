@@ -162,7 +162,7 @@ HRESULT Game::InitialiseGame()
 	// Player Melee
 	MeleeSphere* meleeSphere = new MeleeSphere(m_pD3DDevice, m_pImmediateContext);
 	meleeSphere->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	meleeSphere->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
+	meleeSphere->AddTextures((char*)"assets/sword.bmp", (char*)"assets/sword.bmp");
 	meleeSphere->SetCollisionType(TRIGGER);
 	meleeSphere->SetActive(false);
 	m_player->SetMeleeSphere(meleeSphere);
@@ -170,7 +170,7 @@ HRESULT Game::InitialiseGame()
 	// Player Spell
 	Spell* spell = new Spell(m_pD3DDevice, m_pImmediateContext);
 	spell->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	spell->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
+	spell->AddTextures((char*)"assets/spell.bmp", (char*)"assets/spell.bmp");
 	spell->SetCollisionType(TRIGGER);
 	spell->SetActive(false);
 	spell->SetSpeed(0.05);
@@ -290,7 +290,6 @@ HRESULT Game::InitialiseGame()
 	life_pickup1->SetY(-3);
 	life_pickup1->SetCollisionType(PICKUP);
 #pragma endregion
-
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
 	m_directional_light_colour = XMVectorSet(2.0f, 2.0f, 2.0f, 0.0f);

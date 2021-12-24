@@ -47,6 +47,7 @@ public:
 	void Strafe(float distance);
 
 	void Jump();
+	void Dash();
 
 	float GetCameraRotation() { return m_camera_rotation; }
 	XMMATRIX GetViewMatrix();

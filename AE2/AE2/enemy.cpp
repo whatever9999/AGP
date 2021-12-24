@@ -42,6 +42,34 @@ void Enemy::Update()
 	}
 }
 
+void Enemy::MoveForward(float multiplier)
+{
+	m_x += sin(m_yAngle * (XM_PI / 180.0)) * m_speed * multiplier;
+	m_z += cos(m_yAngle * (XM_PI / 180.0)) * m_speed * multiplier;
+
+	// If the enemy tries to go out of bounds turn them and jump them back
+	if (m_x > 50)
+	{
+		m_x = 49;
+		m_yAngle += 90;
+	}
+	if (m_x < -50)
+	{
+		m_x = -49; 
+		m_yAngle += 90;
+	}
+	if (m_z > 50)
+	{
+		m_z = 49; 
+		m_yAngle += 90;
+	}
+	if (m_z < -50)
+	{
+		m_z = -49; 
+		m_yAngle += 90;
+	}
+}
+
 void PatrolState::Enter()
 {
 	// Ensure the walk timer is reset

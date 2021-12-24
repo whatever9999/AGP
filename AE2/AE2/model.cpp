@@ -155,6 +155,12 @@ void Model::MoveForward(float multiplier)
 {
 	m_x += sin(m_yAngle * (XM_PI / 180.0)) * m_speed * multiplier;
 	m_z += cos(m_yAngle * (XM_PI / 180.0)) * m_speed * multiplier;
+
+	// Ensure the model doesn't go out of bounds
+	if (m_x > 45) m_x = 45;
+	if (m_x < -45) m_x = -45;
+	if (m_z > 45) m_z = 45;
+	if (m_z < -45) m_z = -45;
 }
 
 XMVECTOR Model::GetBoundingSphereWorldSpacePosition()

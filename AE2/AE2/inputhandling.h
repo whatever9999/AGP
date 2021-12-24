@@ -24,7 +24,7 @@ private:
 
 	enum BUTTONS
 	{
-		JUMP,
+		DASH,
 		MELEE_ATTACK,
 		SPELL_ATTACK,
 		NUM_BUTTONS,

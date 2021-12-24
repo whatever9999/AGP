@@ -147,5 +147,7 @@ public:
 	}
 
 	void Update() override;
+
+	void MoveForward(float multiplier) override;
 };
 

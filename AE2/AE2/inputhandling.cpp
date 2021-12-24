@@ -107,36 +107,36 @@ void InputHandling::HandleInput(HWND hWnd, Player* player)
 		if (IsKeyPressed(DIK_D)) player->Strafe(-0.02);
 		if (IsKeyPressed(DIK_A)) player->Strafe(0.02);
 
-		if (IsKeyPressed(DIK_Z)) player->Up(0.02);
-		if (IsKeyPressed(DIK_X)) player->Up(-0.02);
+		// Additional camera functionality has been commented out as it's not necessary for the game but is useful for testing
+		//if (IsKeyPressed(DIK_Z)) player->Up(0.02);
+		//if (IsKeyPressed(DIK_X)) player->Up(-0.02);
 
-		if (IsKeyPressed(DIK_UP)) player->Pitch(0.04);
-		if (IsKeyPressed(DIK_DOWN)) player->Pitch(-0.04);
-		if (IsKeyPressed(DIK_Q)) player->Rotate(-0.05);
-		if (IsKeyPressed(DIK_E)) player->Rotate(0.05);
+		//if (IsKeyPressed(DIK_UP)) player->Pitch(0.04);
+		//if (IsKeyPressed(DIK_DOWN)) player->Pitch(-0.04);
+		//if (IsKeyPressed(DIK_Q)) player->Rotate(-0.05);
+		//if (IsKeyPressed(DIK_E)) player->Rotate(0.05);
 
 		// Mouse Movement
-		//if (IsMouseChanged(Y_POSITIVE)) camera->Pitch(-1.5);
-		//if (IsMouseChanged(Y_NEGATIVE)) camera->Pitch(1.5);
+		//if (IsMouseChanged(Y_POSITIVE)) player->Pitch(-1.5);
+		//if (IsMouseChanged(Y_NEGATIVE)) player->Pitch(1.5);
 		if (IsMouseChanged(X_POSITIVE)) player->Rotate(2);
 		if (IsMouseChanged(X_NEGATIVE)) player->Rotate(-2);
 
 #pragma region Buttons
-		// Jump
-		if (!m_button_pressed[JUMP])
+		// Dash
+		if (!m_button_pressed[DASH])
 		{
-			// Only allow jump if we're on the floor
-			if (IsKeyPressed(DIK_SPACE) && player->GetY() < 0.1)
+			if (IsKeyPressed(DIK_SPACE))
 			{
-				player->Jump();
-				m_button_pressed[JUMP] = true;
+				player->Dash();
+				m_button_pressed[DASH] = true;
 			}
 		}
 		else
 		{
 			if (!IsKeyPressed(DIK_SPACE))
 			{
-				m_button_pressed[JUMP] = false;
+				m_button_pressed[DASH] = false;
 			}
 		}
 		// Melee Attack

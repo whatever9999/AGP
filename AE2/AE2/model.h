@@ -183,7 +183,7 @@ public:
 
 	// Orienting
 	void LookAt_XZ(float x, float z);
-	void MoveForward(float multiplier);
+	virtual void MoveForward(float multiplier);
 
 	// Collision
 	// Use the largest radius

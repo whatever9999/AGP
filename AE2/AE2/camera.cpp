@@ -59,6 +59,12 @@ void Camera::Forward(float distance)
 {
 	m_x += distance * m_dx;
 	m_z += distance * m_dz;
+
+	// Ensure the player doesn't go out of bounds
+	if (m_x > 50) m_x = 50;
+	if (m_x < -50) m_x = -50;
+	if (m_z > 50) m_z = 50;
+	if (m_z < -50) m_z = -50;
 }
 void Camera::Up(float distance)
 {
@@ -71,11 +77,21 @@ void Camera::Strafe(float distance)
 	XMVECTOR right = XMVector3Cross(forward, m_up);
 	m_x += XMVectorGetX(right) * distance;
 	m_z += XMVectorGetZ(right) * distance;
+
+	// Ensure the player doesn't go out of bounds
+	if (m_x > 50) m_x = 50;
+	if (m_x < -50) m_x = -50;
+	if (m_z > 50) m_z = 50;
+	if (m_z < -50) m_z = -50;
 }
 
 void Camera::Jump()
 {
 	m_jumping = true;
+}
+void Camera::Dash()
+{
+	Forward(10);
 }
 
 XMMATRIX Camera::GetViewMatrix()
