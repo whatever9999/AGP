@@ -6,6 +6,8 @@
 #include <windows.h>
 #include <dxerr.h>
 
+#include <vector>
+
 #define _XM_NO_INTRINSICS_
 #define XM_NO_ALIGNMENT
 #include <DirectXMath.h>
@@ -31,9 +33,10 @@ private:
 	XMVECTOR	m_directional_light_colour;
 	XMVECTOR	m_ambient_light_colour;
 	XMMATRIX	m_rotate_directional_light;
-	XMVECTOR	m_point_light_position;
-	XMVECTOR	m_point_light_colour;
-	XMFLOAT3	m_point_light_attenuation;
+	// POINT LIGHTS
+	std::vector<XMVECTOR> m_point_light_positions;
+	std::vector<XMVECTOR> m_point_light_colours;
+	std::vector<XMFLOAT3> m_point_light_attenuations;
 
 	HRESULT Setup();
 public:
@@ -67,6 +70,7 @@ public:
 	void AddDirectionalLight(XMVECTOR directional_light_shines_from, XMVECTOR directional_light_colour, XMMATRIX rotate_directional_light);
 	void AddAmbientLight(XMVECTOR ambient_light_colour);
 	void AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_colour, XMFLOAT3 point_light_attenuation);
+	void ClearPointLights();
 
 	void RenderPlane(XMMATRIX* view, XMMATRIX* projection);
 };

@@ -13,15 +13,37 @@ struct PLANE_CONSTANT_BUFFER // 64 bytes
 {
 	XMMATRIX WorldViewProjection;
 };
-struct PLANE_PIXEL_CONSTANT_BUFFER // 96 bytes
+struct PLANE_PIXEL_CONSTANT_BUFFER // 288 bytes
 {
 	XMVECTOR directional_light_vector;
 	XMVECTOR directional_light_colour;
 	XMVECTOR ambient_light_colour;
-	XMVECTOR point_light_position;
-	XMVECTOR point_light_colour;
-	XMFLOAT3 point_light_attenuation;
+
+	// POINT LIGHTS
+	XMVECTOR point_light0_position;
+	XMVECTOR point_light0_colour;
+	XMFLOAT3 point_light0_attenuation;
+	float packing_0;
+
+	XMVECTOR point_light1_position;
+	XMVECTOR point_light1_colour;
+	XMFLOAT3 point_light1_attenuation;
 	float packing_1;
+
+	XMVECTOR point_light2_position;
+	XMVECTOR point_light2_colour;
+	XMFLOAT3 point_light2_attenuation;
+	float packing_2;
+
+	XMVECTOR point_light3_position;
+	XMVECTOR point_light3_colour;
+	XMFLOAT3 point_light3_attenuation;
+	float packing_3;
+
+	XMVECTOR point_light4_position;
+	XMVECTOR point_light4_colour;
+	XMFLOAT3 point_light4_attenuation;
+	float packing_4;
 };
 
 HRESULT Plane::Setup()
@@ -174,7 +196,7 @@ HRESULT Plane::Setup()
 	D3D11_BUFFER_DESC pixel_constant_buffer_desc;
 	ZeroMemory(&pixel_constant_buffer_desc, sizeof(pixel_constant_buffer_desc));
 	pixel_constant_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	pixel_constant_buffer_desc.ByteWidth = 96;
+	pixel_constant_buffer_desc.ByteWidth = 288;
 	pixel_constant_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	hr = m_D3DDevice->CreateBuffer(&pixel_constant_buffer_desc, NULL, &m_pPixelConstantBuffer);
 
@@ -220,9 +242,15 @@ void Plane::AddAmbientLight(XMVECTOR ambient_light_colour)
 }
 void Plane::AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_colour, XMFLOAT3 point_light_attenuation)
 {
-	m_point_light_position = point_light_position;
-	m_point_light_colour = point_light_colour;
-	m_point_light_attenuation = point_light_attenuation;
+	m_point_light_positions.push_back(point_light_position);
+	m_point_light_colours.push_back(point_light_colour);
+	m_point_light_attenuations.push_back(point_light_attenuation);
+}
+void Plane::ClearPointLights()
+{
+	m_point_light_positions.clear();
+	m_point_light_colours.clear();
+	m_point_light_attenuations.clear();
 }
 
 void Plane::RenderPlane(XMMATRIX* view, XMMATRIX* projection)
@@ -235,21 +263,49 @@ void Plane::RenderPlane(XMMATRIX* view, XMMATRIX* projection)
 	PLANE_CONSTANT_BUFFER plane_cb_values;
 	plane_cb_values.WorldViewProjection = world * (*view) * (*projection);
 
+	// LIGHTING
 	PLANE_PIXEL_CONSTANT_BUFFER plane_pcb_values;
-	// Lighting colours
-	plane_pcb_values.point_light_colour = m_point_light_colour;
+
+	XMMATRIX transpose = XMMatrixTranspose(world);
 	plane_pcb_values.directional_light_colour = m_directional_light_colour;
 	plane_pcb_values.ambient_light_colour = m_ambient_light_colour;
-	plane_pcb_values.point_light_attenuation = m_point_light_attenuation;
-
-	// Lighting positions
-	XMMATRIX transpose = XMMatrixTranspose(world);
 	plane_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
 	plane_pcb_values.directional_light_vector = XMVector3Normalize(plane_pcb_values.directional_light_vector);
 
+#pragma region Point Lights
 	XMVECTOR determinant;
 	XMMATRIX inverse = XMMatrixInverse(&determinant, world);
-	plane_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
+	if (m_point_light_colours.size() >= 1)
+	{
+		plane_pcb_values.point_light0_colour = m_point_light_colours[0];
+		plane_pcb_values.point_light0_attenuation = m_point_light_attenuations[0];
+		plane_pcb_values.point_light0_position = XMVector3Transform(m_point_light_positions[0], inverse);
+	}
+	if (m_point_light_colours.size() >= 2)
+	{
+		plane_pcb_values.point_light1_colour = m_point_light_colours[1];
+		plane_pcb_values.point_light1_attenuation = m_point_light_attenuations[1];
+		plane_pcb_values.point_light1_position = XMVector3Transform(m_point_light_positions[1], inverse);
+	}
+	if (m_point_light_colours.size() >= 3)
+	{
+		plane_pcb_values.point_light2_colour = m_point_light_colours[2];
+		plane_pcb_values.point_light2_attenuation = m_point_light_attenuations[2];
+		plane_pcb_values.point_light2_position = XMVector3Transform(m_point_light_positions[2], inverse);
+	}
+	if (m_point_light_colours.size() >= 4)
+	{
+		plane_pcb_values.point_light3_colour = m_point_light_colours[3];
+		plane_pcb_values.point_light3_attenuation = m_point_light_attenuations[3];
+		plane_pcb_values.point_light3_position = XMVector3Transform(m_point_light_positions[3], inverse);
+	}
+	if (m_point_light_colours.size() >= 5)
+	{
+		plane_pcb_values.point_light4_colour = m_point_light_colours[4];
+		plane_pcb_values.point_light4_attenuation = m_point_light_attenuations[4];
+		plane_pcb_values.point_light4_position = XMVector3Transform(m_point_light_positions[4], inverse);
+	}
+#pragma endregion
 
 	m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 	m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &plane_cb_values, 0, 0);

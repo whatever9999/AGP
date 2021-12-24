@@ -57,9 +57,26 @@ private:
 	XMVECTOR					m_directional_light_colour;
 	XMVECTOR					m_ambient_light_colour;
 	XMMATRIX					m_rotate_directional_light;
-	XMVECTOR					m_point_light_position;
-	XMVECTOR					m_point_light_colour;
-	XMFLOAT3					m_point_light_attenuation;
+	// POINT LIGHTS
+	XMVECTOR					m_point_light0_position;
+	XMVECTOR					m_point_light0_colour;
+	XMFLOAT3					m_point_light0_attenuation;
+
+	XMVECTOR					m_point_light1_position;
+	XMVECTOR					m_point_light1_colour;
+	XMFLOAT3					m_point_light1_attenuation;
+
+	XMVECTOR					m_point_light2_position;
+	XMVECTOR					m_point_light2_colour;
+	XMFLOAT3					m_point_light2_attenuation;
+
+	XMVECTOR					m_point_light3_position;
+	XMVECTOR					m_point_light3_colour;
+	XMFLOAT3					m_point_light3_attenuation;
+
+	XMVECTOR					m_point_light4_position;
+	XMVECTOR					m_point_light4_colour;
+	XMFLOAT3					m_point_light4_attenuation;
 public:
 	HRESULT InitialiseD3D();
 	HRESULT InitialiseGame();

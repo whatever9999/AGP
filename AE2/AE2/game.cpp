@@ -153,16 +153,6 @@ HRESULT Game::InitialiseGame()
 	m_skybox = new Skybox(m_pD3DDevice, m_pImmediateContext);
 	m_skybox->LoadSkybox((char*)"assets/skybox02.dds");
 
-	// Add models to scene
-	Enemy* model0 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
-	model0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	model0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	model0->SetX(-40);
-	model0->SetXScale(0.5);
-	model0->SetYScale(0.5);
-	model0->SetZScale(0.5);
-	model0->SetSpeed(0.002);
-
 	// Create particle generator
 	m_particleGenerator = new ParticleGenerator(m_pD3DDevice, m_pImmediateContext);
 	m_particleGenerator->Setup();
@@ -183,6 +173,36 @@ HRESULT Game::InitialiseGame()
 	spell->SetActive(false);
 	spell->SetSpeed(0.05);
 	m_player->SetSpell(spell);
+
+#pragma region Enemies
+	Enemy* enemy0 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
+	enemy0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	enemy0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy0->SetX(-40);
+	enemy0->SetXScale(0.5);
+	enemy0->SetYScale(0.5);
+	enemy0->SetZScale(0.5);
+	enemy0->SetSpeed(0.002);
+
+	Enemy* enemy1 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
+	enemy1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	enemy1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy1->SetZ(-40);
+	enemy1->SetXScale(0.5);
+	enemy1->SetYScale(0.5);
+	enemy1->SetZScale(0.5);
+	enemy1->SetSpeed(0.002);
+
+	Enemy* enemy2 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
+	enemy2->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	enemy2->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy2->SetX(-20);
+	enemy2->SetZ(30);
+	enemy2->SetXScale(0.5);
+	enemy2->SetYScale(0.5);
+	enemy2->SetZScale(0.5);
+	enemy2->SetSpeed(0.002);
+#pragma endregion
 
 #pragma region Pushable Cubes
 	Model* pushable_cube0 = new Model(m_pD3DDevice, m_pImmediateContext);
@@ -263,16 +283,30 @@ HRESULT Game::InitialiseGame()
 	// Set ambient light strength
 	m_ambient_light_colour = XMVectorSet(0.2f, 0.2f, 0.2f, 1.0f);
 
+#pragma region Point Lights
 	// Set point light colour_pos and attenuation values
-	m_point_light_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light0_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
 	// Don't set values to zero as we use them to divide
-	m_point_light_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	m_point_light0_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	m_point_light1_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light1_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	m_point_light2_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light2_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	m_point_light3_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light3_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+
+	m_point_light4_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light4_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
+#pragma endregion
 
 	// Set directional light rotation vector
 	m_rotate_directional_light = XMMatrixIdentity();
 
 	// Add models to list
-	m_Models.push_back(model0); // 0
+	m_Models.push_back(enemy0); // 0
 	m_Models.push_back(m_player); // 1
 	m_Models.push_back(meleeSphere); // 2
 	m_Models.push_back(spell); // 3
@@ -282,6 +316,8 @@ HRESULT Game::InitialiseGame()
 	m_Models.push_back(cube_trigger1); // 7
 	m_Models.push_back(door); // 8
 	m_Models.push_back(life_pickup0); // 9
+	m_Models.push_back(enemy1); // 10
+	m_Models.push_back(enemy2); // 11
 
 	return S_OK;
 }
@@ -452,7 +488,11 @@ void Game::RenderFrame(void)
 	view = m_player->GetViewMatrix();
 
 	// Add point lights
-	m_point_light_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
+	m_point_light0_position = XMVectorSet(m_Models[0]->GetX(), -4.0f, m_Models[0]->GetZ(), 0.0f);
+	m_point_light1_position = XMVectorSet(m_Models[6]->GetX(), -4.0f, m_Models[6]->GetZ(), 0.0f);
+	m_point_light2_position = XMVectorSet(m_Models[7]->GetX(), -4.0f, m_Models[7]->GetZ(), 0.0f);
+	m_point_light3_position = XMVectorSet(m_Models[10]->GetX(), -4.0f, m_Models[10]->GetZ(), 0.0f);
+	m_point_light4_position = XMVectorSet(m_Models[11]->GetX(), -4.0f, m_Models[11]->GetZ(), 0.0f);
 
 	// Show Skybox
 	m_skybox->RenderSkybox(&view, &projection, m_player->GetX(), m_player->GetY(), m_player->GetZ());
@@ -462,9 +502,14 @@ void Game::RenderFrame(void)
 	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
 	if (!m_Models[0]->IsActive())
 	{
-		m_point_light_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+		m_point_light0_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	}
-	m_plane->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+	m_plane->ClearPointLights();
+	m_plane->AddPointLight(m_point_light0_position, m_point_light0_colour, m_point_light0_attenuation);
+	m_plane->AddPointLight(m_point_light1_position, m_point_light1_colour, m_point_light1_attenuation);
+	m_plane->AddPointLight(m_point_light2_position, m_point_light2_colour, m_point_light2_attenuation);
+	m_plane->AddPointLight(m_point_light3_position, m_point_light3_colour, m_point_light3_attenuation);
+	m_plane->AddPointLight(m_point_light4_position, m_point_light4_colour, m_point_light4_attenuation);
 	m_plane->RenderPlane(&view, &projection);
 
 	// Add lighting to and draw all models
@@ -474,7 +519,7 @@ void Game::RenderFrame(void)
 		{
 			m_Models[i]->AddAmbientLight(m_ambient_light_colour);
 			m_Models[i]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
-			m_Models[i]->AddPointLight(m_point_light_position, m_point_light_colour, m_point_light_attenuation);
+			m_Models[i]->AddPointLight(m_point_light0_position, m_point_light0_colour, m_point_light0_attenuation);
 			m_Models[i]->Draw(&view, &projection);
 		}
 	}
