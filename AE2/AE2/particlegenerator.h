@@ -19,8 +19,8 @@ class ParticleGenerator : public Model
 protected:
 	ID3D11Buffer* m_pVertexBuffer;
 
-	ID3D11RasterizerState* m_pRasterSolid = 0;
-	ID3D11RasterizerState* m_pRasterParticle = 0;
+	ID3D11RasterizerState* m_pRasterSolid;
+	ID3D11RasterizerState* m_pRasterParticle;
 
 	float m_timePrevious;
 	float m_untilParticleTimer;
@@ -81,12 +81,6 @@ public:
 			Particle* particle = m_active.front();
 			m_active.pop_front();
 			delete particle;
-		}
-
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
 		}
 
 		if (m_pRasterSolid)			m_pRasterSolid->Release();

@@ -26,10 +26,10 @@ private:
 	ID3D11ShaderResourceView* m_pTexture0;
 	ID3D11SamplerState* m_pSampler0;
 
-	ID3D11RasterizerState* m_pRasterSolid = 0;
-	ID3D11RasterizerState* m_pRasterSkyBox = 0;
-	ID3D11DepthStencilState* m_pDepthWriteSolid = 0;
-	ID3D11DepthStencilState* m_pDepthWriteSkybox = 0;
+	ID3D11RasterizerState* m_pRasterSolid;
+	ID3D11RasterizerState* m_pRasterSkyBox;
+	ID3D11DepthStencilState* m_pDepthWriteSolid;
+	ID3D11DepthStencilState* m_pDepthWriteSkybox;
 
 	HRESULT Setup();
 public:
