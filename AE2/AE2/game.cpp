@@ -142,7 +142,7 @@ HRESULT Game::InitialiseGame()
 
 	// Add plane
 	m_plane = new Plane(m_pD3DDevice, m_pImmediateContext);
-	m_plane->LoadPlane((char*)"assets/BoxTexture.bmp");
+	m_plane->LoadPlane((char*)"assets/Plane.bmp");
 
 	// Setup 2D Text
 	m_2DText0 = new Text2D("assets/font2.png", m_pD3DDevice, m_pImmediateContext);
@@ -179,7 +179,7 @@ HRESULT Game::InitialiseGame()
 #pragma region Enemies
 	Enemy* enemy0 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	enemy0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy0->AddTextures((char*)"assets/enemy.bmp", (char*)"assets/enemy.bmp");
 	enemy0->SetX(-40);
 	enemy0->SetZ(-20);
 	enemy0->SetXScale(0.5);
@@ -189,7 +189,7 @@ HRESULT Game::InitialiseGame()
 
 	Enemy* enemy1 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	enemy1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy1->AddTextures((char*)"assets/enemy.bmp", (char*)"assets/enemy.bmp");
 	enemy1->SetX(40);
 	enemy1->SetZ(40);
 	enemy1->SetXScale(0.5);
@@ -199,7 +199,7 @@ HRESULT Game::InitialiseGame()
 
 	Enemy* enemy2 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy2->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
-	enemy2->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	enemy2->AddTextures((char*)"assets/enemy.bmp", (char*)"assets/enemy.bmp");
 	enemy2->SetX(20);
 	enemy2->SetZ(-40);
 	enemy2->SetXScale(0.5);
@@ -211,7 +211,7 @@ HRESULT Game::InitialiseGame()
 #pragma region Pushable Cubes
 	Model* pushable_cube0 = new Model(m_pD3DDevice, m_pImmediateContext);
 	pushable_cube0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	pushable_cube0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	pushable_cube0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
 	pushable_cube0->SetX(0);
 	pushable_cube0->SetZ(40);
 	pushable_cube0->SetY(-3.8);
@@ -223,7 +223,7 @@ HRESULT Game::InitialiseGame()
 
 	Model* pushable_cube1 = new Model(m_pD3DDevice, m_pImmediateContext);
 	pushable_cube1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	pushable_cube1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	pushable_cube1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
 	pushable_cube1->SetX(40);
 	pushable_cube1->SetZ(0);
 	pushable_cube1->SetY(-3.8);
@@ -237,7 +237,7 @@ HRESULT Game::InitialiseGame()
 #pragma region Cube Triggers
 	CubeTrigger* cube_trigger0 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
 	cube_trigger0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	cube_trigger0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	cube_trigger0->AddTextures((char*)"assets/cube_trigger.bmp", (char*)"assets/cube_trigger.bmp");
 	cube_trigger0->SetX(-15);
 	cube_trigger0->SetZ(40);
 	cube_trigger0->SetY(-7);
@@ -248,7 +248,7 @@ HRESULT Game::InitialiseGame()
 
 	CubeTrigger* cube_trigger1 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
 	cube_trigger1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	cube_trigger1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	cube_trigger1->AddTextures((char*)"assets/cube_trigger.bmp", (char*)"assets/cube_trigger.bmp");
 	cube_trigger1->SetX(40);
 	cube_trigger1->SetZ(0);
 	cube_trigger1->SetY(-7);
@@ -261,7 +261,7 @@ HRESULT Game::InitialiseGame()
 #pragma region Door
 	Door* door = new Door(m_pD3DDevice, m_pImmediateContext, m_player);
 	door->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-	door->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
+	door->AddTextures((char*)"assets/door.bmp", (char*)"assets/door.bmp");
 	door->SetX(40);
 	door->SetZ(-40);
 	door->SetY(-1.2);
@@ -279,7 +279,7 @@ HRESULT Game::InitialiseGame()
 	life_pickup0->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
 	life_pickup0->SetX(-30);
 	life_pickup0->SetZ(30);
-	life_pickup0->SetY(-2);
+	life_pickup0->SetY(-3);
 	life_pickup0->SetCollisionType(PICKUP);
 
 	LifePickup* life_pickup1 = new LifePickup(m_pD3DDevice, m_pImmediateContext, m_player);
@@ -287,7 +287,7 @@ HRESULT Game::InitialiseGame()
 	life_pickup1->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
 	life_pickup1->SetX(40);
 	life_pickup1->SetZ(-20);
-	life_pickup1->SetY(-2);
+	life_pickup1->SetY(-3);
 	life_pickup1->SetCollisionType(PICKUP);
 #pragma endregion
 
