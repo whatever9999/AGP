@@ -3,6 +3,10 @@
 void Enemy::Update()
 {
 	Entity::Update();
+
+	// Update sight range position
+	m_sight_range->SetX(m_x);
+	m_sight_range->SetZ(m_z);
 	
 	// FSM
 	State* m_previous_state = m_current_state;

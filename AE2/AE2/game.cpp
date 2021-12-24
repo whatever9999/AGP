@@ -137,6 +137,8 @@ HRESULT Game::InitialiseGame()
 	// Create player
 	m_player = new Player(m_pD3DDevice, m_pImmediateContext, 0.0, 0.0, -5.0, 0.0, 0.0);
 	m_player->LoadObjModel((char*)"assets/Sphere.obj", (char*)"ModelPS", (char*)"ModelVS");
+	m_player->SetX(-40);
+	m_player->SetZ(-40);
 
 	// Add plane
 	m_plane = new Plane(m_pD3DDevice, m_pImmediateContext);
@@ -179,6 +181,7 @@ HRESULT Game::InitialiseGame()
 	enemy0->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	enemy0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
 	enemy0->SetX(-40);
+	enemy0->SetZ(-20);
 	enemy0->SetXScale(0.5);
 	enemy0->SetYScale(0.5);
 	enemy0->SetZScale(0.5);
@@ -187,7 +190,8 @@ HRESULT Game::InitialiseGame()
 	Enemy* enemy1 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	enemy1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	enemy1->SetZ(-40);
+	enemy1->SetX(40);
+	enemy1->SetZ(40);
 	enemy1->SetXScale(0.5);
 	enemy1->SetYScale(0.5);
 	enemy1->SetZScale(0.5);
@@ -196,8 +200,8 @@ HRESULT Game::InitialiseGame()
 	Enemy* enemy2 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy2->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
 	enemy2->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	enemy2->SetX(-20);
-	enemy2->SetZ(30);
+	enemy2->SetX(20);
+	enemy2->SetZ(-40);
 	enemy2->SetXScale(0.5);
 	enemy2->SetYScale(0.5);
 	enemy2->SetZScale(0.5);
@@ -208,8 +212,9 @@ HRESULT Game::InitialiseGame()
 	Model* pushable_cube0 = new Model(m_pD3DDevice, m_pImmediateContext);
 	pushable_cube0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
 	pushable_cube0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	pushable_cube0->SetX(20);
-	pushable_cube0->SetY(-3.5);
+	pushable_cube0->SetX(0);
+	pushable_cube0->SetZ(40);
+	pushable_cube0->SetY(-3.8);
 	pushable_cube0->SetXScale(3.0);
 	pushable_cube0->SetYScale(3.0);
 	pushable_cube0->SetZScale(3.0);
@@ -219,8 +224,9 @@ HRESULT Game::InitialiseGame()
 	Model* pushable_cube1 = new Model(m_pD3DDevice, m_pImmediateContext);
 	pushable_cube1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
 	pushable_cube1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	pushable_cube1->SetX(35);
-	pushable_cube1->SetY(-3.5);
+	pushable_cube1->SetX(40);
+	pushable_cube1->SetZ(0);
+	pushable_cube1->SetY(-3.8);
 	pushable_cube1->SetXScale(3.0);
 	pushable_cube1->SetYScale(3.0);
 	pushable_cube1->SetZScale(3.0);
@@ -232,7 +238,8 @@ HRESULT Game::InitialiseGame()
 	CubeTrigger* cube_trigger0 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
 	cube_trigger0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
 	cube_trigger0->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	cube_trigger0->SetZ(10);
+	cube_trigger0->SetX(-15);
+	cube_trigger0->SetZ(40);
 	cube_trigger0->SetY(-7);
 	cube_trigger0->SetXScale(3.0);
 	cube_trigger0->SetYScale(0.1);
@@ -242,7 +249,8 @@ HRESULT Game::InitialiseGame()
 	CubeTrigger* cube_trigger1 = new CubeTrigger(m_pD3DDevice, m_pImmediateContext);
 	cube_trigger1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
 	cube_trigger1->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	cube_trigger1->SetZ(-10);
+	cube_trigger1->SetX(40);
+	cube_trigger1->SetZ(0);
 	cube_trigger1->SetY(-7);
 	cube_trigger1->SetXScale(3.0);
 	cube_trigger1->SetYScale(0.1);
@@ -254,9 +262,9 @@ HRESULT Game::InitialiseGame()
 	Door* door = new Door(m_pD3DDevice, m_pImmediateContext, m_player);
 	door->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
 	door->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTextureSmiley.bmp");
-	door->SetX(20);
-	door->SetZ(-30);
-	door->SetY(0);
+	door->SetX(40);
+	door->SetZ(-40);
+	door->SetY(-1.2);
 	door->SetXScale(6.0);
 	door->SetYScale(6.0);
 	door->SetZScale(6.0);
@@ -269,12 +277,19 @@ HRESULT Game::InitialiseGame()
 	LifePickup* life_pickup0 = new LifePickup(m_pD3DDevice, m_pImmediateContext, m_player);
 	life_pickup0->LoadObjModel((char*)"assets/Cube.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
 	life_pickup0->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
-	life_pickup0->SetX(5);
-	life_pickup0->SetZ(-20);
+	life_pickup0->SetX(-30);
+	life_pickup0->SetZ(30);
 	life_pickup0->SetY(-2);
 	life_pickup0->SetCollisionType(PICKUP);
-#pragma endregion
 
+	LifePickup* life_pickup1 = new LifePickup(m_pD3DDevice, m_pImmediateContext, m_player);
+	life_pickup1->LoadObjModel((char*)"assets/Cube.obj", (char*)"ReflectiveModelPS", (char*)"ReflectiveModelVS");
+	life_pickup1->AddTextures((char*)"assets/skybox02.dds", (char*)"assets/skybox02.dds");
+	life_pickup1->SetX(40);
+	life_pickup1->SetZ(-20);
+	life_pickup1->SetY(-2);
+	life_pickup1->SetCollisionType(PICKUP);
+#pragma endregion
 
 	// Set directional light colour/direction (according to skybox)
 	m_directional_light_shines_from = XMVectorSet(-1.0f, 5.0f, -0.5f, 0.0f);
@@ -318,6 +333,7 @@ HRESULT Game::InitialiseGame()
 	m_Models.push_back(life_pickup0); // 9
 	m_Models.push_back(enemy1); // 10
 	m_Models.push_back(enemy2); // 11
+	m_Models.push_back(life_pickup1); // 12
 
 	return S_OK;
 }

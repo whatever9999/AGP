@@ -103,13 +103,6 @@ public:
 		// Start in patrol state
 		m_current_state = patrol_state;
 
-		// Setup melee sphere
-		m_melee_sphere = new MeleeSphere(device, deviceContext);
-		m_melee_sphere->LoadObjModel((char*)"assets/Cube.obj", (char*)"ModelPS", (char*)"ModelVS");
-		m_melee_sphere->AddTextures((char*)"assets/BoxTexture.bmp", (char*)"assets/BoxTexture.bmp");
-		m_melee_sphere->SetCollisionType(TRIGGER);
-		m_melee_sphere->SetActive(false);
-
 		// Set up sight/attack range checks
 		m_sight_range = new Model(device, deviceContext);
 		m_sight_range->SetCollisionType(TRIGGER);
