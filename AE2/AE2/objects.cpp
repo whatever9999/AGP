@@ -42,6 +42,7 @@ void CubeTrigger::Update()
 		if (!m_triggered)
 		{
 			m_pushable_object = nullptr;
+			m_triggered = false;
 		}
 	}
 }
@@ -49,6 +50,7 @@ void CubeTrigger::OnCollision(Model* other_model)
 {
 	if (other_model->GetCollisionType() == PUSHABLE)
 	{
+		m_pushable_object = other_model;
 		m_triggered = true;
 	}
 }

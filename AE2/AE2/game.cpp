@@ -534,10 +534,18 @@ void Game::RenderFrame(void)
 	{
 		m_point_light1_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 0.0f);
 	}
+	else
+	{
+		m_point_light1_colour = XMVectorSet(0.01f, 0.0f, 0.0f, 0.0f);
+	}
 	CubeTrigger* cube_trigger1 = static_cast<CubeTrigger*>(m_Models[7]);
 	if (cube_trigger1 && cube_trigger1->IsTriggered())
 	{
 		m_point_light2_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 0.0f);
+	}
+	else
+	{
+		m_point_light2_colour = XMVectorSet(0.01f, 0.0f, 0.0f, 0.0f);
 	}
 
 	// POINT LIGHTS
