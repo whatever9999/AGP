@@ -358,6 +358,11 @@ void Game::GameLoop()
 }
 void Game::ShutdownD3D()
 {
+	if (m_particleGenerator)
+	{
+		delete m_particleGenerator;
+		m_particleGenerator = nullptr;
+	}
 	if (m_skybox)
 	{
 		delete m_skybox;
@@ -370,37 +375,84 @@ void Game::ShutdownD3D()
 		delete m_InputHandling;
 		m_InputHandling = nullptr;
 	}
-for (int i = 0; i < m_Models.size(); i++)
-{
-	if (m_Models[i])
-	{
-		delete m_Models[i];
-		m_Models[i] = nullptr;
-	}
-}
-if (m_Sprite)
-{
-	delete m_Sprite;
-	m_Sprite = nullptr;
-}
-if (m_2DText0)
-{
-	delete m_2DText0;
-	m_2DText0 = nullptr;
-}
-if (m_2DText1)
-{
-	delete m_2DText1;
-	m_2DText1 = nullptr;
-}
 
-if (m_pAlphaBlendEnable)	m_pAlphaBlendEnable->Release();
-if (m_pAlphaBlendDisable)	m_pAlphaBlendDisable->Release();
-if (m_pZBuffer)				m_pZBuffer->Release();
-if (m_pBackBufferRTView)	m_pBackBufferRTView->Release();
-if (m_pSwapChain)			m_pSwapChain->Release();
-if (m_pImmediateContext)	m_pImmediateContext->Release();
-if (m_pD3DDevice)			m_pD3DDevice->Release();
+#pragma region Delete Models
+	// Cast each model to its type before deleting to ensure delete goes through all inherited classes
+	Enemy* enemy0 = static_cast<Enemy*>(m_Models[0]);
+	delete enemy0;
+	m_Models[0] = nullptr;
+
+	Player* player = static_cast<Player*>(m_Models[1]);
+	delete player;
+	m_Models[1] = nullptr;
+
+	MeleeSphere* melee_sphere = static_cast<MeleeSphere*>(m_Models[2]);
+	delete melee_sphere;
+	m_Models[2] = nullptr;
+
+	Spell* spell = static_cast<Spell*>(m_Models[3]);
+	delete spell;
+	m_Models[3] = nullptr;
+
+	Model* pushable_cube0 = static_cast<Model*>(m_Models[4]);
+	delete pushable_cube0;
+	m_Models[4] = nullptr;
+
+	Model* pushable_cube1 = static_cast<Model*>(m_Models[5]);
+	delete pushable_cube1;
+	m_Models[5] = nullptr;
+
+	CubeTrigger* cube_trigger0 = static_cast<CubeTrigger*>(m_Models[6]);
+	delete cube_trigger0;
+	m_Models[6] = nullptr;
+
+	CubeTrigger* cube_trigger1 = static_cast<CubeTrigger*>(m_Models[7]);
+	delete cube_trigger1;
+	m_Models[7] = nullptr;
+
+	Door* door = static_cast<Door*>(m_Models[8]);
+	delete door;
+	m_Models[8] = nullptr;
+
+	LifePickup* life_pickup0 = static_cast<LifePickup*>(m_Models[9]);
+	delete life_pickup0;
+	m_Models[9] = nullptr;
+
+	Enemy* enemy1 = static_cast<Enemy*>(m_Models[10]);
+	delete enemy1;
+	m_Models[10] = nullptr;
+
+	Enemy* enemy2 = static_cast<Enemy*>(m_Models[11]);
+	delete enemy2;
+	m_Models[11] = nullptr;
+
+	LifePickup* life_pickup1 = static_cast<LifePickup*>(m_Models[12]);
+	delete life_pickup1;
+	m_Models[12] = nullptr;
+#pragma endregion
+	if (m_Sprite)
+	{
+		delete m_Sprite;
+		m_Sprite = nullptr;
+	}
+	if (m_2DText0)
+	{
+		delete m_2DText0;
+		m_2DText0 = nullptr;
+	}
+	if (m_2DText1)
+	{
+		delete m_2DText1;
+		m_2DText1 = nullptr;
+	}
+
+	if (m_pAlphaBlendEnable)	m_pAlphaBlendEnable->Release();
+	if (m_pAlphaBlendDisable)	m_pAlphaBlendDisable->Release();
+	if (m_pZBuffer)				m_pZBuffer->Release();
+	if (m_pBackBufferRTView)	m_pBackBufferRTView->Release();
+	if (m_pSwapChain)			m_pSwapChain->Release();
+	if (m_pImmediateContext)	m_pImmediateContext->Release();
+	if (m_pD3DDevice)			m_pD3DDevice->Release();
 }
 void Game::CollisionCheck()
 {

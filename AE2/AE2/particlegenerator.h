@@ -89,16 +89,13 @@ public:
 			m_pObject = nullptr;
 		}
 
-		if (m_pRasterSolid != 0)	m_pRasterSolid->Release();
-		if (m_pRasterParticle != 0)	m_pRasterParticle->Release();
+		if (m_pRasterSolid)			m_pRasterSolid->Release();
+		if (m_pRasterParticle)		m_pRasterParticle->Release();
 		if (m_pVertexBuffer)		m_pVertexBuffer->Release();
 		if (m_pTexture0)			m_pTexture0->Release();
 		if (m_pTexture1)			m_pTexture1->Release();
 		if (m_pSampler0)			m_pSampler0->Release();
 		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
 	}
 
 	HRESULT Setup();

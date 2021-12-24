@@ -42,22 +42,7 @@ public:
 		// Health System
 		m_current_health = m_max_health;
 	}
-	~Entity()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)		m_pTexture0->Release();
-		if (m_pTexture1)		m_pTexture1->Release();
-		if (m_pSampler0)		m_pSampler0->Release();
-		if (m_pConstantBuffer)	m_pConstantBuffer->Release();
-		if (m_pVShader)			m_pVShader->Release();
-		if (m_pInputLayout)		m_pInputLayout->Release();
-		if (m_pPShader)			m_pPShader->Release();
-	}
+	~Entity() {}
 
 	void Update() override;
 

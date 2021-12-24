@@ -52,7 +52,7 @@ float4 GetAttenuatedPointLight(float3 attenuation, float4 colour, float4 positio
 {
 	// Point Light
 	float4 light_vector = position - pixel_position;
-	float point_amount = dot(normalize(light_vector), normal);
+	float point_amount = dot(normalize(light_vector.xyz), normal);
 	point_amount = saturate(point_amount);
 	// Attenuation
 	float distanceX = position.x - pixel_position.x;
@@ -96,7 +96,7 @@ VOut PlaneVS(float4 position : POSITION, float4 color : COLOR, float2 texcoord :
 float4 PlanePS(float4 pixel_position : SP_POSITION, float4 position : SV_POSITION, float4 color : COLOR0, float2 texcoord : TEXCOORD, float3 normal : NORMAL) : SV_TARGET
 {
 	// Directional Light
-	float diffuse_amount = dot(directional_light_vector, normal);
+	float diffuse_amount = dot(directional_light_vector.xyz, normal);
 	diffuse_amount = saturate(diffuse_amount);
 
 	// Point Lights

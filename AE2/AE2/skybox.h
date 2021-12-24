@@ -48,10 +48,10 @@ public:
 	}
 	~Skybox()
 	{
-		if (m_pRasterSolid != 0)		m_pRasterSolid->Release();
-		if (m_pRasterSkyBox != 0)		m_pRasterSkyBox->Release();
-		if (m_pDepthWriteSolid != 0)	m_pDepthWriteSolid->Release();
-		if (m_pDepthWriteSkybox != 0)	m_pDepthWriteSkybox->Release();
+		if (m_pRasterSolid)				m_pRasterSolid->Release();
+		if (m_pRasterSkyBox)			m_pRasterSkyBox->Release();
+		if (m_pDepthWriteSolid)			m_pDepthWriteSolid->Release();
+		if (m_pDepthWriteSkybox)		m_pDepthWriteSkybox->Release();
 		if (m_pVertexBuffer)			m_pVertexBuffer->Release();
 		if (m_pTexture0)				m_pTexture0->Release();
 		if (m_pSampler0)				m_pSampler0->Release();

@@ -28,23 +28,7 @@ public:
 		m_yScale = 0.1f;
 		m_zScale = 5.0f;
 	}
-	~MeleeSphere()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
-	}
+	~MeleeSphere() {}
 
 	void SetDamage(int damage) { m_damage = damage; }
 
@@ -77,23 +61,7 @@ public:
 		m_yScale = 0.5f;
 		m_zScale = 0.5f;
 	}
-	~Spell()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
-	}
+	~Spell() {}
 
 	void Update();
 
@@ -129,23 +97,7 @@ public:
 		m_yScale = 0.5f;
 		m_zScale = 0.5f;
 	}
-	~CubeTrigger()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
-	}
+	~CubeTrigger() {}
 
 	void Update();
 
@@ -187,23 +139,7 @@ public:
 		m_yScale = 0.5f;
 		m_zScale = 0.5f;
 	}
-	~Door()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
-	}
+	~Door() {}
 
 	void Update();
 
@@ -243,23 +179,7 @@ public:
 		m_yScale = 0.5f;
 		m_zScale = 0.5f;
 	}
-	~LifePickup()
-	{
-		if (m_pObject)
-		{
-			delete m_pObject;
-			m_pObject = nullptr;
-		}
-
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
-		if (m_pVShader)				m_pVShader->Release();
-		if (m_pInputLayout)			m_pInputLayout->Release();
-		if (m_pPShader)				m_pPShader->Release();
-	}
+	~LifePickup() {}
 
 	void Update();
 
