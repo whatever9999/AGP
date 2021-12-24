@@ -16,15 +16,37 @@ struct MODEL_CONSTANT_BUFFER // 64 bytes
 	XMMATRIX WorldViewProjection;
 };
 
-struct MODEL_PIXEL_CONSTANT_BUFFER // 96 bytes
+struct MODEL_PIXEL_CONSTANT_BUFFER // 288 bytes
 {
 	XMVECTOR directional_light_vector;
 	XMVECTOR directional_light_colour;
 	XMVECTOR ambient_light_colour;
-	XMVECTOR point_light_position;
-	XMVECTOR point_light_colour;
-	XMFLOAT3 point_light_attenuation;
+	
+	// POINT LIGHTS
+	XMVECTOR point_light0_position;
+	XMVECTOR point_light0_colour;
+	XMFLOAT3 point_light0_attenuation;
+	float packing_0;
+
+	XMVECTOR point_light1_position;
+	XMVECTOR point_light1_colour;
+	XMFLOAT3 point_light1_attenuation;
 	float packing_1;
+
+	XMVECTOR point_light2_position;
+	XMVECTOR point_light2_colour;
+	XMFLOAT3 point_light2_attenuation;
+	float packing_2;
+
+	XMVECTOR point_light3_position;
+	XMVECTOR point_light3_colour;
+	XMFLOAT3 point_light3_attenuation;
+	float packing_3;
+
+	XMVECTOR point_light4_position;
+	XMVECTOR point_light4_colour;
+	XMFLOAT3 point_light4_attenuation;
+	float packing_4;
 };
 
 enum COLLISION_TYPE
@@ -56,9 +78,10 @@ protected:
 	XMVECTOR	m_directional_light_colour;
 	XMVECTOR	m_ambient_light_colour;
 	XMMATRIX	m_rotate_directional_light;
-	XMVECTOR	m_point_light_position;
-	XMVECTOR	m_point_light_colour;
-	XMFLOAT3	m_point_light_attenuation;
+	// POINT LIGHTS
+	std::vector<XMVECTOR> m_point_light_positions;
+	std::vector<XMVECTOR> m_point_light_colours;
+	std::vector<XMFLOAT3> m_point_light_attenuations;
 
 	bool m_active = true;
 
@@ -180,6 +203,7 @@ public:
 	void AddDirectionalLight(XMVECTOR directional_light_shines_from, XMVECTOR directional_light_colour, XMMATRIX rotate_directional_light);
 	void AddAmbientLight(XMVECTOR ambient_light_colour);
 	void AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_colour, XMFLOAT3 point_light_attenuation);
+	void ClearPointLights();
 
 	void Draw(XMMATRIX* view, XMMATRIX* projection);
 };

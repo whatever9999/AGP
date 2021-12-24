@@ -285,20 +285,20 @@ HRESULT Game::InitialiseGame()
 
 #pragma region Point Lights
 	// Set point light colour_pos and attenuation values
-	m_point_light0_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light0_colour = XMVectorSet(0.0f, 0.0f, 0.01f, 1.0f);
 	// Don't set values to zero as we use them to divide
 	m_point_light0_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
-	m_point_light1_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light1_colour = XMVectorSet(0.01f, 0.0f, 0.0f, 1.0f);
 	m_point_light1_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
-	m_point_light2_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light2_colour = XMVectorSet(0.01f, 0.0f, 0.0f, 1.0f);
 	m_point_light2_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
-	m_point_light3_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light3_colour = XMVectorSet(0.0f, 0.0f, 0.01f, 1.0f);
 	m_point_light3_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 
-	m_point_light4_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 1.0f);
+	m_point_light4_colour = XMVectorSet(0.0f, 0.0f, 0.01f, 1.0f);
 	m_point_light4_attenuation = XMFLOAT3(0.0f, 0.0f, 1.0f);
 #pragma endregion
 
@@ -500,10 +500,32 @@ void Game::RenderFrame(void)
 	// Show plane
 	m_plane->AddAmbientLight(m_ambient_light_colour);
 	m_plane->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+
+	// Modify point light colours according to states of enemies/cube triggers
 	if (!m_Models[0]->IsActive())
 	{
 		m_point_light0_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
 	}
+	if (!m_Models[10]->IsActive())
+	{
+		m_point_light3_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	if (!m_Models[11]->IsActive())
+	{
+		m_point_light4_colour = XMVectorSet(0.0f, 0.0f, 0.0f, 0.0f);
+	}
+	CubeTrigger* cube_trigger0 = static_cast<CubeTrigger*>(m_Models[6]);
+	if (cube_trigger0 && cube_trigger0->IsTriggered())
+	{
+		m_point_light1_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 0.0f);
+	}
+	CubeTrigger* cube_trigger1 = static_cast<CubeTrigger*>(m_Models[7]);
+	if (cube_trigger1 && cube_trigger1->IsTriggered())
+	{
+		m_point_light2_colour = XMVectorSet(0.0f, 0.01f, 0.0f, 0.0f);
+	}
+
+	// POINT LIGHTS
 	m_plane->ClearPointLights();
 	m_plane->AddPointLight(m_point_light0_position, m_point_light0_colour, m_point_light0_attenuation);
 	m_plane->AddPointLight(m_point_light1_position, m_point_light1_colour, m_point_light1_attenuation);
@@ -519,7 +541,12 @@ void Game::RenderFrame(void)
 		{
 			m_Models[i]->AddAmbientLight(m_ambient_light_colour);
 			m_Models[i]->AddDirectionalLight(m_directional_light_shines_from, m_directional_light_colour, m_rotate_directional_light);
+			m_Models[i]->ClearPointLights();
 			m_Models[i]->AddPointLight(m_point_light0_position, m_point_light0_colour, m_point_light0_attenuation);
+			m_Models[i]->AddPointLight(m_point_light1_position, m_point_light1_colour, m_point_light1_attenuation);
+			m_Models[i]->AddPointLight(m_point_light2_position, m_point_light2_colour, m_point_light2_attenuation);
+			m_Models[i]->AddPointLight(m_point_light3_position, m_point_light3_colour, m_point_light3_attenuation);
+			m_Models[i]->AddPointLight(m_point_light4_position, m_point_light4_colour, m_point_light4_attenuation);
 			m_Models[i]->Draw(&view, &projection);
 		}
 	}

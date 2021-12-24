@@ -73,7 +73,7 @@ HRESULT Model::Setup()
 	D3D11_BUFFER_DESC constant_pixel_buffer_desc;
 	ZeroMemory(&constant_pixel_buffer_desc, sizeof(constant_pixel_buffer_desc));
 	constant_pixel_buffer_desc.Usage = D3D11_USAGE_DEFAULT;
-	constant_pixel_buffer_desc.ByteWidth = 96;
+	constant_pixel_buffer_desc.ByteWidth = 288;
 	constant_pixel_buffer_desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	hr = m_D3DDevice->CreateBuffer(&constant_pixel_buffer_desc, NULL, &m_pPixelConstantBuffer);
 
@@ -230,9 +230,15 @@ void Model::AddAmbientLight(XMVECTOR ambient_light_colour)
 }
 void Model::AddPointLight(XMVECTOR point_light_position, XMVECTOR point_light_colour, XMFLOAT3 point_light_attenuation)
 {
-	m_point_light_position = point_light_position;
-	m_point_light_colour = point_light_colour;
-	m_point_light_attenuation = point_light_attenuation;
+	m_point_light_positions.push_back(point_light_position);
+	m_point_light_colours.push_back(point_light_colour);
+	m_point_light_attenuations.push_back(point_light_attenuation);
+}
+void Model::ClearPointLights()
+{
+	m_point_light_positions.clear();
+	m_point_light_colours.clear();
+	m_point_light_attenuations.clear();
 }
 
 void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
@@ -249,19 +255,47 @@ void Model::Draw(XMMATRIX* view, XMMATRIX* projection)
 		model_cb_values.WorldViewProjection = world * (*view) * (*projection);
 
 		MODEL_PIXEL_CONSTANT_BUFFER model_pcb_values;
-		// Lighting colours
-		model_pcb_values.point_light_colour = m_point_light_colour;
-		model_pcb_values.directional_light_colour = m_directional_light_colour;
-		model_pcb_values.ambient_light_colour = m_ambient_light_colour;
-		model_pcb_values.point_light_attenuation = m_point_light_attenuation;
 
-		// Lighting positions
 		XMMATRIX transpose = XMMatrixTranspose(world);
-		XMVECTOR determinant;
-		XMMATRIX inverse = XMMatrixInverse(&determinant, world);
+		model_pcb_values.ambient_light_colour = m_ambient_light_colour;
+		model_pcb_values.directional_light_colour = m_directional_light_colour;
 		model_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
 		model_pcb_values.directional_light_vector = XMVector3Normalize(model_pcb_values.directional_light_vector);
-		model_pcb_values.point_light_position = XMVector3Transform(m_point_light_position, inverse);
+
+#pragma region Point Lights
+		XMVECTOR determinant;
+		XMMATRIX inverse = XMMatrixInverse(&determinant, world);
+		if (m_point_light_colours.size() >= 1)
+		{
+			model_pcb_values.point_light0_colour = m_point_light_colours[0];
+			model_pcb_values.point_light0_attenuation = m_point_light_attenuations[0];
+			model_pcb_values.point_light0_position = XMVector3Transform(m_point_light_positions[0], inverse);
+		}
+		if (m_point_light_colours.size() >= 2)
+		{
+			model_pcb_values.point_light1_colour = m_point_light_colours[1];
+			model_pcb_values.point_light1_attenuation = m_point_light_attenuations[1];
+			model_pcb_values.point_light1_position = XMVector3Transform(m_point_light_positions[1], inverse);
+		}
+		if (m_point_light_colours.size() >= 3)
+		{
+			model_pcb_values.point_light2_colour = m_point_light_colours[2];
+			model_pcb_values.point_light2_attenuation = m_point_light_attenuations[2];
+			model_pcb_values.point_light2_position = XMVector3Transform(m_point_light_positions[2], inverse);
+		}
+		if (m_point_light_colours.size() >= 4)
+		{
+			model_pcb_values.point_light3_colour = m_point_light_colours[3];
+			model_pcb_values.point_light3_attenuation = m_point_light_attenuations[3];
+			model_pcb_values.point_light3_position = XMVector3Transform(m_point_light_positions[3], inverse);
+		}
+		if (m_point_light_colours.size() >= 5)
+		{
+			model_pcb_values.point_light4_colour = m_point_light_colours[4];
+			model_pcb_values.point_light4_attenuation = m_point_light_attenuations[4];
+			model_pcb_values.point_light4_position = XMVector3Transform(m_point_light_positions[4], inverse);
+		}
+#pragma endregion
 
 		m_pImmediateContext->VSSetConstantBuffers(0, 1, &m_pConstantBuffer);
 		m_pImmediateContext->UpdateSubresource(m_pConstantBuffer, 0, 0, &model_cb_values, 0, 0);

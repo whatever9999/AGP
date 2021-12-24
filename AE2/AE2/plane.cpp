@@ -267,8 +267,8 @@ void Plane::RenderPlane(XMMATRIX* view, XMMATRIX* projection)
 	PLANE_PIXEL_CONSTANT_BUFFER plane_pcb_values;
 
 	XMMATRIX transpose = XMMatrixTranspose(world);
-	plane_pcb_values.directional_light_colour = m_directional_light_colour;
 	plane_pcb_values.ambient_light_colour = m_ambient_light_colour;
+	plane_pcb_values.directional_light_colour = m_directional_light_colour;
 	plane_pcb_values.directional_light_vector = XMVector3Transform(XMVector3Transform(m_directional_light_shines_from, m_rotate_directional_light), transpose);
 	plane_pcb_values.directional_light_vector = XMVector3Normalize(plane_pcb_values.directional_light_vector);
 
