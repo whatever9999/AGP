@@ -9,7 +9,8 @@ void MeleeSphere::OnCollision(Model* other_model)
 	{
 		m_collision_started = true;
 
-		Entity* enemy = static_cast<Entity*>(other_model);
+		// Has to be a dynamic cast so a Model can't be cast to an Entity unless it definitely is one
+		Entity* enemy = dynamic_cast<Entity*>(other_model);
 		if (enemy)
 		{
 			enemy->ChangeHealth(-m_damage);
@@ -26,7 +27,8 @@ void Spell::OnCollision(Model* other_model)
 {
 	SetActive(false);
 
-	Entity* enemy = static_cast<Entity*>(other_model);
+	// dynamic cast so spell only kills enemies
+	Entity* enemy = dynamic_cast<Entity*>(other_model);
 	if (enemy)
 	{
 		enemy->ChangeHealth(-m_damage);
@@ -77,6 +79,7 @@ bool CubeTrigger::CheckCollision(Model* other_model)
 
 void Door::Update()
 {
+	bool was_unlocked = m_unlocked;
 	m_unlocked = true;
 	for (int i = 0; i < m_triggers.size(); i++)
 	{
@@ -85,6 +88,14 @@ void Door::Update()
 			m_unlocked = false;
 			break;
 		}
+	}
+	if (!was_unlocked && m_unlocked)
+	{
+		AddTextures((char*)"Assets/open_door.bmp", (char*)"Assets/open_door.bmp");
+	}
+	else if (was_unlocked && !m_unlocked)
+	{
+		AddTextures((char*)"Assets/door.bmp", (char*)"Assets/door.bmp");
 	}
 }
 void Door::OnCollision(Model* other_model)

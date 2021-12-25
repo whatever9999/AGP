@@ -58,7 +58,6 @@ public:
 	{
 		if (m_pVertexBuffer)		m_pVertexBuffer->Release();
 		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pSampler0)			m_pSampler0->Release();
 		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
 		if (m_pPixelConstantBuffer)	m_pPixelConstantBuffer->Release();
 		if (m_pVShader)				m_pVShader->Release();

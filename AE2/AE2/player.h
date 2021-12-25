@@ -62,4 +62,6 @@ public:
 	void SpellAttack();
 	void SetSpell(Spell* spell) { m_spell = spell; }
 	Spell* GetSpell() { return m_spell; }
+
+	bool CheckCanPush(Model* pushable);
 };

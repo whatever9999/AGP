@@ -185,7 +185,7 @@ HRESULT Game::InitialiseGame()
 	enemy0->SetXScale(0.5);
 	enemy0->SetYScale(0.5);
 	enemy0->SetZScale(0.5);
-	enemy0->SetSpeed(0.002);
+	enemy0->SetSpeed(0.003);
 
 	Enemy* enemy1 = new Enemy(m_pD3DDevice, m_pImmediateContext, m_player);
 	enemy1->LoadObjModel((char*)"assets/PointySphere.obj", (char*)"ModelPS", (char*)"ModelVS");
@@ -358,10 +358,10 @@ void Game::GameLoop()
 }
 void Game::ShutdownD3D()
 {
-	if (m_particleGenerator)
+	if (m_plane)
 	{
-		delete m_particleGenerator;
-		m_particleGenerator = nullptr;
+		delete m_plane;
+		m_plane = nullptr;
 	}
 	if (m_skybox)
 	{
@@ -445,6 +445,11 @@ void Game::ShutdownD3D()
 		delete m_2DText1;
 		m_2DText1 = nullptr;
 	}
+	if (m_particleGenerator)
+	{
+		delete m_particleGenerator;
+		m_particleGenerator = nullptr;
+	}
 
 	if (m_pAlphaBlendEnable)	m_pAlphaBlendEnable->Release();
 	if (m_pAlphaBlendDisable)	m_pAlphaBlendDisable->Release();
@@ -471,14 +476,13 @@ void Game::CollisionCheck()
 					// Ensure the player can't avoid collision by going sideways/backwards
 					if (m_Models[i] == m_player)
 					{
-						if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
-						if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
-						if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
-						if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
-
 						// The player can move pushable items
-						if (m_Models[j]->GetCollisionType() == PUSHABLE)
+						if (m_Models[j]->GetCollisionType() == PUSHABLE && m_player->CheckCanPush(m_Models[j]))
 						{
+							if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
 							// Angle the pushable object according to the camera rotation
 							float dx = (float)sin(m_player->GetCameraRotation() * (XM_PI / 180.0));
 							float dz = (float)cos(m_player->GetCameraRotation() * (XM_PI / 180.0));
@@ -487,9 +491,20 @@ void Game::CollisionCheck()
 							m_Models[j]->MoveForward(1);
 						}
 						// Otherwise the player can trigger an objects OnCollision function
+						else if (m_Models[j]->GetCollisionType() != PUSHABLE)
+						{
+							if (m_InputHandling->IsKeyPressed(DIK_W)) m_player->Forward(-0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
+							m_Models[j]->OnCollision(m_Models[i]);
+						}
+						// Make sure we can't go backwards or sideways through a pusable but can go forwards
 						else
 						{
-							m_Models[j]->OnCollision(m_Models[i]);
+							if (m_InputHandling->IsKeyPressed(DIK_S)) m_player->Forward(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_D)) m_player->Strafe(0.02);
+							if (m_InputHandling->IsKeyPressed(DIK_A)) m_player->Strafe(-0.02);
 						}
 					}
 					else
@@ -501,11 +516,12 @@ void Game::CollisionCheck()
 							m_player->ChangeHealth(-20);
 							m_player->Forward(-5);
 						}
-						// If the enemy hits something else it should turn 90 degrees and jump back
+						// If the enemy hits something else it should turn a random number of degrees and jump back
 						else
 						{
-							m_Models[i]->SetYAngle(m_Models[i]->GetYAngle() + 90);
-							m_Models[i]->MoveForward(-1);
+							int rand = std::rand() % 360;
+							m_Models[i]->SetYAngle(m_Models[i]->GetYAngle() + rand);
+							m_Models[i]->MoveForward(-10);
 						}
 					}
 				}
@@ -639,11 +655,18 @@ void Game::RenderFrame(void)
 	m_Sprite->RenderSprites();
 	
 	// Attacking HUD Notif
+	// Only show spell or attack so they don't overlap
 	if (m_player->IsAttacking())
 	{
 		m_Sprite->AddBox(6, -1.0, -0.9, 0.1);
 		m_2DText0->RenderText();
 		m_2DText0->AddText("Attack!", -1.0, -0.9, 0.08);
+	}
+	else if (m_player->GetSpell()->IsActive())
+	{
+		m_Sprite->AddBox(5, -1.0, -0.9, 0.1);
+		m_2DText0->RenderText();
+		m_2DText0->AddText("Spell!", -1.0, -0.9, 0.08);
 	}
 
 	// Health HUD

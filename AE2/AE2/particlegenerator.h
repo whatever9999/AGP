@@ -86,10 +86,7 @@ public:
 		if (m_pRasterSolid)			m_pRasterSolid->Release();
 		if (m_pRasterParticle)		m_pRasterParticle->Release();
 		if (m_pVertexBuffer)		m_pVertexBuffer->Release();
-		if (m_pTexture0)			m_pTexture0->Release();
-		if (m_pTexture1)			m_pTexture1->Release();
 		if (m_pSampler0)			m_pSampler0->Release();
-		if (m_pConstantBuffer)		m_pConstantBuffer->Release();
 	}
 
 	HRESULT Setup();
