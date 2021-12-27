@@ -698,39 +698,57 @@ void Game::RenderFrame(void)
 }
 void Game::ResizeWindow(UINT new_size[2])
 {
-	HRESULT hr;
+	m_pImmediateContext->OMSetRenderTargets(0, 0, 0);
 
-	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRTView, m_pZBuffer);
-
-	// Release all outstanding references to the swap chain's buffers.
 	m_pBackBufferRTView->Release();
+	m_pZBuffer->Release();
 
-	// Preserve the existing buffer count and format.
-	// Automatically choose the width and height to match the client rect for HWNDs.
-	hr = m_pSwapChain->ResizeBuffers(1, new_size[0], new_size[1], DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+	// Render Texture
+	HRESULT hr;
+	hr = m_pSwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+	ID3D11Texture2D* pBuffer;
+	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&pBuffer);
 
-	if (FAILED(hr)) abort();
+	hr = m_pD3DDevice->CreateRenderTargetView(pBuffer, NULL, &m_pBackBufferRTView);
+	pBuffer->Release();
 
-	// Get buffer and create a render-target-view.
-	ID3D11Texture2D* pBackBufferTexture;
-	hr = m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBufferTexture);
+	// Z Buffer
+	DXGI_SWAP_CHAIN_DESC sd;
+	m_pSwapChain->GetDesc(&sd);
 
-	if (FAILED(hr)) abort();
+	D3D11_TEXTURE2D_DESC tex2dDesc;
+	std::ZeroMemory(&tex2dDesc, sizeof(tex2dDesc));
 
-	hr = m_pD3DDevice->CreateRenderTargetView(pBackBufferTexture, NULL, &m_pBackBufferRTView);
+	tex2dDesc.Width = new_size[0];
+	tex2dDesc.Height = new_size[1];
+	tex2dDesc.ArraySize = 1;
+	tex2dDesc.MipLevels = 1;
+	tex2dDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	tex2dDesc.SampleDesc.Count = sd.SampleDesc.Count;
+	tex2dDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	tex2dDesc.Usage = D3D11_USAGE_DEFAULT;
 
-	if (FAILED(hr)) abort();
+	ID3D11Texture2D* pZBufferTexture;
+	hr = m_pD3DDevice->CreateTexture2D(&tex2dDesc, NULL, &pZBufferTexture);
 
-	pBackBufferTexture->Release();
+	D3D11_DEPTH_STENCIL_VIEW_DESC dsvDesc;
+	std::ZeroMemory(&dsvDesc, sizeof(dsvDesc));
 
+	dsvDesc.Format = tex2dDesc.Format;
+	dsvDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+	m_pD3DDevice->CreateDepthStencilView(pZBufferTexture, &dsvDesc, &m_pZBuffer);
+	pZBufferTexture->Release();
+
+	// Final Setup
 	m_pImmediateContext->OMSetRenderTargets(1, &m_pBackBufferRTView, m_pZBuffer);
 
-	D3D11_VIEWPORT viewport;
-	viewport.TopLeftX = 0;
-	viewport.TopLeftY = 0;
-	viewport.Width = (FLOAT)new_size[0];
-	viewport.Height = (FLOAT)new_size[1];
-	viewport.MinDepth = 0.0f;
-	viewport.MaxDepth = 1.0f;
-	m_pImmediateContext->RSSetViewports(1, &viewport);
+	D3D11_VIEWPORT vp;
+	vp.Width = new_size[0];
+	vp.Height = new_size[1];
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	m_pImmediateContext->RSSetViewports(1, &vp);
 }

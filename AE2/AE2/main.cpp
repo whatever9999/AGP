@@ -107,7 +107,7 @@ HRESULT InitialiseWindow(HINSTANCE hInstance, int nCmdShow)
 	if (!RegisterClassEx(&wcex)) return E_FAIL;
 
 	g_game->SetInst(hInstance);
-	RECT rc = { 0, 0, 640, 480 };
+	RECT rc = { 0, 0, 960, 720 };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 	g_game->SetWnd(CreateWindow(Name, "AGP AE2\0", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL));
 

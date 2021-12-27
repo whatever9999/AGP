@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\DominiqueRussellAE2.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\model_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\particlegenerator_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\plane_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\reflectivemodel_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\cube_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\skybox_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\sprite_shaders.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\Domin\OneDrive\Documents\GitHub\AGP\AE2\AE2\Release\text2D_shaders.cso</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
